@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>mandy</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    <!-- Toastr style -->
+    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+<div id="wrapper">
+
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav metismenu" id="side-menu">
+                <li class="">
+                    <a href="stat"><i class="fa fa-line-chart"></i> <span class="nav-label">Stats</span></a>
+                </li>
+                <li class="">
+                    <a href="payment"><i class="fa fa-money"></i> <span class="nav-label">Payment</span></a>
+                </li>
+                <li class="">
+                    <a href="load"><i class="fa fa-download"></i> <span class="nav-label">Loading</span></a>
+                </li>
+                <li class="">
+                    <a href="unload"><i class="fa fa-upload"></i> <span class="nav-label">Unloading</span></a>
+                </li>
+                <li class="">
+                    <a href="delivery"><i class="fa fa-bus"></i> <span class="nav-label">Delivery</span></a>
+                </li>
+                <li class="">
+                    <a href="invoice"><i class="fa fa-usd"></i> <span class="nav-label">Invoice</span></a>
+                </li>
+                <li class="active">
+                    <a href="grn"><i class="fa fa-gbp"></i> <span class="nav-label">GRN</span></a>
+                </li>
+                <li class="">
+                    <a href="products"><i class="fa fa-cubes"></i> <span class="nav-label">Products</span></a>
+                </li>
+                <li class="">
+                    <a href="customers"><i class="fa fa-slideshare"></i> <span class="nav-label">Customers</span></a>
+                </li>
+                <li class="">
+                    <a href="vendors"><i class="fa fa-users"></i> <span class="nav-label">Vendors</span></a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+
+    <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom">
+            <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i>
+                    </a>
+                </div>
+                <div class="">
+                    <a data-toggle="modal" href="#Addnew" class="btn btn-primary minimalize-styl-2">Add Item</a>
+                </div>
+            </nav>
+        </div>
+
+        <div class="wrapper wrapper-content  animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="wrapper wrapper-content animated fadeInRight">
+                        <div class="ibox-content p-xl">
+                            <form action="/editGRN" method="POST">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <h4>Invoice No.</h4>
+                                        <h4 class="text-navy">INV-000567F7-00</h4>
+                                        <span>To:</span>
+                                        <address>
+                                            <strong>{{((.GRN)Ven).Name}}</strong><br>
+                                            {{((.GRN)Ven).Ad}}<br>
+                                            {{((.GRN)Ven).Phn}}
+                                        </address>
+                                        <p>
+                                            <span><strong>Invoice Date:</strong> {{(.GRN)Dte}}</span>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="table-responsive m-t">
+                                    <table class="table invoice-table">
+                                        <thead>
+                                        <tr>
+                                            <th>Item List</th>
+                                            <th>Quantity</th>
+                                            <th>Unit Price</th>
+                                            <th>Total Price</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {{range (.GRN)Records}}
+                                        <tr>
+                                            <td>
+                                                <strong>{{.P_des}}</strong>
+
+                                                <div class="pull-right">
+                                                    <button>sdaf</button>
+                                                </div>
+                                            </td>
+                                            <td>{{.Qty}}</td>
+                                            <td>{{.B_p}}</td>
+                                            <td>{{.Tot}}</td>
+                                        </tr>
+                                        {{end}}
+                                        </tbody>
+                                    </table>
+                                </div><!-- /table-responsive -->
+
+                                <table class="table invoice-total">
+                                    <tbody>
+                                    <tr>
+                                        <td><strong>Sub Total :</strong></td>
+                                        <td>{{(.GRN)Sub_tot}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Vat :</strong></td>
+                                        <td><input name="vat" type="number" required value="{{(.GRN)Vat}}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Grand Total :</strong></td>
+                                        <td>{{(.GRN)Grnd_tot}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div class="text-right">
+                                    <button type="submit" name="submit" value="vat" class="btn btn-primary">Save
+                                    </button>
+                                </div>
+                                <input hidden value="{{(.GRN)Id}}" name="id">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Mainly scripts -->
+<script src="js/jquery-2.1.1.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="js/inspinia.js"></script>
+<script src="js/plugins/pace/pace.min.js"></script>
+
+
+</body>
+</html>
