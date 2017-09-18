@@ -63,13 +63,23 @@
 
     <div id="page-wrapper" class="gray-bg">
         <div class="row border-bottom">
-            <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
-                <div class="navbar-header">
-                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i>
-                    </a>
-                </div>
+            <form role="form" action="/delivery" method="POST">
+                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    <div class="navbar-header">
+                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i
+                                class="fa fa-bars"></i>
+                        </a>
+                    </div>
 
-            </nav>
+                    <div class="minimalize-styl-2">
+                        <input hidden value="{{.NxtID}}" name="id">
+                        <input name="des" required type="text" placeholder="Description" value="">
+                    </div>
+                    <div class="minimalize-styl-2">
+                        <input type="submit" name="submit" class="btn btn-primary " value="Add Vehicle">
+                    </div>
+                </nav>
+            </form>
         </div>
 
         <div class="wrapper wrapper-content  animated fadeInRight">
@@ -87,7 +97,8 @@
                             <div class="clients-list">
                                 <ul class="nav nav-tabs">
                                     <span class="pull-right small text-muted">100 vendors</span>
-                                    <li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-briefcase"></i>
+                                    <li class="active"><a data-toggle="tab" href="#tab-1"><i
+                                            class="fa fa-briefcase"></i>
                                         Van 1</a></li>
                                     <li class=""><a data-toggle="tab" href="#tab-1"><i class="fa fa-briefcase"></i>
                                         Van 2</a></li>

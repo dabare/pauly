@@ -289,7 +289,7 @@
                     <tr>
                         <td>{{.P_des}}</td>
                         <td>{{.Qty}}</td>
-                        <td>{{.S_p}}</td>
+                        <td>{{.B_p}}</td>
                         <td>{{.Tot}}</td>
                     </tr>
                     {{end}}

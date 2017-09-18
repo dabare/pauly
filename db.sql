@@ -49,13 +49,6 @@ CREATE TABLE van (
     des VARCHAR(255)
 );
 
-CREATE TABLE stk_van (
-id INT PRIMARY KEY,
-    v_id INT,
-    p_id INT,
-    qty INT
-);
-
 CREATE TABLE ldng (
 id INT PRIMARY KEY,
     v_id INT,

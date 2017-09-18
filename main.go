@@ -8,6 +8,8 @@ import (
 	"database/sql"
 	_ "github.com/go-sql-driver/mysql"
 	"strconv"
+	"strings"
+	"time"
 )
 
 var mysql_user string = "root"
@@ -17,6 +19,29 @@ var mysql_db string = "mandy"
 var errDefault = 0
 var errMysqlDBname = 1
 var errDBquery = 2
+
+type van struct {
+	Id     int64
+	Des    string
+	Loads  []loading
+	Unload []unloading
+}
+
+type loading struct {
+	Id   int64
+	V_id int64
+	P_id int64
+	Qty  int64
+	Dte  string
+}
+
+type unloading struct {
+	Id   int64
+	V_id int64
+	P_id int64
+	Qty  int64
+	Dte  string
+}
 
 func debugMSG(msg string) {
 	println(msg)
@@ -119,7 +144,27 @@ func invoice(w http.ResponseWriter, r *http.Request) {
 }
 
 func grn(w http.ResponseWriter, r *http.Request) {
-	showFile(w, r, "grn", "")
+	r.ParseForm()
+
+	if r.Form.Get("submit") == "Add" {
+		//m,d,y
+		s := strings.Split(r.Form.Get("dte"), "/")
+		dte := s[2] + "-" + s[0] + "-" + s[1]
+		executeDB("INSERT INTO grn VALUES(" + r.Form.Get("id") + "," + r.Form.Get("v_id") + ",'" + r.Form.Get("g_no") + "',0,'" + dte + "')")
+		http.Redirect(w, r, "editGRN?id=" + r.Form.Get("id"), http.StatusSeeOther)
+		return
+	}
+
+	type data struct {
+		Vendors []vendor
+		Grns    []_grn
+		Dte     string
+		NxtID   int64
+	}
+	now := time.Now()
+
+	result := data{getSimplyVendors("''", "''"), get_grns("''", "''"), now.Format("01/02/2006"), getNextID("grn")}
+	showFile(w, r, "grn", result)
 }
 
 type customerPayment struct {
@@ -462,6 +507,9 @@ func get_grns(filter string, val string) [] _grn {
 		} else {
 			tmp.DeleteBTN = true
 		}
+
+		tmp.Ven = getVendor(strconv.FormatInt(v_id.Int64, 10))
+
 		tmp2 = append(tmp2, tmp)
 	}
 	return tmp2
@@ -512,11 +560,51 @@ func editGRN(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 
 	type data struct {
-		GRN _grn
+		Grn      _grn
 		Products []product
+		NxtID    int64
 	}
 
-	result := data{get_grn(r.Form.Get("id")), getProducts("''","''")}
+	switch r.Form.Get("submit") {
+	case "Save":
+		executeDB("UPDATE grn SET vat=" + r.Form.Get("vat"))
+	case "remove":
+		executeDB("DELETE FROM grn_reg WHERE id=" + r.Form.Get("r_id"))
+	case "Add":
+		executeDB("INSERT INTO grn_reg VALUES(" + r.Form.Get("r_id") + "," + r.Form.Get("id") + "," + r.Form.Get("p_id") + "," + r.Form.Get("b_p") + "," + r.Form.Get("qty") + ")")
+		println(r.Form.Get("p_id"))
+	case "Delete":
+		deleteData("grn", r.Form.Get("id"))
+		http.Redirect(w, r, "grn", http.StatusSeeOther)
+	}
+
+	result := data{get_grn(r.Form.Get("id")), getProducts("''", "''"), getNextID("grn_reg")}
+	showFile(w, r, "editGRN", result)
+}
+
+func editInvoice(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()
+
+	type data struct {
+		Grn      _grn
+		Products []product
+		NxtID    int64
+	}
+
+	switch r.Form.Get("submit") {
+	case "Save":
+		executeDB("UPDATE grn SET vat=" + r.Form.Get("vat"))
+	case "remove":
+		executeDB("DELETE FROM grn_reg WHERE id=" + r.Form.Get("r_id"))
+	case "Add":
+		executeDB("INSERT INTO grn_reg VALUES(" + r.Form.Get("r_id") + "," + r.Form.Get("id") + "," + r.Form.Get("p_id") + "," + r.Form.Get("b_p") + "," + r.Form.Get("qty") + ")")
+		println(r.Form.Get("p_id"))
+	case "Delete":
+		deleteData("grn", r.Form.Get("id"))
+		http.Redirect(w, r, "grn", http.StatusSeeOther)
+	}
+
+	result := data{get_grn(r.Form.Get("id")), getProducts("''", "''"), getNextID("grn_reg")}
 	showFile(w, r, "editGRN", result)
 }
 
@@ -550,6 +638,40 @@ func getVendor(id string) vendor {
 		tmp.Ad = ad.String
 	}
 	return tmp
+}
+
+func getSimplyVendors(filter string, val string) [] vendor {
+	tmp2 := []vendor{}
+
+	rows := getResultDB("SELECT * FROM ven WHERE " + filter + "=" + val + "ORDER BY name")
+
+	for rows.Next() {
+		tmp := vendor{}
+
+		var id sql.NullInt64
+		var name sql.NullString
+		var phn sql.NullString
+		var ad sql.NullString
+
+		err := rows.Scan(&id, &name, &phn, &ad)
+		checkErr(err, errDBquery)
+
+		tmp.Id = id.Int64
+		tmp.Name = name.String
+		tmp.Phn = phn.String
+		tmp.Ad = ad.String
+
+		tmp.DeleteBTN = true
+		tmp.Dne = 0;
+		for _, g := range tmp.Grns {
+			tmp.Dne += g.Grnd_tot
+		}
+		if len(tmp.Grns) > 0 {
+			tmp.DeleteBTN = false
+		}
+		tmp2 = append(tmp2, tmp)
+	}
+	return tmp2
 }
 
 func getVendors(filter string, val string) [] vendor {
@@ -610,7 +732,19 @@ func vendors(w http.ResponseWriter, r *http.Request) {
 }
 
 func delivery(w http.ResponseWriter, r *http.Request) {
-	showFile(w, r, "delivery", "")
+	r.ParseForm()
+	if r.Form.Get("submit") == "Add Vehicle" {
+		executeDB("INSERT INTO van VALUES(" + r.Form.Get("id") + ",'" + r.Form.Get("des") + "')")
+		http.Redirect(w, r, "delivery", http.StatusSeeOther)
+		return
+	}
+	type sendData struct {
+		NxtID int64
+	}
+	results := sendData{getNextID("van")}
+
+	showFile(w, r, "delivery", results)
+
 }
 
 func load(w http.ResponseWriter, r *http.Request) {
@@ -720,7 +854,7 @@ func payment(w http.ResponseWriter, r *http.Request) {
 
 func startService() {
 	//err := http.ListenAndServeTLS(":8080", "hostcert.pem", "hostkey.pem", nil)
-	err := http.ListenAndServe("localhost:8080", nil)
+	err := http.ListenAndServe("localhost:8000", nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
@@ -738,6 +872,7 @@ func main() {
 	http.HandleFunc("/products", products)
 	http.HandleFunc("/payment", payment)
 	http.HandleFunc("/editGRN", editGRN)
+	http.HandleFunc("/editInvoice", editInvoice)
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if (r.URL.Path == "/") {

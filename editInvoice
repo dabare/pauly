@@ -16,8 +16,9 @@
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 
-    <!-- FooTable -->
-    <link href="css/plugins/footable/footable.core.css" rel="stylesheet">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
 
     <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
 
@@ -91,10 +92,11 @@
 
         </div>
     </nav>
-
+    {{$g := .Grn}}
+    {{$p := .Products}}
     <div id="page-wrapper" class="gray-bg">
         <div class="row border-bottom">
-            <form role="form" action="/grn" method="POST">
+            <form role="form" action="/editGRN" method="POST">
                 <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
                     <div class="navbar-header">
                         <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i
@@ -102,24 +104,19 @@
                         </a>
                     </div>
                     <div class="minimalize-styl-2 input-group">
-                        <select name="v_id" data-placeholder="Choose an Item" class="chosen-select "
+                        <select name="p_id" data-placeholder="Choose an Item" class="chosen-select "
                                 style="width:350px;">
-                            {{range .Vendors}}
-                            <option value="{{.Id}}">{{.Name}}</option>
+                            {{range .Products}}
+                            <option value="{{.Id}}">{{.Des}}</option>
                             {{end}}
                         </select>
                     </div>
-                    <div class="minimalize-styl-2" id="data_1">
-                        <input hidden value="{{.NxtID}}" name="id">
-                        <input name="g_no" required type="text" placeholder="GRN No." value="">
-                        <br>
-                        <div class="input-group date">
-                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                            <input name="dte" required type="text" class="form-control" value="{{.Dte}}">
-                        </div>
-                    </div>
-                    <div class="minimalize-styl-2">
 
+                    <div class="minimalize-styl-2">
+                        <input hidden value="{{$g.Id}}" name="id">
+                        <input hidden value="{{.NxtID}}" name="r_id">
+                        <input name="b_p" required type="number" placeholder="Buy Price" value="">
+                        <input name="qty" required type="number" placeholder="Qty" value="">
                         <input type="submit" name="submit" class="btn btn-primary " value="Add">
                     </div>
                 </nav>
@@ -129,47 +126,87 @@
         <div class="wrapper wrapper-content  animated fadeInRight">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="ibox float-e-margins">
+                    <div class="wrapper wrapper-content animated fadeInRight">
+                        <div class="ibox-content p-xl">
+                            <form action="/editGRN" method="POST">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <h4>GRN No.</h4>
+                                        <h4 class="text-navy">{{$g.G_no}}</h4>
+                                        <span>To:</span>
+                                        <address>
+                                            <strong>{{($g.Ven).Name}}</strong><br>
+                                            {{($g.Ven).Ad}}
+                                            <br>
+                                            {{($g.Ven).Phn}}
+                                        </address>
+                                        <p>
+                                            <span><strong>Invoice Date:</strong> {{$g.Dte}}</span>
+                                        </p>
+                                    </div>
+                                </div>
 
-                        <div class="ibox-content">
-                            <input type="text" class="form-control input-sm m-b-xs" id="filter"
-                                   placeholder="Search in GRN">
+                                <div class="table-responsive m-t">
+                                    <table class="table invoice-table">
+                                        <thead>
+                                        <tr>
+                                            <th>Item List</th>
+                                            <th>Quantity</th>
+                                            <th>Unit Price</th>
+                                            <th>Total Price</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
 
-                            <table class="footable table table-stripped" data-page-size="8" data-filter=#filter>
-                                <thead>
-                                <tr>
-                                    <th>GRN No.:</th>
-                                    <th>Date</th>
-                                    <th>Vendor</th>
-                                    <th>Grand Total</th>
-                                    <th data-hide="phone,tablet">Vat</th>
-                                    <th data-hide="phone,tablet">Sub Total</th>
-                                </tr>
-                                </thead>
-                                <tbody>
+                                        {{range $g.Records}}
+                                        <tr>
+                                            <td>
+                                                <strong>{{.P_des}}</strong>
 
-                                {{range.Grns}}
-                                {{$v := .Ven}}
-                                <tr class="gradeX">
-                                    <td>{{.G_no}}</td>
-                                    <td>{{.Dte}}</td>
-                                    <td>{{$v.Name}}</td>
-                                    <td>{{.Grnd_tot}}<a class="pull-right btn btn-xs btn-info"
-                                                        href="editGRN?id={{.Id}}">view/edit</a></td>
-                                    <td class="center">{{.Vat}}</td>
-                                    <td class="center">{{.Sub_tot}}</td>
-                                </tr>
-                                {{end}}
+                                                <div class="pull-right">
+                                                    <a href="editGRN?id={{$g.Id}}&r_id={{.Id}}&submit=remove"
+                                                       class="btn btn-sm btn-danger">remove</a>
+                                                </div>
+                                            </td>
+                                            <td>{{.Qty}}</td>
+                                            <td>{{.B_p}}</td>
+                                            <td>{{.Tot}}</td>
+                                        </tr>
+                                        {{end}}
 
-                                </tbody>
-                                <tfoot>
-                                <tr>
-                                    <td colspan="5">
-                                        <ul class="pagination pull-right"></ul>
-                                    </td>
-                                </tr>
-                                </tfoot>
-                            </table>
+                                        </tbody>
+                                    </table>
+                                </div><!-- /table-responsive -->
+
+                                <table class="table invoice-total">
+                                    <tbody>
+                                    <tr>
+                                        <td><strong>Sub Total :</strong></td>
+                                        <td>{{$g.Sub_tot}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Vat :</strong></td>
+                                        <td><input name="vat" type="number" required value="{{$g.Vat}}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Grand Total :</strong></td>
+                                        <td>{{$g.Grnd_tot}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div class="col-sm-6">
+                                    <button type="submit" name="submit" value="Delete" class="btn btn-danger">Delete GRN
+                                    </button>
+                                </div>
+                                <div class="col-sm-6 text-right">
+                                    <button type="submit" name="submit" value="Save" class="btn btn-primary">Save
+                                    </button>
+                                </div>
+                                <input hidden value="{{$g.Id}}" name="id">
+
+                                <div class="input-group">
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -179,36 +216,14 @@
     </div>
 </div>
 
-
 <!-- Mainly scripts -->
 <script src="js/jquery-2.1.1.js"></script>
 <script src="js/bootstrap.min.js"></script>
-<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
-<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
 <!-- Custom and plugin javascript -->
 <script src="js/inspinia.js"></script>
 <script src="js/plugins/pace/pace.min.js"></script>
-
-<!-- FooTable -->
-<script src="js/plugins/footable/footable.all.min.js"></script>
-
-<!-- Page-Level Scripts -->
-<script>
-        $(document).ready(function() {
-
-            $('.footable').footable();
-            $('.footable2').footable();
-
-        });
-
-
-
-
-
-
-</script>
-
+<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
 <!-- Chosen -->
 <script src="js/plugins/chosen/chosen.jquery.js"></script>
@@ -534,8 +549,13 @@
 
 
 
-</script>
 
+
+
+
+
+
+</script>
 
 </body>
 </html>
