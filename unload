@@ -94,26 +94,8 @@
                                     {{end}}
                                 </ul>
                                 <div class="tab-content">
-                                    {{$pro := .Pro}}
-                                    {{$newid := .NxtLdID}}
                                     {{range .Vans}}
-                                    {{$v := .Id}}
                                     <div id="van{{.Id}}" class="tab-pane {{if .Active}}active{{end}}">
-                                        <form role="form" action="/delivery" method="POST"
-                                              onsubmit="return validateForm()" name="myForm">
-                                            <select name="p_id" data-placeholder="Choose an Item" class="chosen-select "
-                                                    style="width:550px;">
-                                                {{range $pro}}
-                                                <option value="{{.Id}},{{.Qty}}">{{.Des}} ________available: {{.Qty}}
-                                                </option>
-                                                {{end}}
-                                            </select>
-                                            <input hidden value="{{$newid}}" name="id">
-                                            <input hidden value="{{.Id}}" name="v_id">
-                                            <input name="qty" required type="number" placeholder="Qty." value="">
-                                            <input type="submit" class="btn btn-sm btn-primary" name="submit"
-                                                   value="Add Item">
-                                        </form>
                                         <div class="full-height-scroll">
                                             <div class="col-lg-12">
                                                 <div class="ibox float-e-margins">
@@ -122,18 +104,17 @@
                                                                data-filter=#filter>
                                                             <thead>
                                                             <tr>
+                                                                <th>Date</th>
                                                                 <th>Product</th>
-                                                                <th>Van Stock</th>
+                                                                <th>Qty.</th>
                                                             </tr>
                                                             </thead>
                                                             <tbody>
-                                                            {{range .Pro}}
+                                                            {{range .Unloads}}
                                                             <tr class="gradeU">
-                                                                <td>{{.Des}}</td>
-                                                                <td>{{.Rest}}
-                                                                    <a class="btn btn-xs btn-danger pull-right"
-                                                                       href="delivery?v_id={{$v}}&p_id={{.Id}}&submit=unload&qty={{.Rest}}">Unload</a>
-                                                                </td>
+                                                                <td>{{.Dte}}</td>
+                                                                <td>{{.P_des}}</td>
+                                                                <td>{{.Qty}}</td>
                                                             </tr>
                                                             {{end}}
                                                             </tbody>
@@ -190,6 +171,10 @@
             $('.footable2').footable();
 
         });
+
+
+
+
 
 
 

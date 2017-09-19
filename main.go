@@ -21,32 +21,36 @@ var errMysqlDBname = 1
 var errDBquery = 2
 
 type van struct {
-	Id     int64
-	Des    string
-	Loads  []loading
-	Unload []unloading
-	Pro    []productVan
+	Id      int64
+	Des     string
+	Loads   []loading
+	Unloads []unloading
+	Pro     []productVan
 
-	Delete bool
-	Active bool
+	Delete  bool
+	Active  bool
 }
 
 type loading struct {
-	Id   int64
-	V_id int64
-	P_id int64
-	Qty  int64
-	Dte  string
-	Pro  product
+	Id    int64
+	V_id  int64
+	P_id  int64
+	Qty   int64
+	Dte   string
+	Pro   product
+
+	P_des string
 }
 
 type unloading struct {
-	Id   int64
-	V_id int64
-	P_id int64
-	Qty  int64
-	Dte  string
-	Pro  product
+	Id    int64
+	V_id  int64
+	P_id  int64
+	Qty   int64
+	Dte   string
+	Pro   product
+
+	P_des string
 }
 
 type productVan struct {
@@ -139,6 +143,136 @@ func getVansForDelivery(filter string, val string) []van {
 			tmp3.Rest = tmp3.Loaded - tmp3.Unloaded
 			tmp.Pro = append(tmp.Pro, tmp3)
 		}
+
+		tmp2 = append(tmp2, tmp)
+	}
+
+	return tmp2
+}
+
+func getLoadings(van string) []loading {
+	tmp2 := []loading{}
+	rows := getResultDB("SELECT * FROM ldng WHERE v_id=" + van + " ORDER BY dte DESC")
+
+	for rows.Next() {
+		tmp := loading{}
+
+		var id sql.NullInt64
+		var v_id sql.NullInt64
+		var p_id sql.NullInt64
+		var qty sql.NullInt64
+		var dte sql.RawBytes
+
+		err := rows.Scan(&id, &v_id, &p_id, &qty, &dte)
+		checkErr(err, errDBquery)
+
+		tmp.Id = id.Int64
+		tmp.Qty = qty.Int64
+		tmp.Dte = string(dte)
+
+		rows2 := getResultDB("select des from pro where id = " + strconv.FormatInt(p_id.Int64, 10))
+		var des sql.NullString
+		for rows2.Next() {
+			err := rows2.Scan(&des)
+			checkErr(err, errDBquery)
+		}
+		tmp.P_des = des.String
+
+		tmp2 = append(tmp2, tmp)
+	}
+
+	return tmp2
+}
+
+func getUnoadings(van string) []unloading {
+	tmp2 := []unloading{}
+	rows := getResultDB("SELECT * FROM u_ldng WHERE v_id=" + van + " ORDER BY dte DESC")
+
+	for rows.Next() {
+		tmp := unloading{}
+
+		var id sql.NullInt64
+		var v_id sql.NullInt64
+		var p_id sql.NullInt64
+		var qty sql.NullInt64
+		var dte sql.RawBytes
+
+		err := rows.Scan(&id, &v_id, &p_id, &qty, &dte)
+		checkErr(err, errDBquery)
+
+		tmp.Id = id.Int64
+		tmp.Qty = qty.Int64
+		tmp.Dte = string(dte)
+
+		rows2 := getResultDB("select des from pro where id = " + strconv.FormatInt(p_id.Int64, 10))
+		var des sql.NullString
+		for rows2.Next() {
+			err := rows2.Scan(&des)
+			checkErr(err, errDBquery)
+		}
+		tmp.P_des = des.String
+
+		tmp2 = append(tmp2, tmp)
+	}
+
+	return tmp2
+}
+
+func getVansForLoading(filter string, val string) []van {
+	tmp2 := []van{}
+
+	rows := getResultDB("SELECT * FROM van WHERE " + filter + "=" + val)
+	i := 0
+	for rows.Next() {
+		tmp := van{}
+
+		if i == 0 {
+			tmp.Active = true
+		} else {
+			tmp.Active = false
+		}
+		i++
+		var id sql.NullInt64
+		var des sql.NullString
+
+		err := rows.Scan(&id, &des)
+		checkErr(err, errDBquery)
+
+		tmp.Id = id.Int64
+		tmp.Des = des.String
+
+		tmp.Loads = getLoadings(strconv.FormatInt(id.Int64, 10))
+
+		tmp2 = append(tmp2, tmp)
+	}
+
+	return tmp2
+}
+
+func getVansForUnoading(filter string, val string) []van {
+	tmp2 := []van{}
+
+	rows := getResultDB("SELECT * FROM van WHERE " + filter + "=" + val)
+	i := 0
+	for rows.Next() {
+		tmp := van{}
+
+		if i == 0 {
+			tmp.Active = true
+		} else {
+			tmp.Active = false
+		}
+		i++
+		var id sql.NullInt64
+		var des sql.NullString
+
+		err := rows.Scan(&id, &des)
+		checkErr(err, errDBquery)
+
+		tmp.Id = id.Int64
+		tmp.Des = des.String
+
+		tmp.Unloads = getUnoadings(strconv.FormatInt(id.Int64, 10))
 
 		tmp2 = append(tmp2, tmp)
 	}
@@ -877,20 +1011,25 @@ func delivery(w http.ResponseWriter, r *http.Request) {
 }
 
 func load(w http.ResponseWriter, r *http.Request) {
-	showFile(w, r, "load", "")
+	r.ParseForm()
+
+	type sendData struct {
+		Vans []van
+	}
+
+	results := sendData{getVansForLoading("''", "''")}
+
+	showFile(w, r, "load", results)
 }
 
 func unload(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 
 	type sendData struct {
-		Vans    []van
-		Pro     []product
-		NxtID   int64
-		NxtLdID int64
+		Vans []van
 	}
 
-	results := sendData{getVansForDelivery("''", "''"), getProductsInMainStock("''", "''"), getNextID("van"), getNextID("ldng")}
+	results := sendData{getVansForUnoading("''", "''")}
 
 	showFile(w, r, "unload", results)
 }
