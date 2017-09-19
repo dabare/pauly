@@ -308,10 +308,17 @@ func checkErr(err error, typ int) {
 	}
 }
 
+var db *sql.DB
+
 func getResultDB(query string) *sql.Rows {
 	debugMSG(query)
-	db, err := sql.Open("mysql", mysql_user + ":" + mysql_pass + "@/" + mysql_db)
-	checkErr(err, errMysqlDBname)
+
+	var err error
+
+	if db == nil {
+		db, err = sql.Open("mysql", mysql_user + ":" + mysql_pass + "@/" + mysql_db)
+		checkErr(err, errMysqlDBname)
+	}
 
 	if err != nil {
 		db.Close()
@@ -321,15 +328,19 @@ func getResultDB(query string) *sql.Rows {
 	rows, err := db.Query(query)
 	checkErr(err, errDBquery)
 
-	db.Close()
+	//db.Close()
 
 	return rows
 }
 
 func executeDB(exe string) {
 	debugMSG(exe)
-	db, err := sql.Open("mysql", mysql_user + ":" + mysql_pass + "@/" + mysql_db)
-	checkErr(err, errDBquery)
+	var err error
+
+	if db == nil {
+		db, err = sql.Open("mysql", mysql_user + ":" + mysql_pass + "@/" + mysql_db)
+		checkErr(err, errMysqlDBname)
+	}
 
 	if err != nil {
 		db.Close()
@@ -337,7 +348,7 @@ func executeDB(exe string) {
 	}
 	_, err = db.Exec(exe)
 	checkErr(err, errDBquery)
-	db.Close()
+	//db.Close()
 }
 
 func insertData(table string, vals string) {
