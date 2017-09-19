@@ -156,8 +156,10 @@
                                             <select name="p_id" data-placeholder="Choose an Item" class="chosen-select "
                                                     style="width:550px;">
                                                 {{range $pro}}
+                                                {{if .Qty}}
                                                 <option value="{{.Id}},{{.Qty}}">{{.Des}} ________available: {{.Qty}}
                                                 </option>
+                                                {{end}}
                                                 {{end}}
                                             </select>
                                             <input hidden value="{{$newid}}" name="id">
@@ -180,6 +182,7 @@
                                                             </thead>
                                                             <tbody>
                                                             {{range .Pro}}
+                                                            {{if .Rest}}
                                                             <tr class="gradeU">
                                                                 <td>{{.Des}}</td>
                                                                 <td>{{.Rest}}
@@ -187,6 +190,7 @@
                                                                        href="delivery?v_id={{$v}}&p_id={{.Id}}&submit=unload&qty={{.Rest}}">Unload</a>
                                                                 </td>
                                                             </tr>
+                                                            {{end}}
                                                             {{end}}
                                                             </tbody>
                                                             <tfoot>
@@ -236,6 +240,8 @@ function validateForm() {
 
 
 
+
+
 </script>
 <!-- Mainly scripts -->
 <script src="js/jquery-2.1.1.js"></script>
@@ -262,6 +268,8 @@ function validateForm() {
             $('.footable2').footable();
 
         });
+
+
 
 
 
