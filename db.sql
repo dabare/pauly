@@ -16,6 +16,7 @@ CREATE TABLE cus_pay (
     id INT PRIMARY KEY,
      dte DATE,
      i_id INT,
+     des VARCHAR(255),
      tot INT
 );
 

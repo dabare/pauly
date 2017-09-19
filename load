@@ -82,7 +82,7 @@
                             <div class="input-group">
                                 <input type="text" class="input form-control"
                                        id="filter"
-                                       placeholder="Search in Vehicles">
+                                       placeholder="Search in Loading">
                                 </span>
                             </div>
                             <div class="clients-list">
