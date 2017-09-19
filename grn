@@ -102,7 +102,7 @@
                         </a>
                     </div>
                     <div class="minimalize-styl-2 input-group">
-                        <select name="v_id" data-placeholder="Choose an Item" class="chosen-select "
+                        <select name="v_id" data-placeholder="Choose an Vendor" class="chosen-select "
                                 style="width:350px;">
                             {{range .Vendors}}
                             <option value="{{.Id}}">{{.Name}}</option>

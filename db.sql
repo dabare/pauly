@@ -11,10 +11,6 @@ CREATE TABLE cus (
     ad VARCHAR(255)
 );
 
-insert into cus values (0,"madhav","sadas","adfsgad");
-insert into cus values (1,"dfg","sadas","adfsad");
-insert into cus values (2,"madhdfgav","sadfgdas","adfgsad");
-insert into cus values (3,"dfg","saddfgas","adfsgad");
 
 CREATE TABLE cus_pay (
     id INT PRIMARY KEY,
@@ -22,10 +18,6 @@ CREATE TABLE cus_pay (
      i_id INT,
      tot INT
 );
-insert into cus_pay values(0,"12-12-12",0,2);
-insert into cus_pay values(1,"12-12-12",0,56);
-
-insert into cus_pay values(2,"12-12-12",1,232);
 
 CREATE TABLE ven (
     id INT PRIMARY KEY,
@@ -40,9 +32,6 @@ CREATE TABLE pro (
     s_p INT,
     b_p INT
 );
-INSERT INTO pro VALUES(0,'Pen',2,1);
-INSERT INTO pro VALUES(1,'Pencile',3,2);
-INSERT INTO pro VALUES(2,'Apple',5,4);
 
 CREATE TABLE van (
     id INT PRIMARY KEY,
@@ -57,18 +46,13 @@ id INT PRIMARY KEY,
     dte DATE
 );
 
+
 CREATE TABLE u_ldng (
 id INT PRIMARY KEY,
     v_id INT,
     p_id INT,
     qty INT,
     dte DATE
-);
-
-CREATE TABLE stk_main (
-id INT PRIMARY KEY,
-    p_id INT,
-    qty INT
 );
 
 CREATE TABLE grn (
@@ -78,10 +62,7 @@ CREATE TABLE grn (
     vat INT,
     dte DATE
 );
-insert into grn values(0,0,"ds",23,"1212-12-12");
-insert into grn values(1,0,"ds",23,"1212-12-13");
-insert into grn values(2,0,"ds",12,"1212-12-14");
-Insert into grn values (3,2,"ty",2,"12-12-12");
+
 
 CREATE TABLE grn_reg (
     id INT PRIMARY KEY,
@@ -90,10 +71,6 @@ CREATE TABLE grn_reg (
     b_p INT,
     qty INT
 );
-
-insert into grn_reg values (0,0,0,90,12);
-insert into grn_reg values (1,0,1,900,12);
-insert into grn_reg values (2,1,0,90,12);
 
 CREATE TABLE inv (
     id INT PRIMARY KEY,
@@ -104,9 +81,6 @@ CREATE TABLE inv (
     dte DATE
 );
 
-insert into inv values(0,0,"ds","sdf",23,"1212-12-12");
-insert into inv values(1,0,"ds","sdf",23,"1212-12-13");
-insert into inv values(2,0,"ds","sdf",23,"1212-12-14");
 
 CREATE TABLE inv_reg (
     id INT PRIMARY KEY,
@@ -123,3 +97,50 @@ insert into inv_reg values(1,0,1,12,12,12);
 insert into inv_reg values(2,1,0,12,12,12);
 insert into inv_reg values(3,1,1,12,12,12);
 insert into inv_reg values(4,1,2,12,12,12);
+
+
+insert into u_ldng values (0,0,0,5,"12-12-12");
+insert into u_ldng values (1,1,0,5,"12-12-12");
+insert into u_ldng values (2,0,1,5,"12-12-12");
+insert into u_ldng values (3,0,0,5,"12-12-12");
+insert into u_ldng values (4,1,0,5,"12-12-12");
+insert into u_ldng values (5,0,1,5,"12-12-12");
+
+
+insert into inv values(0,0,"ds","sdf",23,"1212-12-12");
+insert into inv values(1,0,"ds","sdf",23,"1212-12-13");
+insert into inv values(2,0,"ds","sdf",23,"1212-12-14");
+
+
+insert into grn_reg values (0,0,0,90,12);
+insert into grn_reg values (1,0,1,900,12);
+insert into grn_reg values (2,1,0,90,12);
+
+insert into grn values(0,0,"ds",23,"1212-12-12");
+insert into grn values(1,0,"ds",23,"1212-12-13");
+insert into grn values(2,0,"ds",12,"1212-12-14");
+Insert into grn values (3,2,"ty",2,"12-12-12");
+
+insert into van values (0,"van");
+insert into van values (1,"bus");
+
+insert into ldng values (0,0,0,10,"12-12-12");
+insert into ldng values (1,1,0,10,"12-12-12");
+insert into ldng values (2,0,1,10,"12-12-12");
+insert into ldng values (3,0,0,10,"12-12-12");
+insert into ldng values (4,1,0,10,"12-12-12");
+insert into ldng values (5,0,1,10,"12-12-12");
+INSERT INTO pro VALUES(0,'Pen',2,1);
+INSERT INTO pro VALUES(1,'Pencile',3,2);
+INSERT INTO pro VALUES(2,'Apple',5,4);
+
+insert into cus values (0,"madhav","sadas","adfsgad");
+insert into cus values (1,"dfg","sadas","adfsad");
+insert into cus values (2,"madhdfgav","sadfgdas","adfgsad");
+insert into cus values (3,"dfg","saddfgas","adfsgad");
+
+
+insert into cus_pay values(0,"12-12-12",0,2);
+insert into cus_pay values(1,"12-12-12",0,56);
+
+insert into cus_pay values(2,"12-12-12",1,232);

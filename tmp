@@ -1,1 +1,9 @@
 how invoice + van
+
+select sum(qty)- (select sum(qty) from inv_reg where p_id=" + strconv.FormatInt(tmp.Id, 10) + ") as qty from grn_reg where p_id=" + strconv.FormatInt(tmp.Id, 10)
+
+(select  sum(qty) - (select  sum(qty) from u_ldng where p_id=0  group by p_id) as qty from ldng where p_id=0  group by p_id)
+
+select sum(qty)- (select sum(qty) from inv_reg where p_id=0) - (select  sum(qty) - (select  sum(qty) from u_ldng where p_id=0  group by p_id) as qty from ldng where p_id=0  group by p_id) as qty from grn_reg where p_id=0;
+
+select sum(qty)- (select sum(qty) from inv_reg where p_id=0) as qty from grn_reg where p_id=0

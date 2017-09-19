@@ -171,7 +171,9 @@
                                             <th>Description</th>
                                             <th>Buy Price</th>
                                             <th>Sell Price</th>
-                                            <th>Stock</th>
+                                            <th>Main Stock</th>
+                                            <th>Vehi. Stock</th>
+                                            <th>Total Qty</th>
                                             <th>Option</th>
                                         </tr>
                                         </thead>
@@ -181,6 +183,8 @@
                                             <td>{{.Des}}</td>
                                             <td>{{.B_p}}</td>
                                             <td>{{.S_p}}</td>
+                                            <td>{{.QtyStk}}</td>
+                                            <td>{{.QtyVan}}</td>
                                             <td>{{.Qty}}</td>
                                             <td><a data-toggle="modal" class="btn btn-info btn-sm btn-outline"
                                                    href="#p{{.Id}}">View
@@ -193,7 +197,9 @@
                                             <th>Description</th>
                                             <th>Buy Price</th>
                                             <th>Sell Price</th>
-                                            <th>Stock</th>
+                                            <th>Main Stock</th>
+                                            <th>Vehi. Stock</th>
+                                            <th>Total Qty</th>
                                             <th>Option</th>
                                         </tr>
                                         </tfoot>
@@ -240,6 +246,9 @@
 
 
         });
+
+
+
 
 
     </script>

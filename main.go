@@ -25,6 +25,10 @@ type van struct {
 	Des    string
 	Loads  []loading
 	Unload []unloading
+	Pro    []productVan
+
+	Delete bool
+	Active bool
 }
 
 type loading struct {
@@ -33,6 +37,7 @@ type loading struct {
 	P_id int64
 	Qty  int64
 	Dte  string
+	Pro  product
 }
 
 type unloading struct {
@@ -41,6 +46,104 @@ type unloading struct {
 	P_id int64
 	Qty  int64
 	Dte  string
+	Pro  product
+}
+
+type productVan struct {
+	Id       int64
+	Des      string
+	S_p      int64
+	B_p      int64
+	Qty      int64
+
+	Loaded   int64
+	Unloaded int64
+	Rest     int64
+}
+
+func getProductVan(id string) productVan {
+	tmp := productVan{}
+	rows := getResultDB("SELECT * FROM pro WHERE id=" + id)
+
+	for rows.Next() {
+
+		var id sql.NullInt64
+		var des sql.NullString
+		var s_p sql.NullInt64
+		var b_p sql.NullInt64
+
+		err := rows.Scan(&id, &des, &s_p, &b_p)
+		checkErr(err, errDBquery)
+
+		tmp.Id = id.Int64
+		tmp.Des = des.String
+		tmp.S_p = s_p.Int64
+		tmp.B_p = b_p.Int64
+
+		rows2 := getResultDB("select sum(qty)- (select sum(qty) from inv_reg where p_id=" + strconv.FormatInt(tmp.Id, 10) + ") as qty from grn_reg where p_id=" + strconv.FormatInt(tmp.Id, 10))
+		rows2.Next()
+		var qty sql.NullInt64
+		err = rows2.Scan(&qty)
+		checkErr(err, errDBquery)
+		tmp.Qty = qty.Int64
+	}
+
+	return tmp
+}
+
+func getVansForDelivery(filter string, val string) []van {
+	tmp2 := []van{}
+
+	rows := getResultDB("SELECT * FROM van WHERE " + filter + "=" + val)
+	i := 0
+	for rows.Next() {
+		tmp := van{}
+
+		if i == 0 {
+			tmp.Active = true
+		} else {
+			tmp.Active = false
+		}
+		i++
+		var id sql.NullInt64
+		var des sql.NullString
+
+		err := rows.Scan(&id, &des)
+		checkErr(err, errDBquery)
+
+		tmp.Id = id.Int64
+		tmp.Des = des.String
+		tmp.Delete = true
+		rows2 := getResultDB("select p_id , sum(qty) as qty from ldng where v_id = " + strconv.FormatInt(tmp.Id, 10) + "  group by p_id")
+		for rows2.Next() {
+			tmp.Delete = false
+			var p_id sql.NullInt64
+			var qty sql.NullInt64
+
+			err := rows2.Scan(&p_id, &qty)
+			checkErr(err, errDBquery)
+
+			tmp3 := getProductVan(strconv.FormatInt(p_id.Int64, 10))
+			tmp3.Loaded = qty.Int64
+			//select p_id , sum(qty) as qty from u_ldng where v_id = 0 and p_id = 0 group by p_id
+			rows3 := getResultDB("select sum(qty) as qty from u_ldng where v_id = " + strconv.FormatInt(tmp.Id, 10) + " and p_id = " + strconv.FormatInt(p_id.Int64, 10) + " group by p_id")
+			rows3.Next()
+
+			err = rows3.Scan(&qty)
+			if err != nil {
+				qty.Int64 = 0
+			}
+
+			tmp3.Unloaded = qty.Int64
+
+			tmp3.Rest = tmp3.Loaded - tmp3.Unloaded
+			tmp.Pro = append(tmp.Pro, tmp3)
+		}
+
+		tmp2 = append(tmp2, tmp)
+	}
+
+	return tmp2
 }
 
 func debugMSG(msg string) {
@@ -112,7 +215,6 @@ func deleteData(table string, id string) {
 }
 
 func updateData(table string, id string, str string) {
-	println("UPDATE " + table + " SET " + str + " WHERE id=" + id)
 	executeDB("UPDATE " + table + " SET " + str + " WHERE id=" + id)
 }
 
@@ -733,15 +835,42 @@ func vendors(w http.ResponseWriter, r *http.Request) {
 
 func delivery(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
+	now := time.Now()
 	if r.Form.Get("submit") == "Add Vehicle" {
 		executeDB("INSERT INTO van VALUES(" + r.Form.Get("id") + ",'" + r.Form.Get("des") + "')")
+	} else if r.Form.Get("submit") == "Add Item" {
+		//id,qty
+		s := strings.Split(r.Form.Get("p_id"), ",")
+		p_id := s[0]
+		avail, _ := strconv.Atoi(s[1])
+		req, _ := strconv.Atoi(r.Form.Get("qty"))
+		if avail >= req {
+
+			executeDB("INSERT INTO ldng VALUES(" + r.Form.Get("id") + "," + r.Form.Get("v_id") + "," + p_id + "," + r.Form.Get("qty") + ", '" + now.Format("2006-01-02") +
+				"')")
+		} else {
+			http.Redirect(w, r, "error", http.StatusSeeOther)
+			return
+		}
+
+	} else if r.Form.Get("submit") == "unload" {
+		executeDB("INSERT INTO u_ldng VALUES(" + strconv.FormatInt(getNextID("u_ldng"), 10) + "," + r.Form.Get("v_id") + "," + r.Form.Get("p_id") + "," + r.Form.Get("qty") + ", '" + now.Format("2006-01-02") +
+			"')")
 		http.Redirect(w, r, "delivery", http.StatusSeeOther)
 		return
+	} else if r.Form.Get("submit") == "Delete" {
+		deleteData("van", r.Form.Get("id"))
+	} else if r.Form.Get("submit") == "Save" {
+		updateData("van", r.Form.Get("id"), "des='" + r.Form.Get("des") + "'")
 	}
 	type sendData struct {
-		NxtID int64
+		Vans    []van
+		Pro     []product
+		NxtID   int64
+		NxtLdID int64
 	}
-	results := sendData{getNextID("van")}
+
+	results := sendData{getVansForDelivery("''", "''"), getProductsInMainStock("''", "''"), getNextID("van"), getNextID("ldng")}
 
 	showFile(w, r, "delivery", results)
 
@@ -752,7 +881,18 @@ func load(w http.ResponseWriter, r *http.Request) {
 }
 
 func unload(w http.ResponseWriter, r *http.Request) {
-	showFile(w, r, "unload", "")
+	r.ParseForm()
+
+	type sendData struct {
+		Vans    []van
+		Pro     []product
+		NxtID   int64
+		NxtLdID int64
+	}
+
+	results := sendData{getVansForDelivery("''", "''"), getProductsInMainStock("''", "''"), getNextID("van"), getNextID("ldng")}
+
+	showFile(w, r, "unload", results)
 }
 
 func stat(w http.ResponseWriter, r *http.Request) {
@@ -765,7 +905,82 @@ type product struct {
 	S_p       int64
 	B_p       int64
 	Qty       int64
+	QtyVan    int64
+	QtyStk    int64
 	DeleteBTN bool
+}
+
+func getProductsInMainStock(filter string, val string) [] product {
+	tmp2 := []product{}
+
+	rows := getResultDB("SELECT * FROM pro WHERE " + filter + "=" + val)
+
+	for rows.Next() {
+		tmp := product{}
+
+		var id sql.NullInt64
+		var des sql.NullString
+		var s_p sql.NullInt64
+		var b_p sql.NullInt64
+
+		err := rows.Scan(&id, &des, &s_p, &b_p)
+		checkErr(err, errDBquery)
+
+		tmp.Id = id.Int64
+		tmp.Des = des.String
+		tmp.S_p = s_p.Int64
+		tmp.B_p = b_p.Int64
+
+		invs := getInvoiceRecords("p_id", strconv.FormatInt(tmp.Id, 10))
+
+		if len(invs) > 0 {
+			tmp.DeleteBTN = false
+		} else {
+			tmp.DeleteBTN = true
+		}
+
+		//rows2 := getResultDB("select sum(qty)- (select sum(qty) from inv_reg where p_id=" + strconv.FormatInt(tmp.Id, 10) + ") as qty from grn_reg where p_id=" + strconv.FormatInt(tmp.Id, 10))
+
+
+		var hav sql.NullInt64
+		var gne sql.NullInt64
+		var ld sql.NullInt64
+		var uld sql.NullInt64
+
+		rows2 := getResultDB("select sum(qty) as qty from grn_reg where p_id=" + strconv.FormatInt(tmp.Id, 10))
+		rows2.Next()
+		err = rows2.Scan(&hav)
+		if err != nil {
+			hav.Int64 = 0
+		}
+
+		rows2 = getResultDB("select sum(qty) from inv_reg where p_id=" + strconv.FormatInt(tmp.Id, 10))
+		rows2.Next()
+		err = rows2.Scan(&gne)
+		if err != nil {
+			gne.Int64 = 0
+		}
+
+		rows2 = getResultDB("select  sum(qty) from u_ldng where p_id=" + strconv.FormatInt(tmp.Id, 10) + "  group by p_id")
+		rows2.Next()
+		err = rows2.Scan(&uld)
+		if err != nil {
+			uld.Int64 = 0
+		}
+
+		rows2 = getResultDB("select  sum(qty) from ldng where p_id=" + strconv.FormatInt(tmp.Id, 10) + "  group by p_id")
+		rows2.Next()
+		err = rows2.Scan(&ld)
+		if err != nil {
+			ld.Int64 = 0
+		}
+
+		tmp.Qty = hav.Int64 - gne.Int64 - (ld.Int64 - uld.Int64)
+
+		tmp2 = append(tmp2, tmp)
+	}
+
+	return tmp2
 }
 
 func getProducts(filter string, val string) [] product {
@@ -797,12 +1012,42 @@ func getProducts(filter string, val string) [] product {
 			tmp.DeleteBTN = true
 		}
 
-		rows2 := getResultDB("select sum(qty)- (select sum(qty) from inv_reg where p_id=" + strconv.FormatInt(tmp.Id, 10) + ") as qty from grn_reg where p_id=" + strconv.FormatInt(tmp.Id, 10))
+		var hav sql.NullInt64
+		var gne sql.NullInt64
+		var ld sql.NullInt64
+		var uld sql.NullInt64
+
+		rows2 := getResultDB("select sum(qty) as qty from grn_reg where p_id=" + strconv.FormatInt(tmp.Id, 10))
 		rows2.Next()
-		var qty sql.NullInt64
-		err = rows2.Scan(&qty)
-		checkErr(err, errDBquery)
-		tmp.Qty = qty.Int64
+		err = rows2.Scan(&hav)
+		if err != nil {
+			hav.Int64 = 0
+		}
+
+		rows2 = getResultDB("select sum(qty) from inv_reg where p_id=" + strconv.FormatInt(tmp.Id, 10))
+		rows2.Next()
+		err = rows2.Scan(&gne)
+		if err != nil {
+			gne.Int64 = 0
+		}
+
+		rows2 = getResultDB("select  sum(qty) from u_ldng where p_id=" + strconv.FormatInt(tmp.Id, 10) + "  group by p_id")
+		rows2.Next()
+		err = rows2.Scan(&uld)
+		if err != nil {
+			uld.Int64 = 0
+		}
+
+		rows2 = getResultDB("select  sum(qty) from ldng where p_id=" + strconv.FormatInt(tmp.Id, 10) + "  group by p_id")
+		rows2.Next()
+		err = rows2.Scan(&ld)
+		if err != nil {
+			ld.Int64 = 0
+		}
+
+		tmp.Qty = hav.Int64 - gne.Int64
+		tmp.QtyVan = ld.Int64 - uld.Int64
+		tmp.QtyStk = tmp.Qty - tmp.QtyVan
 
 		tmp2 = append(tmp2, tmp)
 	}
@@ -814,7 +1059,7 @@ func products(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 
 	if r.Form.Get("submit") == "Add" {
-		insertData("pro", r.Form.Get("id") + ",'" + r.Form.Get("des") + "'," + r.Form.Get("s_p") + "," + r.Form.Get("b_p") + "," + r.Form.Get("qty"))
+		insertData("pro", r.Form.Get("id") + ",'" + r.Form.Get("des") + "'," + r.Form.Get("s_p") + "," + r.Form.Get("b_p"))
 	} else if r.Form.Get("submit") == "Save" {
 		updateData("pro", r.Form.Get("id"), "des='" + r.Form.Get("des") + "', s_p=" + r.Form.Get("s_p") + ", b_p=" + r.Form.Get("b_p") + ", qty=" + r.Form.Get("qty"))
 	} else if r.Form.Get("submit") == "Delete" {
