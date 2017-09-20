@@ -308,17 +308,13 @@ func checkErr(err error, typ int) {
 	}
 }
 
-var db *sql.DB
-
 func getResultDB(query string) *sql.Rows {
 	debugMSG(query)
-
-	var err error
-
-	if db == nil {
-		db, err = sql.Open("mysql", mysql_user + ":" + mysql_pass + "@/" + mysql_db)
-		checkErr(err, errMysqlDBname)
-	}
+	db, err := sql.Open("mysql", mysql_user + ":" + mysql_pass + "@/" + mysql_db)
+	checkErr(err, errMysqlDBname)
+	db.SetMaxOpenConns(1)
+	db.SetMaxIdleConns(2)
+	db.SetConnMaxLifetime(time.Second * 1)
 
 	if err != nil {
 		db.Close()
@@ -328,19 +324,19 @@ func getResultDB(query string) *sql.Rows {
 	rows, err := db.Query(query)
 	checkErr(err, errDBquery)
 
-	//db.Close()
-
+	err = db.Close()
+	checkErr(err, errDBquery)
 	return rows
 }
 
 func executeDB(exe string) {
 	debugMSG(exe)
-	var err error
 
-	if db == nil {
-		db, err = sql.Open("mysql", mysql_user + ":" + mysql_pass + "@/" + mysql_db)
-		checkErr(err, errMysqlDBname)
-	}
+	db, err := sql.Open("mysql", mysql_user + ":" + mysql_pass + "@/" + mysql_db)
+	checkErr(err, errMysqlDBname)
+	db.SetMaxOpenConns(1)
+	db.SetMaxIdleConns(2)
+	db.SetConnMaxLifetime(time.Second * 1)
 
 	if err != nil {
 		db.Close()
@@ -348,7 +344,7 @@ func executeDB(exe string) {
 	}
 	_, err = db.Exec(exe)
 	checkErr(err, errDBquery)
-	//db.Close()
+	err = db.Close()
 }
 
 func insertData(table string, vals string) {
