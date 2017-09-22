@@ -98,18 +98,45 @@
 
     <div id="page-wrapper" class="gray-bg">
         <div class="row border-bottom">
-            <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
-                <div class="navbar-header">
-                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i>
-                    </a>
-                </div>
-                <div class="">
-                    <a data-toggle="modal" href="#Addnew" class="btn btn-primary minimalize-styl-2">Add new</a>
-                </div>
-            </nav>
+            <form role="form" action="/payment" method="POST">
+                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    <div class="navbar-header">
+                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i
+                                class="fa fa-bars"></i>
+                        </a>
+                    </div>
+                    <div class="minimalize-styl-2 input-group">
+                        <select name="i_id" data-placeholder="Choose an Invoice" class="chosen-select "
+                                style="width:350px;">
+                            {{range .Invoices}}
+                            <option value="{{.Id}}">{{(.Cus).Name}} :-
+                                Inv.No.:{{.I_no}}_Po.No.:{{.Po_no}}_Due:{{.RemainingPayment}}
+                            </option>
+                            {{end}}
+                        </select>
+                    </div>
+                    <div class="minimalize-styl-2" id="data_1">
+                        <input name="id" hidden value="{{.Nid}}">
+                        <input name="des" required type="text" placeholder="Description" value="">
+                        <input name="tot" required type="number" placeholder="Payment" value="">
+                        <div class="input-group date">
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            <input name="dte" required type="text" class="form-control" value="{{.Dte}}">
+                        </div>
+                    </div>
+                    <div class="minimalize-styl-2">
+
+                        <input type="submit" name="submit" class="btn btn-primary " value="Add">
+                    </div>
+                </nav>
+            </form>
+
+
         </div>
 
-        <div id="Addnew" class="modal fade" aria-hidden="true">
+
+        {{range .Payments}}
+        <div id="p{{.Id}}" class="modal fade" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-body">
@@ -117,20 +144,17 @@
                             <div class=""><h3 class="m-t-none m-b">Details</h3>
 
                                 <form role="form" action="/payment" method="POST">
-                                    <div class="form-group"><label>ID</label>
-                                        <input name="id" readonly required type="text" placeholder="ID"
-                                               class="form-control" value="{{.Nid}}">
-                                    </div>
+                                    <input hidden name="id"  value="{{.Id}}">
                                     <div class="form-group"><label>Description</label>
                                         <input name="des" required type="text" placeholder="Description"
-                                               class="form-control" value="">
+                                               class="form-control" value="{{.Des}}">
                                     </div>
                                     <div class="form-group"><label>Payment</label>
-                                        <input name="b_p" required type="number" placeholder="Amount"
-                                               class="form-control" value="">
+                                        <input name="tot" required type="number" placeholder="Payment"
+                                               class="form-control" value="{{.Tot}}">
                                     </div>
                                     <div class="form-group" id="data_1"><label>Date</label>
-                                        <div class=" input-group date">
+                                        <div class="input-group date">
                                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                             <input name="dte" required type="text" class="form-control"
                                                    value="{{.Dte}}">
@@ -138,10 +162,9 @@
                                     </div>
                                     <div>
                                         <strong><input name="submit" type="submit"
-                                                       class="btn btn-sm btn-primary pull-right m-t-n-xs"
-                                                       value="Add"></strong>
-                                        <strong><input type="reset" class="btn btn-sm btn-warning pull-right m-t-n-xs"
-                                                       value="Reset"></strong>
+                                                       class="btn btn-sm btn-primary pull-right m-t-n-xs" value="Save"></strong>
+                                        <strong><input name="submit" type="submit"
+                                                       class="btn btn-sm btn-danger pull-right m-t-n-xs" value="Delete"></strong>
                                     </div>
                                 </form>
                             </div>
@@ -150,6 +173,7 @@
                 </div>
             </div>
         </div>
+        {{end}}
 
         <div class="wrapper wrapper-content  animated fadeInRight">
             <div class="row">
@@ -173,13 +197,14 @@
                                 <tbody>
                                 {{range.Payments}}
                                 <tr>
-                                    <td>Other browsers</td>
-                                    <td>All others</td>
-                                    <td>Other browsers</td>
-                                    <td>Other browsers</td>
-                                    <td>All others</td>
+                                    <td>{{.Dte}}</td>
+                                    <td>{{.I_no}}</td>
+                                    <td>{{.C_name}}</td>
+                                    <td>{{.Tot}}</td>
+                                    <td>{{.Des}}</td>
                                     <th>
-                                        <button class="pull-right btn btn-xs btn-warning">edit</button>
+                                        <a data-toggle="modal" class="pull-right btn btn-xs btn-warning"
+                                           href="#p{{.Id}}">edit</a>
                                     </th>
                                 </tr>
                                 {{end}}
@@ -223,6 +248,25 @@
             $('.footable2').footable();
 
         });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -546,6 +590,25 @@
                 'max':  80
             }
         });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 </script>

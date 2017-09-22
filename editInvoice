@@ -73,10 +73,10 @@
                 <li class="">
                     <a href="delivery"><i class="fa fa-bus"></i> <span class="nav-label">Delivery</span></a>
                 </li>
-                <li class="">
+                <li class="active">
                     <a href="invoice"><i class="fa fa-usd"></i> <span class="nav-label">Invoice</span></a>
                 </li>
-                <li class="active">
+                <li class="">
                     <a href="grn"><i class="fa fa-gbp"></i> <span class="nav-label">GRN</span></a>
                 </li>
                 <li class="">
@@ -92,11 +92,11 @@
 
         </div>
     </nav>
-    {{$g := .Grn}}
+    {{$g := .Inv}}
     {{$p := .Products}}
     <div id="page-wrapper" class="gray-bg">
         <div class="row border-bottom">
-            <form role="form" action="/editGRN" method="POST">
+            <form role="form" action="/editInvoice" method="POST">
                 <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
                     <div class="navbar-header">
                         <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i
@@ -116,6 +116,7 @@
                         <input hidden value="{{$g.Id}}" name="id">
                         <input hidden value="{{.NxtID}}" name="r_id">
                         <input name="b_p" required type="number" placeholder="Buy Price" value="">
+                        <input name="s_p" required type="number" placeholder="Sell Price" value="">
                         <input name="qty" required type="number" placeholder="Qty" value="">
                         <input type="submit" name="submit" class="btn btn-primary " value="Add">
                     </div>
@@ -128,17 +129,17 @@
                 <div class="col-lg-12">
                     <div class="wrapper wrapper-content animated fadeInRight">
                         <div class="ibox-content p-xl">
-                            <form action="/editGRN" method="POST">
+                            <form action="/editInvoice" method="POST">
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <h4>GRN No.</h4>
-                                        <h4 class="text-navy">{{$g.G_no}}</h4>
+                                        <h4>Inv. No.</h4>
+                                        <h4 class="text-navy">{{$g.I_no}}</h4>
                                         <span>To:</span>
                                         <address>
-                                            <strong>{{($g.Ven).Name}}</strong><br>
-                                            {{($g.Ven).Ad}}
+                                            <strong>{{($g.Cus).Name}}</strong><br>
+                                            {{($g.Cus).Ad}}
                                             <br>
-                                            {{($g.Ven).Phn}}
+                                            {{($g.Cus).Phn}}
                                         </address>
                                         <p>
                                             <span><strong>Invoice Date:</strong> {{$g.Dte}}</span>
@@ -164,12 +165,12 @@
                                                 <strong>{{.P_des}}</strong>
 
                                                 <div class="pull-right">
-                                                    <a href="editGRN?id={{$g.Id}}&r_id={{.Id}}&submit=remove"
+                                                    <a href="editInvoice?id={{$g.Id}}&r_id={{.Id}}&submit=remove"
                                                        class="btn btn-sm btn-danger">remove</a>
                                                 </div>
                                             </td>
                                             <td>{{.Qty}}</td>
-                                            <td>{{.B_p}}</td>
+                                            <td>{{.S_p}}</td>
                                             <td>{{.Tot}}</td>
                                         </tr>
                                         {{end}}
@@ -186,7 +187,7 @@
                                     </tr>
                                     <tr>
                                         <td><strong>Vat :</strong></td>
-                                        <td><input name="vat" type="number" required value="{{$g.Vat}}"></td>
+                                        <td><input name="vat" type="number" required value="{{$g.Vat}}"><input hidden name="id"  value="{{$g.Id}}"></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Grand Total :</strong></td>

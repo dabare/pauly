@@ -440,6 +440,15 @@ func getSimplyCustomers(filter string, val string) [] customer {
 func invoice(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 
+	if r.Form.Get("submit") == "Add" {
+		//m,d,y
+		s := strings.Split(r.Form.Get("dte"), "/")
+		dte := s[2] + "-" + s[0] + "-" + s[1]
+		executeDB("INSERT INTO inv VALUES(" + r.Form.Get("id") + "," + r.Form.Get("c_id") + "," + r.Form.Get("v_id") + ",'" + r.Form.Get("i_no") + "','" + r.Form.Get("po_no") + "',0,'" + dte + "')")
+		http.Redirect(w, r, "editInvoice?id=" + r.Form.Get("id"), http.StatusSeeOther)
+		return
+	}
+
 	type data struct {
 		Cus   []customer
 		Dte   string
@@ -596,17 +605,31 @@ type _invoice struct {
 	Records          []invoiceRecord
 	Payments         []customerPayment
 
-	C_name           string
+	Cus              customer
 }
 
-func getCustomerName(id string) string {
-	var name sql.NullString
-	rows := getResultDB("SELECT name FROM cus WHERE id=" + id)
-	rows.Next()
-	err := rows.Scan(&name)
-	checkErr(err, errDBquery)
+func getSimplyCustomer(id string) customer {
+	tmp := customer{}
+
+	rows := getResultDB("SELECT * FROM cus WHERE id=" + id)
+
+	for rows.Next() {
+
+		var id sql.NullInt64
+		var name sql.NullString
+		var phn sql.NullString
+		var ad sql.NullString
+
+		err := rows.Scan(&id, &name, &phn, &ad)
+		checkErr(err, errDBquery)
+
+		tmp.Id = id.Int64
+		tmp.Name = name.String
+		tmp.Phn = phn.String
+		tmp.Ad = ad.String
+	}
 	rows.Close()
-	return name.String
+	return tmp
 }
 
 func get_invoices(filter string, val string) [] _invoice {
@@ -639,7 +662,7 @@ func get_invoices(filter string, val string) [] _invoice {
 		tmp.Records = getInvoiceRecords("i_id", strconv.FormatInt(id.Int64, 10))
 		tmp.Payments = getCustomerPayments("i_id", strconv.FormatInt(id.Int64, 10))
 
-		tmp.C_name = getCustomerName(strconv.FormatInt(c_id.Int64, 10))
+		tmp.Cus = getSimplyCustomer(strconv.FormatInt(c_id.Int64, 10))
 
 		tmp.PaymentsDone = 0
 		for _, p := range tmp.Payments {
@@ -672,6 +695,69 @@ func get_invoices(filter string, val string) [] _invoice {
 	}
 	rows.Close()
 	return tmp2
+}
+
+func get_invoice(id string) _invoice {
+	tmp := _invoice{}
+
+	rows := getResultDB("SELECT * FROM inv WHERE id=" + id)
+
+	for rows.Next() {
+
+		var id sql.NullInt64
+		var c_id sql.NullInt64
+		var v_id sql.NullInt64
+		var i_no sql.NullString
+		var po_no sql.NullString
+		var vat sql.NullInt64
+		var dte sql.RawBytes
+
+		err := rows.Scan(&id, &c_id, &v_id, &i_no, &po_no, &vat, &dte)
+		checkErr(err, errDBquery)
+
+		tmp.Id = id.Int64
+		tmp.C_id = c_id.Int64
+		tmp.V_id = v_id.Int64
+		tmp.I_no = i_no.String
+		tmp.Po_no = po_no.String
+		tmp.Vat = vat.Int64
+		tmp.Dte = string(dte)
+
+		tmp.Records = getInvoiceRecords("i_id", strconv.FormatInt(id.Int64, 10))
+		tmp.Payments = getCustomerPayments("i_id", strconv.FormatInt(id.Int64, 10))
+
+		tmp.Cus = getSimplyCustomer(strconv.FormatInt(c_id.Int64, 10))
+
+		tmp.PaymentsDone = 0
+		for _, p := range tmp.Payments {
+			tmp.PaymentsDone += p.Tot
+		}
+
+		tmp.Margine = 0.0
+		tmp.Sub_tot = 0
+		for _, p := range tmp.Records {
+			tmp.Margine += p.Margine
+			tmp.Sub_tot += p.Tot
+		}
+
+		tmp.Grnd_tot = tmp.Vat + tmp.Sub_tot
+
+		tmp.RemainingPayment = tmp.Grnd_tot - tmp.PaymentsDone
+		if tmp.Grnd_tot == 0 {
+			tmp.Progress = 100
+		} else {
+			tmp.Progress = (tmp.PaymentsDone * 100) / tmp.Grnd_tot
+		}
+
+		if len(tmp.Records) > 0 {
+			tmp.DeleteBTN = false
+		} else {
+			tmp.DeleteBTN = true
+		}
+
+	}
+	rows.Close()
+	return tmp
 }
 
 type customer struct {
@@ -910,7 +996,7 @@ func editGRN(w http.ResponseWriter, r *http.Request) {
 
 	switch r.Form.Get("submit") {
 	case "Save":
-		executeDB("UPDATE grn SET vat=" + r.Form.Get("vat"))
+		executeDB("UPDATE grn SET vat=" + r.Form.Get("vat") + " WHERE id=" + r.Form.Get("id"))
 	case "remove":
 		executeDB("DELETE FROM grn_reg WHERE id=" + r.Form.Get("r_id"))
 	case "Add":
@@ -930,26 +1016,26 @@ func editInvoice(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 
 	type data struct {
-		Grn      _grn
+		Inv      _invoice
 		Products []product
 		NxtID    int64
 	}
 
 	switch r.Form.Get("submit") {
 	case "Save":
-		executeDB("UPDATE grn SET vat=" + r.Form.Get("vat"))
+		executeDB("UPDATE inv SET vat=" + r.Form.Get("vat") + " WHERE id=" + r.Form.Get("id"))
 	case "remove":
-		executeDB("DELETE FROM grn_reg WHERE id=" + r.Form.Get("r_id"))
+		executeDB("DELETE FROM inv_reg WHERE id=" + r.Form.Get("r_id"))
 	case "Add":
-		executeDB("INSERT INTO grn_reg VALUES(" + r.Form.Get("r_id") + "," + r.Form.Get("id") + "," + r.Form.Get("p_id") + "," + r.Form.Get("b_p") + "," + r.Form.Get("qty") + ")")
-		println(r.Form.Get("p_id"))
+		executeDB("INSERT INTO inv_reg VALUES(" + r.Form.Get("r_id") + "," + r.Form.Get("id") + "," + r.Form.Get("p_id") + "," + r.Form.Get("b_p") + "," + r.Form.Get("s_p") + "," + r.Form.Get("qty") + ")")
 	case "Delete":
+		executeDB("DELETE FROM inv_reg WHERE g_id=" + r.Form.Get("id"))
 		deleteData("grn", r.Form.Get("id"))
 		http.Redirect(w, r, "grn", http.StatusSeeOther)
 	}
 
-	result := data{get_grn(r.Form.Get("id")), getProducts("''", "''"), getNextID("grn_reg")}
-	showFile(w, r, "editGRN", result)
+	result := data{get_invoice(r.Form.Get("id")), getProducts("''", "''"), getNextID("inv_reg")}
+	showFile(w, r, "editInvoice", result)
 }
 
 type vendor struct {
@@ -1346,7 +1432,7 @@ func products(w http.ResponseWriter, r *http.Request) {
 
 func getCustomerPaymentsForPayment(filter string, val string) []customerPayment {
 	tmp := getCustomerPayments(filter, val)
-	for _, p := range tmp {
+	for i, p := range tmp {
 		rows := getResultDB("select i_no , c_id from inv where id=" + strconv.FormatInt(p.I_id, 10))
 		rows.Next()
 
@@ -1355,7 +1441,7 @@ func getCustomerPaymentsForPayment(filter string, val string) []customerPayment 
 
 		err := rows.Scan(&i_no, &c_id)
 		checkErr(err, errDBquery)
-		p.I_no = i_no.String
+		tmp[i].I_no = i_no.String
 
 		rows.Close()
 
@@ -1365,32 +1451,99 @@ func getCustomerPaymentsForPayment(filter string, val string) []customerPayment 
 		var name sql.NullString
 		err = rows.Scan(&name)
 		checkErr(err, errDBquery)
-		p.C_name = name.String
+		tmp[i].C_name = name.String
 
 		rows.Close()
 	}
 	return tmp
 }
 
+func get_invoicesForPayments(filter string, val string) [] _invoice {
+	tmp2 := []_invoice{}
+
+	rows := getResultDB("SELECT * FROM inv WHERE " + filter + "=" + val + " ORDER BY dte DESC")
+
+	for rows.Next() {
+		tmp := _invoice{}
+
+		var id sql.NullInt64
+		var c_id sql.NullInt64
+		var v_id sql.NullInt64
+		var i_no sql.NullString
+		var po_no sql.NullString
+		var vat sql.NullInt64
+		var dte sql.RawBytes
+
+		err := rows.Scan(&id, &c_id, &v_id, &i_no, &po_no, &vat, &dte)
+		checkErr(err, errDBquery)
+
+		tmp.Id = id.Int64
+		tmp.C_id = c_id.Int64
+		tmp.V_id = v_id.Int64
+		tmp.I_no = i_no.String
+		tmp.Po_no = po_no.String
+		tmp.Vat = vat.Int64
+		tmp.Dte = string(dte)
+
+		tmp.Records = getInvoiceRecords("i_id", strconv.FormatInt(id.Int64, 10))
+		tmp.Payments = getCustomerPayments("i_id", strconv.FormatInt(id.Int64, 10))
+
+		tmp.Cus = getSimplyCustomer(strconv.FormatInt(c_id.Int64, 10))
+
+		tmp.PaymentsDone = 0
+		for _, p := range tmp.Payments {
+			tmp.PaymentsDone += p.Tot
+		}
+
+		tmp.Margine = 0.0
+		tmp.Sub_tot = 0
+		for _, p := range tmp.Records {
+			tmp.Margine += p.Margine
+			tmp.Sub_tot += p.Tot
+		}
+
+		tmp.Grnd_tot = tmp.Vat + tmp.Sub_tot
+
+		tmp.RemainingPayment = tmp.Grnd_tot - tmp.PaymentsDone
+		if tmp.Grnd_tot == 0 {
+			tmp.Progress = 100
+		} else {
+			tmp.Progress = (tmp.PaymentsDone * 100) / tmp.Grnd_tot
+		}
+
+		if len(tmp.Records) > 0 {
+			tmp.DeleteBTN = false
+		} else {
+			tmp.DeleteBTN = true
+		}
+		if tmp.RemainingPayment > 0 {
+			tmp2 = append(tmp2, tmp)
+		}
+	}
+	rows.Close()
+	return tmp2
+}
+
 func payment(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 
 	if r.Form.Get("submit") == "Add" {
-		insertData("pro", r.Form.Get("id") + ",'" + r.Form.Get("des") + "'," + r.Form.Get("s_p") + "," + r.Form.Get("b_p") + "," + r.Form.Get("qty"))
+		insertData("cus_pay", r.Form.Get("id") + ",'" + r.Form.Get("dte") + "'," + r.Form.Get("i_id") + ",'" + r.Form.Get("des") + "'," + r.Form.Get("tot"))
 	} else if r.Form.Get("submit") == "Save" {
-		updateData("pro", r.Form.Get("id"), "des='" + r.Form.Get("des") + "', s_p=" + r.Form.Get("s_p") + ", b_p=" + r.Form.Get("b_p") + ", qty=" + r.Form.Get("qty"))
+		updateData("cus_pay", r.Form.Get("id"), "des='" + r.Form.Get("des") + "', dte='" + r.Form.Get("dte") + "', tot=" + r.Form.Get("tot"))
 	} else if r.Form.Get("submit") == "Delete" {
-		deleteData("pro", r.Form.Get("id"))
+		deleteData("cus_pay", r.Form.Get("id"))
 	}
 
 	type sendData struct {
 		Nid      int64
 		Dte      string
 		Payments []customerPayment
+		Invoices []_invoice
 	}
 	now := time.Now()
 
-	results := sendData{getNextID("cus_pay"), now.Format("01/02/2006"), getCustomerPaymentsForPayment("''", "''")}
+	results := sendData{getNextID("cus_pay"), now.Format("01/02/2006"), getCustomerPaymentsForPayment("''", "''"), get_invoicesForPayments("''", "''")}
 
 	showFile(w, r, "payment", results)
 }

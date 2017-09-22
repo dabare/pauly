@@ -93,7 +93,7 @@
 
     <div id="page-wrapper" class="gray-bg">
         <div class="row border-bottom">
-            <form role="form" action="/grn" method="POST">
+            <form role="form" action="/invoice" method="POST">
                 <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
                     <div class="navbar-header">
                         <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i
@@ -101,7 +101,7 @@
                         </a>
                     </div>
                     <div class="minimalize-styl-2 input-group">
-                        <select name="c_id" data-placeholder="Choose an Vendor" class="chosen-select "
+                        <select name="c_id" data-placeholder="Choose a Customer" class="chosen-select "
                                 style="width:350px;">
                             {{range .Cus}}
                             <option value="{{.Id}}">{{.Name}}</option>
@@ -109,7 +109,7 @@
                         </select>
                     </div>
                     <div class="minimalize-styl-2 input-group">
-                        <select name="v_id" data-placeholder="Choose an Vendor" class="chosen-select "
+                        <select name="v_id" data-placeholder="Choose a Van" class="chosen-select "
                                 style="width:350px;">
                             {{range .Vans}}
                             <option value="{{.Id}}">{{.Des}}</option>
@@ -178,14 +178,18 @@
                                                             </thead>
                                                             <tbody>
                                                             {{range .Invoices}}
+                                                            {{$c:=.Cus}}
                                                             <tr>
                                                                 <td>{{.Dte}}</td>
                                                                 <td>{{.I_no}}</td>
-                                                                <td>{{.C_name}}</td>
+                                                                <td>{{$c.Name}}</td>
                                                                 <td>{{.Po_no}}</td>
                                                                 <td>{{.Grnd_tot}}</td>
                                                                 <td>{{.PaymentsDone}}</td>
-                                                                <td>{{.Margine}}</td>
+                                                                <td>{{.Margine}}
+                                                                    <a class="pull-right btn btn-xs btn-info"
+                                                                       href="editInvoice?id={{.Id}}">view/edit</a>
+                                                                </td>
                                                             </tr>
                                                             {{end}}
                                                             </tbody>
@@ -240,9 +244,6 @@
             $('.footable2').footable();
 
         });
-
-
-
 
 </script>
 
@@ -564,8 +565,6 @@
                 'max':  80
             }
         });
-
-
 
 </script>
 

@@ -186,7 +186,7 @@
                                     </tr>
                                     <tr>
                                         <td><strong>Vat :</strong></td>
-                                        <td><input name="vat" type="number" required value="{{$g.Vat}}"></td>
+                                        <td><input name="vat" type="number" required value="{{$g.Vat}}"><input hidden name="id"  value="{{$g.Id}}"></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Grand Total :</strong></td>
