@@ -6,8 +6,7 @@ import (
 	"log"
 	"html/template"
 	"database/sql"
-	//_ "github.com/mattn/go-sqlite3"
-	_ "github.com/mxk/go-sqlite/sqlite3"
+	_ "github.com/go-sql-driver/mysql"
 	"strconv"
 	"strings"
 	"time"
@@ -90,11 +89,9 @@ func getProductVan(id string) productVan {
 		var qty sql.NullInt64
 		err = rows2.Scan(&qty)
 		checkErr(err, errDBquery)
-
-		rows2.Close()
 		tmp.Qty = qty.Int64
 	}
-	rows.Close()
+
 	return tmp
 }
 
@@ -144,10 +141,9 @@ func getVansForDelivery(filter string, val string) []van {
 			tmp3.Unloaded = qty.Int64
 
 			tmp3.Rest = tmp3.Loaded - tmp3.Unloaded
-			rows3.Close()
 			tmp.Pro = append(tmp.Pro, tmp3)
 		}
-		rows2.Close()
+
 		tmp2 = append(tmp2, tmp)
 	}
 
@@ -181,10 +177,10 @@ func getLoadings(van string) []loading {
 			checkErr(err, errDBquery)
 		}
 		tmp.P_des = des.String
-		rows2.Close()
+
 		tmp2 = append(tmp2, tmp)
 	}
-	rows.Close()
+
 	return tmp2
 }
 
@@ -215,10 +211,10 @@ func getUnoadings(van string) []unloading {
 			checkErr(err, errDBquery)
 		}
 		tmp.P_des = des.String
-		rows2.Close()
+
 		tmp2 = append(tmp2, tmp)
 	}
-	rows.Close()
+
 	return tmp2
 }
 
@@ -249,7 +245,7 @@ func getVansForLoading(filter string, val string) []van {
 
 		tmp2 = append(tmp2, tmp)
 	}
-	rows.Close()
+
 	return tmp2
 }
 
@@ -280,7 +276,7 @@ func getVansForUnoading(filter string, val string) []van {
 
 		tmp2 = append(tmp2, tmp)
 	}
-	rows.Close()
+
 	return tmp2
 }
 
@@ -312,28 +308,43 @@ func checkErr(err error, typ int) {
 	}
 }
 
-func initDatabase() {
-	executeDB(readFile("db.sql"))
-}
-
 func getResultDB(query string) *sql.Rows {
 	debugMSG(query)
-	database, _ := sql.Open("sqlite3", "./mandy.db")
-	rows, err := database.Query(query)
+	db, err := sql.Open("mysql", mysql_user + ":" + mysql_pass + "@/" + mysql_db)
+	checkErr(err, errMysqlDBname)
+	db.SetMaxOpenConns(1)
+	db.SetMaxIdleConns(2)
+	db.SetConnMaxLifetime(time.Second * 1)
+
+	if err != nil {
+		db.Close()
+		return nil
+	}
+
+	rows, err := db.Query(query)
 	checkErr(err, errDBquery)
 
-	err = database.Close()
+	err = db.Close()
 	checkErr(err, errDBquery)
-	database.Close()
 	return rows
 }
 
 func executeDB(exe string) {
 	debugMSG(exe)
-	database, _ := sql.Open("sqlite3", "./mandy.db")
-	_, err := database.Exec(exe)
+
+	db, err := sql.Open("mysql", mysql_user + ":" + mysql_pass + "@/" + mysql_db)
+	checkErr(err, errMysqlDBname)
+	db.SetMaxOpenConns(1)
+	db.SetMaxIdleConns(2)
+	db.SetConnMaxLifetime(time.Second * 1)
+
+	if err != nil {
+		db.Close()
+		return
+	}
+	_, err = db.Exec(exe)
 	checkErr(err, errDBquery)
-	database.Close()
+	err = db.Close()
 }
 
 func insertData(table string, vals string) {
@@ -362,8 +373,6 @@ func getNextID(table string) int64 {
 	err := rows.Scan(&newid)
 	checkErr(err, errDBquery)
 
-	rows.Close()
-
 	return newid.Int64
 }
 
@@ -371,86 +380,10 @@ func checkUser(w http.ResponseWriter, r *http.Request) bool {
 	return true
 }
 
-type vanInvoice struct {
-	Id       int64
-	Des      string
-	Invoices []_invoice
-
-	Active   bool
-}
-
-func getVansForInvoice(filter string, val string) []vanInvoice {
-	tmp2 := []vanInvoice{}
-
-	rows := getResultDB("SELECT * FROM van WHERE " + filter + "=" + val)
-	i := 0
-	for rows.Next() {
-		tmp := vanInvoice{}
-
-		if i == 0 {
-			tmp.Active = true
-		} else {
-			tmp.Active = false
-		}
-		i++
-		var id sql.NullInt64
-		var des sql.NullString
-
-		err := rows.Scan(&id, &des)
-		checkErr(err, errDBquery)
-
-		tmp.Id = id.Int64
-		tmp.Des = des.String
-
-		tmp.Invoices = get_invoices("v_id", strconv.FormatInt(id.Int64, 10))
-
-		tmp2 = append(tmp2, tmp)
-	}
-	rows.Close()
-	return tmp2
-}
-
-func getSimplyCustomers(filter string, val string) [] customer {
-	tmp2 := []customer{}
-
-	rows := getResultDB("SELECT * FROM cus WHERE " + filter + "=" + val)
-
-	for rows.Next() {
-		tmp := customer{}
-
-		var id sql.NullInt64
-		var name sql.NullString
-		var phn sql.NullString
-		var ad sql.NullString
-
-		err := rows.Scan(&id, &name, &phn, &ad)
-		checkErr(err, errDBquery)
-
-		tmp.Id = id.Int64
-		tmp.Name = name.String
-		tmp.Phn = phn.String
-		tmp.Ad = ad.String
-
-		tmp2 = append(tmp2, tmp)
-	}
-	rows.Close()
-	return tmp2
-}
-
 func invoice(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
-
-	type data struct {
-		Cus   []customer
-		Dte   string
-		NxtID int64
-		Vans  []vanInvoice
-	}
-	now := time.Now()
-
-	result := data{getSimplyCustomers("''", "''"), now.Format("01/02/2006"), getNextID("inv"), getVansForInvoice("''", "''")}
-
-	showFile(w, r, "invoice", result)
+	println(r.Form.Get("id"))
+	showFile(w, r, "invoice", "")
 }
 
 func grn(w http.ResponseWriter, r *http.Request) {
@@ -478,14 +411,10 @@ func grn(w http.ResponseWriter, r *http.Request) {
 }
 
 type customerPayment struct {
-	Id     int64
-	Dte    string
-	I_id   int64
-	Des    string
-	Tot    int64
-
-	I_no   string
-	C_name string
+	Id   int64
+	Dte  string
+	I_id int64
+	Tot  int64
 }
 
 func getCustomerPayments(filter string, val string) []customerPayment {
@@ -499,20 +428,17 @@ func getCustomerPayments(filter string, val string) []customerPayment {
 		var dte sql.RawBytes
 		var i_id sql.NullInt64
 		var tot sql.NullInt64
-		var des sql.NullString
 
-		err := rows.Scan(&id, &dte, &i_id, &des, &tot)
+		err := rows.Scan(&id, &dte, &i_id, &tot)
 		checkErr(err, errDBquery)
 
 		tmp.Id = id.Int64
 		tmp.Dte = string(dte)
 		tmp.I_id = i_id.Int64
-		tmp.Des = des.String
 		tmp.Tot = tot.Int64
 
 		tmp2 = append(tmp2, tmp)
 	}
-	rows.Close()
 	return tmp2
 }
 
@@ -565,8 +491,6 @@ func getInvoiceRecords(filter string, val string) [] invoiceRecord {
 		err = rows2.Scan(&des)
 		checkErr(err, errDBquery)
 
-		rows2.Close()
-
 		tmp.P_des = des.String
 
 		tmp.Margine = calculateMargine(float64(tmp.B_p), float64(tmp.S_p))
@@ -574,14 +498,12 @@ func getInvoiceRecords(filter string, val string) [] invoiceRecord {
 		tmp.Tot = tmp.S_p * tmp.Qty
 		tmp2 = append(tmp2, tmp)
 	}
-	rows.Close()
 	return tmp2
 }
 
 type _invoice struct {
 	Id               int64
 	C_id             int64
-	V_id             int64
 	I_no             string
 	Po_no            string
 	Vat              int64
@@ -595,18 +517,6 @@ type _invoice struct {
 	DeleteBTN        bool
 	Records          []invoiceRecord
 	Payments         []customerPayment
-
-	C_name           string
-}
-
-func getCustomerName(id string) string {
-	var name sql.NullString
-	rows := getResultDB("SELECT name FROM cus WHERE id=" + id)
-	rows.Next()
-	err := rows.Scan(&name)
-	checkErr(err, errDBquery)
-	rows.Close()
-	return name.String
 }
 
 func get_invoices(filter string, val string) [] _invoice {
@@ -619,18 +529,16 @@ func get_invoices(filter string, val string) [] _invoice {
 
 		var id sql.NullInt64
 		var c_id sql.NullInt64
-		var v_id sql.NullInt64
 		var i_no sql.NullString
 		var po_no sql.NullString
 		var vat sql.NullInt64
 		var dte sql.RawBytes
 
-		err := rows.Scan(&id, &c_id, &v_id, &i_no, &po_no, &vat, &dte)
+		err := rows.Scan(&id, &c_id, &i_no, &po_no, &vat, &dte)
 		checkErr(err, errDBquery)
 
 		tmp.Id = id.Int64
 		tmp.C_id = c_id.Int64
-		tmp.V_id = v_id.Int64
 		tmp.I_no = i_no.String
 		tmp.Po_no = po_no.String
 		tmp.Vat = vat.Int64
@@ -638,8 +546,6 @@ func get_invoices(filter string, val string) [] _invoice {
 
 		tmp.Records = getInvoiceRecords("i_id", strconv.FormatInt(id.Int64, 10))
 		tmp.Payments = getCustomerPayments("i_id", strconv.FormatInt(id.Int64, 10))
-
-		tmp.C_name = getCustomerName(strconv.FormatInt(c_id.Int64, 10))
 
 		tmp.PaymentsDone = 0
 		for _, p := range tmp.Payments {
@@ -670,7 +576,6 @@ func get_invoices(filter string, val string) [] _invoice {
 
 		tmp2 = append(tmp2, tmp)
 	}
-	rows.Close()
 	return tmp2
 }
 
@@ -725,7 +630,6 @@ func getCustomers(filter string, val string) [] customer {
 		}
 		tmp2 = append(tmp2, tmp)
 	}
-	rows.Close()
 	return tmp2
 }
 
@@ -791,10 +695,8 @@ func getGrnRecords(filter string, val string) [] grnRecord {
 		tmp.P_des = des.String
 
 		tmp.Tot = tmp.B_p * tmp.Qty
-		rows2.Close()
 		tmp2 = append(tmp2, tmp)
 	}
-	rows.Close()
 	return tmp2
 }
 
@@ -853,7 +755,6 @@ func get_grns(filter string, val string) [] _grn {
 
 		tmp2 = append(tmp2, tmp)
 	}
-	rows.Close()
 	return tmp2
 }
 
@@ -895,7 +796,6 @@ func get_grn(id string) _grn {
 
 		tmp.Ven = getVendor(strconv.FormatInt(v_id.Int64, 10))
 	}
-	rows.Close()
 	return tmp
 }
 
@@ -917,7 +817,6 @@ func editGRN(w http.ResponseWriter, r *http.Request) {
 		executeDB("INSERT INTO grn_reg VALUES(" + r.Form.Get("r_id") + "," + r.Form.Get("id") + "," + r.Form.Get("p_id") + "," + r.Form.Get("b_p") + "," + r.Form.Get("qty") + ")")
 		println(r.Form.Get("p_id"))
 	case "Delete":
-		executeDB("DELETE FROM grn_reg WHERE g_id=" + r.Form.Get("id"))
 		deleteData("grn", r.Form.Get("id"))
 		http.Redirect(w, r, "grn", http.StatusSeeOther)
 	}
@@ -981,7 +880,6 @@ func getVendor(id string) vendor {
 		tmp.Phn = phn.String
 		tmp.Ad = ad.String
 	}
-	rows.Close()
 	return tmp
 }
 
@@ -1016,7 +914,6 @@ func getSimplyVendors(filter string, val string) [] vendor {
 		}
 		tmp2 = append(tmp2, tmp)
 	}
-	rows.Close()
 	return tmp2
 }
 
@@ -1053,7 +950,6 @@ func getVendors(filter string, val string) [] vendor {
 		}
 		tmp2 = append(tmp2, tmp)
 	}
-	rows.Close()
 	return tmp2
 }
 
@@ -1204,16 +1100,12 @@ func getProductsInMainStock(filter string, val string) [] product {
 			hav.Int64 = 0
 		}
 
-		rows2.Close()
-
 		rows2 = getResultDB("select sum(qty) from inv_reg where p_id=" + strconv.FormatInt(tmp.Id, 10))
 		rows2.Next()
 		err = rows2.Scan(&gne)
 		if err != nil {
 			gne.Int64 = 0
 		}
-
-		rows2.Close()
 
 		rows2 = getResultDB("select  sum(qty) from u_ldng where p_id=" + strconv.FormatInt(tmp.Id, 10) + "  group by p_id")
 		rows2.Next()
@@ -1222,8 +1114,6 @@ func getProductsInMainStock(filter string, val string) [] product {
 			uld.Int64 = 0
 		}
 
-		rows2.Close()
-
 		rows2 = getResultDB("select  sum(qty) from ldng where p_id=" + strconv.FormatInt(tmp.Id, 10) + "  group by p_id")
 		rows2.Next()
 		err = rows2.Scan(&ld)
@@ -1231,13 +1121,11 @@ func getProductsInMainStock(filter string, val string) [] product {
 			ld.Int64 = 0
 		}
 
-		rows2.Close()
-
 		tmp.Qty = hav.Int64 - gne.Int64 - (ld.Int64 - uld.Int64)
 
 		tmp2 = append(tmp2, tmp)
 	}
-	rows.Close()
+
 	return tmp2
 }
 
@@ -1282,16 +1170,12 @@ func getProducts(filter string, val string) [] product {
 			hav.Int64 = 0
 		}
 
-		rows2.Close()
-
 		rows2 = getResultDB("select sum(qty) from inv_reg where p_id=" + strconv.FormatInt(tmp.Id, 10))
 		rows2.Next()
 		err = rows2.Scan(&gne)
 		if err != nil {
 			gne.Int64 = 0
 		}
-
-		rows2.Close()
 
 		rows2 = getResultDB("select  sum(qty) from u_ldng where p_id=" + strconv.FormatInt(tmp.Id, 10) + "  group by p_id")
 		rows2.Next()
@@ -1300,8 +1184,6 @@ func getProducts(filter string, val string) [] product {
 			uld.Int64 = 0
 		}
 
-		rows2.Close()
-
 		rows2 = getResultDB("select  sum(qty) from ldng where p_id=" + strconv.FormatInt(tmp.Id, 10) + "  group by p_id")
 		rows2.Next()
 		err = rows2.Scan(&ld)
@@ -1309,16 +1191,12 @@ func getProducts(filter string, val string) [] product {
 			ld.Int64 = 0
 		}
 
-		rows2.Close()
-
 		tmp.Qty = hav.Int64 - gne.Int64
 		tmp.QtyVan = ld.Int64 - uld.Int64
 		tmp.QtyStk = tmp.Qty - tmp.QtyVan
 
 		tmp2 = append(tmp2, tmp)
 	}
-
-	rows.Close()
 
 	return tmp2
 }
@@ -1329,7 +1207,7 @@ func products(w http.ResponseWriter, r *http.Request) {
 	if r.Form.Get("submit") == "Add" {
 		insertData("pro", r.Form.Get("id") + ",'" + r.Form.Get("des") + "'," + r.Form.Get("s_p") + "," + r.Form.Get("b_p"))
 	} else if r.Form.Get("submit") == "Save" {
-		updateData("pro", r.Form.Get("id"), "des='" + r.Form.Get("des") + "', s_p=" + r.Form.Get("s_p") + ", b_p=" + r.Form.Get("b_p"))
+		updateData("pro", r.Form.Get("id"), "des='" + r.Form.Get("des") + "', s_p=" + r.Form.Get("s_p") + ", b_p=" + r.Form.Get("b_p") + ", qty=" + r.Form.Get("qty"))
 	} else if r.Form.Get("submit") == "Delete" {
 		deleteData("pro", r.Form.Get("id"))
 	}
@@ -1342,34 +1220,6 @@ func products(w http.ResponseWriter, r *http.Request) {
 	results := sendData{getNextID("pro"), getProducts("''", "''")}
 
 	showFile(w, r, "products", results)
-}
-
-func getCustomerPaymentsForPayment(filter string, val string) []customerPayment {
-	tmp := getCustomerPayments(filter, val)
-	for _, p := range tmp {
-		rows := getResultDB("select i_no , c_id from inv where id=" + strconv.FormatInt(p.I_id, 10))
-		rows.Next()
-
-		var i_no sql.NullString
-		var c_id sql.NullInt64
-
-		err := rows.Scan(&i_no, &c_id)
-		checkErr(err, errDBquery)
-		p.I_no = i_no.String
-
-		rows.Close()
-
-		rows = getResultDB("select name from cus where id=" + strconv.FormatInt(c_id.Int64, 10))
-		rows.Next()
-
-		var name sql.NullString
-		err = rows.Scan(&name)
-		checkErr(err, errDBquery)
-		p.C_name = name.String
-
-		rows.Close()
-	}
-	return tmp
 }
 
 func payment(w http.ResponseWriter, r *http.Request) {
@@ -1385,12 +1235,10 @@ func payment(w http.ResponseWriter, r *http.Request) {
 
 	type sendData struct {
 		Nid      int64
-		Dte      string
-		Payments []customerPayment
+		Products []product
 	}
-	now := time.Now()
 
-	results := sendData{getNextID("cus_pay"), now.Format("01/02/2006"), getCustomerPaymentsForPayment("''", "''")}
+	results := sendData{getNextID("pro"), getProducts("''", "''")}
 
 	showFile(w, r, "payment", results)
 }
@@ -1404,7 +1252,6 @@ func startService() {
 }
 
 func main() {
-	initDatabase()
 	http.HandleFunc("/invoice", invoice)
 	http.HandleFunc("/grn", grn)
 	http.HandleFunc("/customers", customers)

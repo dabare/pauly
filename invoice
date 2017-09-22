@@ -16,9 +16,35 @@
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 
-     <!-- FooTable -->
+    <!-- FooTable -->
     <link href="css/plugins/footable/footable.core.css" rel="stylesheet">
 
+    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+
+    <link href="css/plugins/chosen/chosen.css" rel="stylesheet">
+
+    <link href="css/plugins/colorpicker/bootstrap-colorpicker.min.css" rel="stylesheet">
+
+    <link href="css/plugins/cropper/cropper.min.css" rel="stylesheet">
+
+    <link href="css/plugins/switchery/switchery.css" rel="stylesheet">
+
+    <link href="css/plugins/jasny/jasny-bootstrap.min.css" rel="stylesheet">
+
+    <link href="css/plugins/nouslider/jquery.nouislider.css" rel="stylesheet">
+
+    <link href="css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+
+    <link href="css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
+    <link href="css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
+
+    <link href="css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+
+    <link href="css/plugins/clockpicker/clockpicker.css" rel="stylesheet">
+
+    <link href="css/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet">
+
+    <link href="css/plugins/select2/select2.min.css" rel="stylesheet">
 
 
 </head>
@@ -67,312 +93,125 @@
 
     <div id="page-wrapper" class="gray-bg">
         <div class="row border-bottom">
-            <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
-                <div class="navbar-header">
-                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i>
-                    </a>
-                </div>
+            <form role="form" action="/grn" method="POST">
+                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    <div class="navbar-header">
+                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i
+                                class="fa fa-bars"></i>
+                        </a>
+                    </div>
+                    <div class="minimalize-styl-2 input-group">
+                        <select name="c_id" data-placeholder="Choose an Vendor" class="chosen-select "
+                                style="width:350px;">
+                            {{range .Cus}}
+                            <option value="{{.Id}}">{{.Name}}</option>
+                            {{end}}
+                        </select>
+                    </div>
+                    <div class="minimalize-styl-2 input-group">
+                        <select name="v_id" data-placeholder="Choose an Vendor" class="chosen-select "
+                                style="width:350px;">
+                            {{range .Vans}}
+                            <option value="{{.Id}}">{{.Des}}</option>
+                            {{end}}
+                        </select>
+                    </div>
+                    <div class="minimalize-styl-2" id="data_1">
+                        <input hidden value="{{.NxtID}}" name="id">
+                        <input name="i_no" required type="text" placeholder="Inv. No." value="">
+                        <input name="po_no" required type="text" placeholder="Po. No." value="">
+                        <br>
+                        <div class="input-group date">
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            <input name="dte" required type="text" class="form-control" value="{{.Dte}}">
+                        </div>
+                    </div>
+                    <div class="minimalize-styl-2">
 
-            </nav>
+                        <input type="submit" name="submit" class="btn btn-primary " value="Add">
+                    </div>
+                </nav>
+            </form>
         </div>
 
         <div class="wrapper wrapper-content  animated fadeInRight">
             <div class="row">
                 <div class="col-sm-12">
-                    <div class="ibox float-e-margins">
-                        <div class="ibox-title">
-                            <h5>Simple FooTable with pagination, sorting and filter</h5>
-
-                            <div class="ibox-tools">
-                                <a class="collapse-link">
-                                    <i class="fa fa-chevron-up"></i>
-                                </a>
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <i class="fa fa-wrench"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-user">
-                                    <li><a href="#">Config option 1</a>
-                                    </li>
-                                    <li><a href="#">Config option 2</a>
-                                    </li>
-                                </ul>
-                                <a class="close-link">
-                                    <i class="fa fa-times"></i>
-                                </a>
-                            </div>
-                        </div>
+                    <div class="ibox">
                         <div class="ibox-content">
-                            <input type="text" class="form-control input-sm m-b-xs" id="filter"
-                                   placeholder="Search in table">
+                            <h2>Vehicles</h2>
+                            <div class="input-group">
+                                <input type="text" class="input form-control"
+                                       id="filter"
+                                       placeholder="Search in Vehicles">
+                                </span>
+                            </div>
+                            <div class="clients-list">
+                                <ul class="nav nav-tabs">
+                                    {{range .Vans}}
+                                    <li {{if .Active}}class="active" {{end}}><a data-toggle="tab" href="#van{{.Id}}"><i
+                                            class="fa fa-bus"></i>
+                                        {{.Des}}</a>
+                                    </li>
+                                    {{end}}
+                                </ul>
+                                <div class="tab-content">
+                                    {{$newid := .NxtID}}
+                                    {{range .Vans}}
+                                    <div id="van{{.Id}}" class="tab-pane {{if .Active}}active{{end}}">
+                                        <div class="full-height-scroll">
+                                            <div class="col-lg-12">
+                                                <div class="ibox float-e-margins">
+                                                    <div class="ibox-content">
+                                                        <table class="footable table table-stripped" data-page-size="8"
+                                                               data-filter=#filter>
+                                                            <thead>
+                                                            <tr>
+                                                                <th>Date</th>
+                                                                <th>Inv. No.</th>
+                                                                <th>Cus. Name</th>
+                                                                <th>Po. No.</th>
+                                                                <th>G. Tot</th>
+                                                                <th>Payments</th>
+                                                                <th>Margine</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            {{range .Invoices}}
+                                                            <tr>
+                                                                <td>{{.Dte}}</td>
+                                                                <td>{{.I_no}}</td>
+                                                                <td>{{.C_name}}</td>
+                                                                <td>{{.Po_no}}</td>
+                                                                <td>{{.Grnd_tot}}</td>
+                                                                <td>{{.PaymentsDone}}</td>
+                                                                <td>{{.Margine}}</td>
+                                                            </tr>
+                                                            {{end}}
+                                                            </tbody>
+                                                            <tfoot>
+                                                            <tr>
+                                                                <td colspan="5">
+                                                                    <ul class="pagination pull-right"></ul>
+                                                                </td>
+                                                            </tr>
+                                                            </tfoot>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                            <table class="footable table table-stripped" data-page-size="8" data-filter=#filter>
-                                <thead>
-                                <tr>
-                                    <th>Rendering engine</th>
-                                    <th>Browser</th>
-                                    <th data-hide="phone,tablet">Platform(s)</th>
-                                    <th data-hide="phone,tablet">Engine version</th>
-                                    <th data-hide="phone,tablet">CSS grade</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr class="gradeX">
-                                    <td>Trident</td>
-                                    <td>Internet
-                                        Explorer 4.0
-                                    </td>
-                                    <td>Win 95+</td>
-                                    <td class="center">4</td>
-                                    <td class="center">X</td>
-                                </tr>
-                                <tr class="gradeC">
-                                    <td>Trident</td>
-                                    <td>Internet
-                                        Explorer 5.0
-                                    </td>
-                                    <td>Win 95+</td>
-                                    <td class="center">5</td>
-                                    <td class="center">C</td>
-                                </tr>
-                                <tr class="gradeA">
-                                    <td>Trident</td>
-                                    <td>Internet
-                                        Explorer 5.5
-                                    </td>
-                                    <td>Win 95+</td>
-                                    <td class="center">5.5</td>
-                                    <td class="center">A</td>
-                                </tr>
-                                <tr class="gradeA">
-                                    <td>Gecko</td>
-                                    <td>Netscape Navigator 9</td>
-                                    <td>Win 98+ / OSX.2+</td>
-                                    <td class="center">1.8</td>
-                                    <td class="center">A</td>
-                                </tr>
 
-                                <tr class="gradeA">
-                                    <td>Webkit</td>
-                                    <td>Safari 1.3</td>
-                                    <td>OSX.3</td>
-                                    <td class="center">312.8</td>
-                                    <td class="center">A</td>
-                                </tr>
-                                <tr class="gradeA">
-                                    <td>Webkit</td>
-                                    <td>Safari 2.0</td>
-                                    <td>OSX.4+</td>
-                                    <td class="center">419.3</td>
-                                    <td class="center">A</td>
-                                </tr>
-                                <tr class="gradeA">
-                                    <td>Webkit</td>
-                                    <td>Safari 3.0</td>
-                                    <td>OSX.4+</td>
-                                    <td class="center">522.1</td>
-                                    <td class="center">A</td>
-                                </tr>
-                                <tr class="gradeA">
-                                    <td>Webkit</td>
-                                    <td>OmniWeb 5.5</td>
-                                    <td>OSX.4+</td>
-                                    <td class="center">420</td>
-                                    <td class="center">A</td>
-                                </tr>
-                                <tr class="gradeA">
-                                    <td>Webkit</td>
-                                    <td>iPod Touch / iPhone</td>
-                                    <td>iPod</td>
-                                    <td class="center">420.1</td>
-                                    <td class="center">A</td>
-                                </tr>
-                                <tr class="gradeA">
-                                    <td>Webkit</td>
-                                    <td>S60</td>
-                                    <td>S60</td>
-                                    <td class="center">413</td>
-                                    <td class="center">A</td>
-                                </tr>
-                                <tr class="gradeA">
-                                    <td>Presto</td>
-                                    <td>Opera 7.0</td>
-                                    <td>Win 95+ / OSX.1+</td>
-                                    <td class="center">-</td>
-                                    <td class="center">A</td>
-                                </tr>
-                                <tr class="gradeA">
-                                    <td>Presto</td>
-                                    <td>Opera 7.5</td>
-                                    <td>Win 95+ / OSX.2+</td>
-                                    <td class="center">-</td>
-                                    <td class="center">A</td>
-                                </tr>
-                                <tr class="gradeA">
-                                    <td>Presto</td>
-                                    <td>Opera 8.0</td>
-                                    <td>Win 95+ / OSX.2+</td>
-                                    <td class="center">-</td>
-                                    <td class="center">A</td>
-                                </tr>
-                                <tr class="gradeA">
-                                    <td>Presto</td>
-                                    <td>Opera 8.5</td>
-                                    <td>Win 95+ / OSX.2+</td>
-                                    <td class="center">-</td>
-                                    <td class="center">A</td>
-                                </tr>
-                                <tr class="gradeA">
-                                    <td>Presto</td>
-                                    <td>Opera 9.0</td>
-                                    <td>Win 95+ / OSX.3+</td>
-                                    <td class="center">-</td>
-                                    <td class="center">A</td>
-                                </tr>
-                                <tr class="gradeA">
-                                    <td>Presto</td>
-                                    <td>Opera 9.2</td>
-                                    <td>Win 88+ / OSX.3+</td>
-                                    <td class="center">-</td>
-                                    <td class="center">A</td>
-                                </tr>
-                                <tr class="gradeA">
-                                    <td>Presto</td>
-                                    <td>Opera 9.5</td>
-                                    <td>Win 88+ / OSX.3+</td>
-                                    <td class="center">-</td>
-                                    <td class="center">A</td>
-                                </tr>
-                                <tr class="gradeA">
-                                    <td>Presto</td>
-                                    <td>Opera for Wii</td>
-                                    <td>Wii</td>
-                                    <td class="center">-</td>
-                                    <td class="center">A</td>
-                                </tr>
-                                <tr class="gradeA">
-                                    <td>Presto</td>
-                                    <td>Nokia N800</td>
-                                    <td>N800</td>
-                                    <td class="center">-</td>
-                                    <td class="center">A</td>
-                                </tr>
-                                <tr class="gradeA">
-                                    <td>Presto</td>
-                                    <td>Nintendo DS browser</td>
-                                    <td>Nintendo DS</td>
-                                    <td class="center">8.5</td>
-                                    <td class="center">C/A<sup>1</sup></td>
-                                </tr>
-                                <tr class="gradeC">
-                                    <td>KHTML</td>
-                                    <td>Konqureror 3.1</td>
-                                    <td>KDE 3.1</td>
-                                    <td class="center">3.1</td>
-                                    <td class="center">C</td>
-                                </tr>
-                                <tr class="gradeA">
-                                    <td>KHTML</td>
-                                    <td>Konqureror 3.3</td>
-                                    <td>KDE 3.3</td>
-                                    <td class="center">3.3</td>
-                                    <td class="center">A</td>
-                                </tr>
-                                <tr class="gradeA">
-                                    <td>KHTML</td>
-                                    <td>Konqureror 3.5</td>
-                                    <td>KDE 3.5</td>
-                                    <td class="center">3.5</td>
-                                    <td class="center">A</td>
-                                </tr>
-                                <tr class="gradeX">
-                                    <td>Tasman</td>
-                                    <td>Internet Explorer 4.5</td>
-                                    <td>Mac OS 8-9</td>
-                                    <td class="center">-</td>
-                                    <td class="center">X</td>
-                                </tr>
-                                <tr class="gradeC">
-                                    <td>Tasman</td>
-                                    <td>Internet Explorer 5.1</td>
-                                    <td>Mac OS 7.6-9</td>
-                                    <td class="center">1</td>
-                                    <td class="center">C</td>
-                                </tr>
-                                <tr class="gradeC">
-                                    <td>Tasman</td>
-                                    <td>Internet Explorer 5.2</td>
-                                    <td>Mac OS 8-X</td>
-                                    <td class="center">1</td>
-                                    <td class="center">C</td>
-                                </tr>
-                                <tr class="gradeA">
-                                    <td>Misc</td>
-                                    <td>NetFront 3.1</td>
-                                    <td>Embedded devices</td>
-                                    <td class="center">-</td>
-                                    <td class="center">C</td>
-                                </tr>
-                                <tr class="gradeA">
-                                    <td>Misc</td>
-                                    <td>NetFront 3.4</td>
-                                    <td>Embedded devices</td>
-                                    <td class="center">-</td>
-                                    <td class="center">A</td>
-                                </tr>
-                                <tr class="gradeX">
-                                    <td>Misc</td>
-                                    <td>Dillo 0.8</td>
-                                    <td>Embedded devices</td>
-                                    <td class="center">-</td>
-                                    <td class="center">X</td>
-                                </tr>
-                                <tr class="gradeX">
-                                    <td>Misc</td>
-                                    <td>Links</td>
-                                    <td>Text only</td>
-                                    <td class="center">-</td>
-                                    <td class="center">X</td>
-                                </tr>
-                                <tr class="gradeX">
-                                    <td>Misc</td>
-                                    <td>Lynx</td>
-                                    <td>Text only</td>
-                                    <td class="center">-</td>
-                                    <td class="center">X</td>
-                                </tr>
-                                <tr class="gradeC">
-                                    <td>Misc</td>
-                                    <td>IE Mobile</td>
-                                    <td>Windows Mobile 6</td>
-                                    <td class="center">-</td>
-                                    <td class="center">C</td>
-                                </tr>
-                                <tr class="gradeC">
-                                    <td>Misc</td>
-                                    <td>PSP browser</td>
-                                    <td>PSP</td>
-                                    <td class="center">-</td>
-                                    <td class="center">C</td>
-                                </tr>
-                                <tr class="gradeU">
-                                    <td>Other browsers</td>
-                                    <td>All others</td>
-                                    <td>-</td>
-                                    <td class="center">-</td>
-                                    <td class="center">U</td>
-                                </tr>
-                                </tbody>
-                                <tfoot>
-                                <tr>
-                                    <td colspan="5">
-                                        <ul class="pagination pull-right"></ul>
-                                    </td>
-                                </tr>
-                                </tfoot>
-                            </table>
+                                    </div>
+                                    {{end}}
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
 
@@ -401,6 +240,331 @@
             $('.footable2').footable();
 
         });
+
+
+
+
+</script>
+
+
+<!-- Chosen -->
+<script src="js/plugins/chosen/chosen.jquery.js"></script>
+
+<!-- JSKnob -->
+<script src="js/plugins/jsKnob/jquery.knob.js"></script>
+
+<!-- Input Mask-->
+<script src="js/plugins/jasny/jasny-bootstrap.min.js"></script>
+
+<!-- Data picker -->
+<script src="js/plugins/datapicker/bootstrap-datepicker.js"></script>
+
+<!-- NouSlider -->
+<script src="js/plugins/nouslider/jquery.nouislider.min.js"></script>
+
+<!-- Switchery -->
+<script src="js/plugins/switchery/switchery.js"></script>
+
+<!-- IonRangeSlider -->
+<script src="js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+
+<!-- iCheck -->
+<script src="js/plugins/iCheck/icheck.min.js"></script>
+
+<!-- MENU -->
+<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+
+<!-- Color picker -->
+<script src="js/plugins/colorpicker/bootstrap-colorpicker.min.js"></script>
+
+<!-- Clock picker -->
+<script src="js/plugins/clockpicker/clockpicker.js"></script>
+
+<!-- Image cropper -->
+<script src="js/plugins/cropper/cropper.min.js"></script>
+
+<!-- Date range use moment.js same as full calendar plugin -->
+<script src="js/plugins/fullcalendar/moment.min.js"></script>
+
+<!-- Date range picker -->
+<script src="js/plugins/daterangepicker/daterangepicker.js"></script>
+
+<!-- Select2 -->
+<script src="js/plugins/select2/select2.full.min.js"></script>
+<script>
+        $(document).ready(function(){
+
+            var $image = $(".image-crop > img")
+            $($image).cropper({
+                aspectRatio: 1.618,
+                preview: ".img-preview",
+                done: function(data) {
+                    // Output the result data for cropping image.
+                }
+            });
+
+            var $inputImage = $("#inputImage");
+            if (window.FileReader) {
+                $inputImage.change(function() {
+                    var fileReader = new FileReader(),
+                            files = this.files,
+                            file;
+
+                    if (!files.length) {
+                        return;
+                    }
+
+                    file = files[0];
+
+                    if (/^image\/\w+$/.test(file.type)) {
+                        fileReader.readAsDataURL(file);
+                        fileReader.onload = function () {
+                            $inputImage.val("");
+                            $image.cropper("reset", true).cropper("replace", this.result);
+                        };
+                    } else {
+                        showMessage("Please choose an image file.");
+                    }
+                });
+            } else {
+                $inputImage.addClass("hide");
+            }
+
+            $("#download").click(function() {
+                window.open($image.cropper("getDataURL"));
+            });
+
+            $("#zoomIn").click(function() {
+                $image.cropper("zoom", 0.1);
+            });
+
+            $("#zoomOut").click(function() {
+                $image.cropper("zoom", -0.1);
+            });
+
+            $("#rotateLeft").click(function() {
+                $image.cropper("rotate", 45);
+            });
+
+            $("#rotateRight").click(function() {
+                $image.cropper("rotate", -45);
+            });
+
+            $("#setDrag").click(function() {
+                $image.cropper("setDragMode", "crop");
+            });
+
+            $('#data_1 .input-group.date').datepicker({
+                todayBtn: "linked",
+                keyboardNavigation: false,
+                forceParse: false,
+                calendarWeeks: true,
+                autoclose: true
+            });
+
+            $('#data_2 .input-group.date').datepicker({
+                startView: 1,
+                todayBtn: "linked",
+                keyboardNavigation: false,
+                forceParse: false,
+                autoclose: true,
+                format: "dd/mm/yyyy"
+            });
+
+            $('#data_3 .input-group.date').datepicker({
+                startView: 2,
+                todayBtn: "linked",
+                keyboardNavigation: false,
+                forceParse: false,
+                autoclose: true
+            });
+
+            $('#data_4 .input-group.date').datepicker({
+                minViewMode: 1,
+                keyboardNavigation: false,
+                forceParse: false,
+                autoclose: true,
+                todayHighlight: true
+            });
+
+            $('#data_5 .input-daterange').datepicker({
+                keyboardNavigation: false,
+                forceParse: false,
+                autoclose: true
+            });
+
+            var elem = document.querySelector('.js-switch');
+            var switchery = new Switchery(elem, { color: '#1AB394' });
+
+            var elem_2 = document.querySelector('.js-switch_2');
+            var switchery_2 = new Switchery(elem_2, { color: '#ED5565' });
+
+            var elem_3 = document.querySelector('.js-switch_3');
+            var switchery_3 = new Switchery(elem_3, { color: '#1AB394' });
+
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green'
+            });
+
+            $('.demo1').colorpicker();
+
+            var divStyle = $('.back-change')[0].style;
+            $('#demo_apidemo').colorpicker({
+                color: divStyle.backgroundColor
+            }).on('changeColor', function(ev) {
+                        divStyle.backgroundColor = ev.color.toHex();
+                    });
+
+            $('.clockpicker').clockpicker();
+
+            $('input[name="daterange"]').daterangepicker();
+
+            $('#reportrange span').html(moment().subtract(29, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
+
+            $('#reportrange').daterangepicker({
+                format: 'MM/DD/YYYY',
+                startDate: moment().subtract(29, 'days'),
+                endDate: moment(),
+                minDate: '01/01/2012',
+                maxDate: '12/31/2015',
+                dateLimit: { days: 60 },
+                showDropdowns: true,
+                showWeekNumbers: true,
+                timePicker: false,
+                timePickerIncrement: 1,
+                timePicker12Hour: true,
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                },
+                opens: 'right',
+                drops: 'down',
+                buttonClasses: ['btn', 'btn-sm'],
+                applyClass: 'btn-primary',
+                cancelClass: 'btn-default',
+                separator: ' to ',
+                locale: {
+                    applyLabel: 'Submit',
+                    cancelLabel: 'Cancel',
+                    fromLabel: 'From',
+                    toLabel: 'To',
+                    customRangeLabel: 'Custom',
+                    daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr','Sa'],
+                    monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                    firstDay: 1
+                }
+            }, function(start, end, label) {
+                console.log(start.toISOString(), end.toISOString(), label);
+                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            });
+
+            $(".select2_demo_1").select2();
+            $(".select2_demo_2").select2();
+            $(".select2_demo_3").select2({
+                placeholder: "Select a state",
+                allowClear: true
+            });
+
+
+        });
+        var config = {
+                '.chosen-select'           : {},
+                '.chosen-select-deselect'  : {allow_single_deselect:true},
+                '.chosen-select-no-single' : {disable_search_threshold:10},
+                '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+                '.chosen-select-width'     : {width:"95%"}
+                }
+            for (var selector in config) {
+                $(selector).chosen(config[selector]);
+            }
+
+        $("#ionrange_1").ionRangeSlider({
+            min: 0,
+            max: 5000,
+            type: 'double',
+            prefix: "$",
+            maxPostfix: "+",
+            prettify: false,
+            hasGrid: true
+        });
+
+        $("#ionrange_2").ionRangeSlider({
+            min: 0,
+            max: 10,
+            type: 'single',
+            step: 0.1,
+            postfix: " carats",
+            prettify: false,
+            hasGrid: true
+        });
+
+        $("#ionrange_3").ionRangeSlider({
+            min: -50,
+            max: 50,
+            from: 0,
+            postfix: "°",
+            prettify: false,
+            hasGrid: true
+        });
+
+        $("#ionrange_4").ionRangeSlider({
+            values: [
+                "January", "February", "March",
+                "April", "May", "June",
+                "July", "August", "September",
+                "October", "November", "December"
+            ],
+            type: 'single',
+            hasGrid: true
+        });
+
+        $("#ionrange_5").ionRangeSlider({
+            min: 10000,
+            max: 100000,
+            step: 100,
+            postfix: " km",
+            from: 55000,
+            hideMinMax: true,
+            hideFromTo: false
+        });
+
+        $(".dial").knob();
+
+        $("#basic_slider").noUiSlider({
+            start: 40,
+            behaviour: 'tap',
+            connect: 'upper',
+            range: {
+                'min':  20,
+                'max':  80
+            }
+        });
+
+        $("#range_slider").noUiSlider({
+            start: [ 40, 60 ],
+            behaviour: 'drag',
+            connect: true,
+            range: {
+                'min':  20,
+                'max':  80
+            }
+        });
+
+        $("#drag-fixed").noUiSlider({
+            start: [ 40, 60 ],
+            behaviour: 'drag-fixed',
+            connect: true,
+            range: {
+                'min':  20,
+                'max':  80
+            }
+        });
+
 
 
 </script>
