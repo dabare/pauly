@@ -5,16 +5,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>mandy</title>
-
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+    <title>{{.Title}}</title>
 
     <!-- Toastr style -->
     <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
-
-    <link href="css/animate.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
 
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -49,6 +43,10 @@
 
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+
+
+    <!-- Sweet Alert -->
+    <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
 </head>
 
 <body>
@@ -88,6 +86,9 @@
                 <li class="">
                     <a href="vendors"><i class="fa fa-users"></i> <span class="nav-label">Vendors</span></a>
                 </li>
+                <li class="">
+                    <a href="home"><i class="fa fa-home"></i> <span class="nav-label">Home</span></a>
+                </li>
             </ul>
 
         </div>
@@ -96,7 +97,7 @@
     {{$p := .Products}}
     <div id="page-wrapper" class="gray-bg">
         <div class="row border-bottom">
-            <form role="form" action="/editInvoice" method="POST">
+            <form role="form" action="/editInvoice" method="POST" onsubmit="return validateForm()" name="myForm">
                 <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
                     <div class="navbar-header">
                         <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i
@@ -105,9 +106,9 @@
                     </div>
                     <div class="minimalize-styl-2 input-group">
                         <select name="p_id" data-placeholder="Choose an Item" class="chosen-select "
-                                style="width:350px;">
+                                style="width:350px;" onchange="setVal()">
                             {{range .Products}}
-                            <option value="{{.Id}}">{{.Des}}</option>
+                            <option value="{{.Id}},{{.Rest}},{{.B_p}},{{.S_p}}">{{.Des}} -----Buy:{{.B_p}}, Sell:{{.S_p}}, Qty.:{{.Rest}}</option>
                             {{end}}
                         </select>
                     </div>
@@ -115,8 +116,8 @@
                     <div class="minimalize-styl-2">
                         <input hidden value="{{$g.Id}}" name="id">
                         <input hidden value="{{.NxtID}}" name="r_id">
-                        <input name="b_p" required type="number" placeholder="Buy Price" value="">
-                        <input name="s_p" required type="number" placeholder="Sell Price" value="">
+                        <input name="b_p"  type="number" placeholder="Buy Price" value="">
+                        <input name="s_p"  type="number" placeholder="Sell Price" value="">
                         <input name="qty" required type="number" placeholder="Qty" value="">
                         <input type="submit" name="submit" class="btn btn-primary " value="Add">
                     </div>
@@ -152,9 +153,11 @@
                                         <thead>
                                         <tr>
                                             <th>Item List</th>
-                                            <th>Quantity</th>
+                                            <th>Buy Price</th>
                                             <th>Unit Price</th>
+                                            <th>Quantity</th>
                                             <th>Total Price</th>
+                                            <th>Margine</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -169,9 +172,11 @@
                                                        class="btn btn-sm btn-danger">remove</a>
                                                 </div>
                                             </td>
-                                            <td>{{.Qty}}</td>
+                                            <td>{{.B_p}}</td>
                                             <td>{{.S_p}}</td>
+                                            <td>{{.Qty}}</td>
                                             <td>{{.Tot}}</td>
+                                            <td>{{.Margine}}%</td>
                                         </tr>
                                         {{end}}
 
@@ -187,22 +192,30 @@
                                     </tr>
                                     <tr>
                                         <td><strong>Vat :</strong></td>
-                                        <td><input name="vat" type="number" required value="{{$g.Vat}}"><input hidden name="id"  value="{{$g.Id}}"></td>
+                                        <td><input name="vat" type="number" required value="{{$g.Vat}}"><input hidden
+                                                                                                               name="id"
+                                                                                                               value="{{$g.Id}}">
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td><strong>Grand Total :</strong></td>
                                         <td>{{$g.Grnd_tot}}</td>
                                     </tr>
+                                    <tr>
+                                        <td><strong>Margine :</strong></td>
+                                        <td>{{$g.Margine}}%</td>
+                                    </tr>
                                     </tbody>
                                 </table>
-                                <div class="col-sm-6">
-                                    <button type="submit" name="submit" value="Delete" class="btn btn-danger">Delete GRN
+                                <div class="col-sm-12">
+                                    <button type="submit" name="submit" value="Save" class="btn btn-primary pull-right">
+                                        Save
+                                    </button>
+                                    <button type="submit" name="submit" value="Delete" class="btn btn-danger">Delete
+                                        Invoice
                                     </button>
                                 </div>
-                                <div class="col-sm-6 text-right">
-                                    <button type="submit" name="submit" value="Save" class="btn btn-primary">Save
-                                    </button>
-                                </div>
+                                <br>
                                 <input hidden value="{{$g.Id}}" name="id">
 
                                 <div class="input-group">
@@ -267,6 +280,9 @@
 
 <!-- Date range picker -->
 <script src="js/plugins/daterangepicker/daterangepicker.js"></script>
+
+<!-- Sweet alert -->
+<script src="js/plugins/sweetalert/sweetalert.min.js"></script>
 
 <!-- Select2 -->
 <script src="js/plugins/select2/select2.full.min.js"></script>
@@ -546,17 +562,27 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
 </script>
 
+<script>
+function validateForm() {
+    var x = document.forms["myForm"]["p_id"].value;
+     var b = document.forms["myForm"]["b_p"].value;
+      var s = document.forms["myForm"]["s_p"].value;
+    var qty = document.forms["myForm"]["qty"].value;
+    var splits = x.split(',', 4);
+
+    if(b==''){
+    document.forms["myForm"]["b_p"].value=splits[2]
+    }
+    if(s==''){
+    document.forms["myForm"]["s_p"].value=splits[3]
+    }
+    if (parseInt(splits[1])<parseInt(qty)) {
+     swal("Invalied Qty.", "Quantity must be lessthan or equal to "+splits[1], "warning");
+        return false;
+    }
+}
+</script>
 </body>
 </html>

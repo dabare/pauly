@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>mandy</title>
+    <title>{{.Title}}</title>
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
@@ -58,6 +58,9 @@
                 </li>
                 <li class="">
                     <a href="vendors"><i class="fa fa-users"></i> <span class="nav-label">Vendors</span></a>
+                </li>
+                <li class="">
+                    <a href="home"><i class="fa fa-home"></i> <span class="nav-label">Home</span></a>
                 </li>
             </ul>
 
@@ -221,7 +224,7 @@
                         <div class="ibox-content">
                             <div class="tab-content">
                                 {{range .Customers}}
-                                <div id="cus{{.Id}}" class="tab-pane">
+                                <div id="cus{{.Id}}" class="tab-pane {{if .Active}} active {{end}}">
                                     <div class="m-b-lg">
                                         <h2>{{.Name}}</h2>
                                         <br>
@@ -353,7 +356,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-white btn-sm" data-dismiss="modal">Close</button>
-                <a href="invoice?id={{.Id}}" type="button" class="btn btn-warning btn-sm">Edit/View</a>
+                <a href="editInvoice?id={{.Id}}" type="button" class="btn btn-warning btn-sm">Edit/View</a>
             </div>
         </div>
     </div>
@@ -404,7 +407,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-white btn-sm" data-dismiss="modal">Close</button>
-                <a href="payment?id={{.Id}}" type="button" class="btn btn-warning btn-sm">Edit/View</a>
+                <a href="payment?q={{.Id}}" type="button" class="btn btn-warning btn-sm">Edit/View</a>
             </div>
         </div>
     </div>

@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>mandy</title>
+    <title>{{.Title}}</title>
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
@@ -87,6 +87,9 @@
                 </li>
                 <li class="">
                     <a href="vendors"><i class="fa fa-users"></i> <span class="nav-label">Vendors</span></a>
+                </li>
+                <li class="">
+                    <a href="home"><i class="fa fa-home"></i> <span class="nav-label">Home</span></a>
                 </li>
             </ul>
 
@@ -186,7 +189,10 @@
                                     </tr>
                                     <tr>
                                         <td><strong>Vat :</strong></td>
-                                        <td><input name="vat" type="number" required value="{{$g.Vat}}"><input hidden name="id"  value="{{$g.Id}}"></td>
+                                        <td><input name="vat" type="number" required value="{{$g.Vat}}"><input hidden
+                                                                                                               name="id"
+                                                                                                               value="{{$g.Id}}">
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td><strong>Grand Total :</strong></td>
@@ -194,14 +200,14 @@
                                     </tr>
                                     </tbody>
                                 </table>
-                                <div class="col-sm-6">
+                                <div class="col-sm-12">
+                                    <button type="submit" name="submit" value="Save" class="btn btn-primary pull-right">
+                                        Save
+                                    </button>
                                     <button type="submit" name="submit" value="Delete" class="btn btn-danger">Delete GRN
                                     </button>
                                 </div>
-                                <div class="col-sm-6 text-right">
-                                    <button type="submit" name="submit" value="Save" class="btn btn-primary">Save
-                                    </button>
-                                </div>
+                                <br>
                                 <input hidden value="{{$g.Id}}" name="id">
 
                                 <div class="input-group">
@@ -542,6 +548,7 @@
                 'max':  80
             }
         });
+
 
 </script>
 

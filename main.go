@@ -21,6 +21,8 @@ var errDefault = 0
 var errMysqlDBname = 1
 var errDBquery = 2
 
+var dbName = "mandy"
+
 type van struct {
 	Id      int64
 	Des     string
@@ -145,6 +147,20 @@ func getVansForDelivery(filter string, val string) []van {
 
 			tmp3.Rest = tmp3.Loaded - tmp3.Unloaded
 			rows3.Close()
+
+
+			//to calculate sold items
+			rows3 = getResultDB("select sum(qty) as qty from inv_reg LEFT JOIN inv ON inv_reg.i_id=inv.id where inv.v_id = " + strconv.FormatInt(tmp.Id, 10) + " and inv_reg.p_id = " + strconv.FormatInt(p_id.Int64, 10) + " group by inv_reg.p_id")
+			rows3.Next()
+
+			err = rows3.Scan(&qty)
+			if err != nil {
+				qty.Int64 = 0
+			}
+
+			tmp3.Rest -= qty.Int64
+			rows3.Close()
+
 			tmp.Pro = append(tmp.Pro, tmp3)
 		}
 		rows2.Close()
@@ -293,12 +309,19 @@ func readFile(path string) string {
 	return string(s)
 }
 
+var homepage = true
+
 func showFile(w http.ResponseWriter, r *http.Request, file string, data interface{}) {
 	if !checkUser(w, r) {
 		return
 	}
 	t := template.New("fieldname example")
-	t, _ = t.Parse(readFile(file))
+	if homepage {
+		homepage = false
+		t, _ = t.Parse(readFile("home"))
+	} else {
+		t, _ = t.Parse(readFile(file))
+	}
 	t.Execute(w, data)
 }
 
@@ -318,7 +341,7 @@ func initDatabase() {
 
 func getResultDB(query string) *sql.Rows {
 	debugMSG(query)
-	database, _ := sql.Open("sqlite3", "./mandy.db")
+	database, _ := sql.Open("sqlite3", "./" + dbName + ".db")
 	rows, err := database.Query(query)
 	checkErr(err, errDBquery)
 
@@ -330,7 +353,7 @@ func getResultDB(query string) *sql.Rows {
 
 func executeDB(exe string) {
 	debugMSG(exe)
-	database, _ := sql.Open("sqlite3", "./mandy.db")
+	database, _ := sql.Open("sqlite3", "./" + dbName + ".db")
 	_, err := database.Exec(exe)
 	checkErr(err, errDBquery)
 	database.Close()
@@ -450,6 +473,7 @@ func invoice(w http.ResponseWriter, r *http.Request) {
 	}
 
 	type data struct {
+		Title string
 		Cus   []customer
 		Dte   string
 		NxtID int64
@@ -457,7 +481,7 @@ func invoice(w http.ResponseWriter, r *http.Request) {
 	}
 	now := time.Now()
 
-	result := data{getSimplyCustomers("''", "''"), now.Format("01/02/2006"), getNextID("inv"), getVansForInvoice("''", "''")}
+	result := data{dbName, getSimplyCustomers("''", "''"), now.Format("01/02/2006"), getNextID("inv"), getVansForInvoice("''", "''")}
 
 	showFile(w, r, "invoice", result)
 }
@@ -475,6 +499,7 @@ func grn(w http.ResponseWriter, r *http.Request) {
 	}
 
 	type data struct {
+		Title   string
 		Vendors []vendor
 		Grns    []_grn
 		Dte     string
@@ -482,7 +507,7 @@ func grn(w http.ResponseWriter, r *http.Request) {
 	}
 	now := time.Now()
 
-	result := data{getSimplyVendors("''", "''"), get_grns("''", "''"), now.Format("01/02/2006"), getNextID("grn")}
+	result := data{dbName, getSimplyVendors("''", "''"), get_grns("''", "''"), now.Format("01/02/2006"), getNextID("grn")}
 	showFile(w, r, "grn", result)
 }
 
@@ -675,6 +700,7 @@ func get_invoices(filter string, val string) [] _invoice {
 			tmp.Margine += p.Margine
 			tmp.Sub_tot += p.Tot
 		}
+		tmp.Margine /= float64(len(tmp.Records))
 
 		tmp.Grnd_tot = tmp.Vat + tmp.Sub_tot
 
@@ -739,6 +765,7 @@ func get_invoice(id string) _invoice {
 			tmp.Margine += p.Margine
 			tmp.Sub_tot += p.Tot
 		}
+		tmp.Margine /= float64(len(tmp.Records))
 
 		tmp.Grnd_tot = tmp.Vat + tmp.Sub_tot
 
@@ -769,17 +796,19 @@ type customer struct {
 	Dne       int64
 	Pro       int64
 	DeleteBTN bool
+	Active    bool
 	Invoices  []_invoice
 }
 
 func getCustomers(filter string, val string) [] customer {
 	tmp2 := []customer{}
 
-	rows := getResultDB("SELECT * FROM cus WHERE " + filter + "=" + val)
-
+	rows := getResultDB("SELECT * FROM cus WHERE " + filter + "=" + val + "ORDER BY name")
+	i := true
 	for rows.Next() {
 		tmp := customer{}
-
+		tmp.Active = i
+		i = false
 		var id sql.NullInt64
 		var name sql.NullString
 		var phn sql.NullString
@@ -792,11 +821,7 @@ func getCustomers(filter string, val string) [] customer {
 		tmp.Name = name.String
 		tmp.Phn = phn.String
 		tmp.Ad = ad.String
-		if (tmp.Due <= 0 && tmp.Dne <= 0) {
-			tmp.Pro = 100
-		} else {
-			tmp.Pro = (tmp.Dne * 100) / (tmp.Due + tmp.Dne)
-		}
+
 		tmp.Invoices = get_invoices("c_id", strconv.FormatInt(id.Int64, 10))
 
 		tmp.DeleteBTN = true
@@ -806,8 +831,15 @@ func getCustomers(filter string, val string) [] customer {
 			tmp.Dne += i.PaymentsDone
 			tmp.Due += i.RemainingPayment
 		}
+
 		if len(tmp.Invoices) > 0 {
 			tmp.DeleteBTN = false
+		}
+
+		if (tmp.Due <= 0 && tmp.Dne <= 0) {
+			tmp.Pro = 100
+		} else {
+			tmp.Pro = (tmp.Dne * 100) / (tmp.Due + tmp.Dne)
 		}
 		tmp2 = append(tmp2, tmp)
 	}
@@ -827,11 +859,12 @@ func customers(w http.ResponseWriter, r *http.Request) {
 	}
 
 	type sendData struct {
+		Title     string
 		Nid       int64
 		Customers []customer
 	}
 
-	results := sendData{getNextID("cus"), getCustomers("''", "''")}
+	results := sendData{dbName, getNextID("cus"), getCustomers("''", "''")}
 
 	showFile(w, r, "customers", results)
 }
@@ -989,6 +1022,7 @@ func editGRN(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 
 	type data struct {
+		Title    string
 		Grn      _grn
 		Products []product
 		NxtID    int64
@@ -1008,7 +1042,7 @@ func editGRN(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "grn", http.StatusSeeOther)
 	}
 
-	result := data{get_grn(r.Form.Get("id")), getProducts("''", "''"), getNextID("grn_reg")}
+	result := data{dbName, get_grn(r.Form.Get("id")), getProducts("''", "''"), getNextID("grn_reg")}
 	showFile(w, r, "editGRN", result)
 }
 
@@ -1016,8 +1050,9 @@ func editInvoice(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 
 	type data struct {
+		Title    string
 		Inv      _invoice
-		Products []product
+		Products []productVan
 		NxtID    int64
 	}
 
@@ -1027,14 +1062,25 @@ func editInvoice(w http.ResponseWriter, r *http.Request) {
 	case "remove":
 		executeDB("DELETE FROM inv_reg WHERE id=" + r.Form.Get("r_id"))
 	case "Add":
-		executeDB("INSERT INTO inv_reg VALUES(" + r.Form.Get("r_id") + "," + r.Form.Get("id") + "," + r.Form.Get("p_id") + "," + r.Form.Get("b_p") + "," + r.Form.Get("s_p") + "," + r.Form.Get("qty") + ")")
+		//id,qty
+		s := strings.Split(r.Form.Get("p_id"), ",")
+		p_id := s[0]
+		avail, _ := strconv.Atoi(s[1])
+		req, _ := strconv.Atoi(r.Form.Get("qty"))
+		if avail >= req {
+			executeDB("INSERT INTO inv_reg VALUES(" + r.Form.Get("r_id") + "," + r.Form.Get("id") + "," + p_id + "," + r.Form.Get("b_p") + "," + r.Form.Get("s_p") + "," + r.Form.Get("qty") + ")")
+		} else {
+			http.Redirect(w, r, "error", http.StatusSeeOther)
+			return
+		}
 	case "Delete":
 		executeDB("DELETE FROM inv_reg WHERE g_id=" + r.Form.Get("id"))
 		deleteData("grn", r.Form.Get("id"))
 		http.Redirect(w, r, "grn", http.StatusSeeOther)
 	}
 
-	result := data{get_invoice(r.Form.Get("id")), getProducts("''", "''"), getNextID("inv_reg")}
+	inv := get_invoice(r.Form.Get("id"))
+	result := data{dbName, inv, getProductsInVan(strconv.FormatInt(inv.V_id, 10)), getNextID("inv_reg")}
 	showFile(w, r, "editInvoice", result)
 }
 
@@ -1155,11 +1201,12 @@ func vendors(w http.ResponseWriter, r *http.Request) {
 	}
 
 	type sendData struct {
+		Title   string
 		Nid     int64
 		Vendors []vendor
 	}
 
-	results := sendData{getNextID("ven"), getVendors("''", "''")}
+	results := sendData{dbName, getNextID("ven"), getVendors("''", "''")}
 
 	showFile(w, r, "vendors", results)
 }
@@ -1195,13 +1242,14 @@ func delivery(w http.ResponseWriter, r *http.Request) {
 		updateData("van", r.Form.Get("id"), "des='" + r.Form.Get("des") + "'")
 	}
 	type sendData struct {
+		Title   string
 		Vans    []van
 		Pro     []product
 		NxtID   int64
 		NxtLdID int64
 	}
 
-	results := sendData{getVansForDelivery("''", "''"), getProductsInMainStock("''", "''"), getNextID("van"), getNextID("ldng")}
+	results := sendData{dbName, getVansForDelivery("''", "''"), getProductsInMainStock("''", "''"), getNextID("van"), getNextID("ldng")}
 
 	showFile(w, r, "delivery", results)
 
@@ -1211,10 +1259,11 @@ func load(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 
 	type sendData struct {
-		Vans []van
+		Title string
+		Vans  []van
 	}
 
-	results := sendData{getVansForLoading("''", "''")}
+	results := sendData{dbName, getVansForLoading("''", "''")}
 
 	showFile(w, r, "load", results)
 }
@@ -1223,16 +1272,21 @@ func unload(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 
 	type sendData struct {
-		Vans []van
+		Title string
+		Vans  []van
 	}
 
-	results := sendData{getVansForUnoading("''", "''")}
+	results := sendData{dbName, getVansForUnoading("''", "''")}
 
 	showFile(w, r, "unload", results)
 }
 
 func stat(w http.ResponseWriter, r *http.Request) {
-	showFile(w, r, "stat", "")
+	type data struct {
+		Title string
+	}
+	results := data{dbName}
+	showFile(w, r, "stat", results)
 }
 
 type product struct {
@@ -1279,7 +1333,7 @@ func getProductsInMainStock(filter string, val string) [] product {
 
 
 		var hav sql.NullInt64
-		var gne sql.NullInt64
+		//var gne sql.NullInt64
 		var ld sql.NullInt64
 		var uld sql.NullInt64
 
@@ -1292,14 +1346,14 @@ func getProductsInMainStock(filter string, val string) [] product {
 
 		rows2.Close()
 
-		rows2 = getResultDB("select sum(qty) from inv_reg where p_id=" + strconv.FormatInt(tmp.Id, 10))
-		rows2.Next()
-		err = rows2.Scan(&gne)
-		if err != nil {
-			gne.Int64 = 0
-		}
+		//rows2 = getResultDB("select sum(qty) from inv_reg where p_id=" + strconv.FormatInt(tmp.Id, 10))
+		//rows2.Next()
+		//err = rows2.Scan(&gne)
+		//if err != nil {
+		//	gne.Int64 = 0
+		//}
 
-		rows2.Close()
+		//rows2.Close()
 
 		rows2 = getResultDB("select  sum(qty) from u_ldng where p_id=" + strconv.FormatInt(tmp.Id, 10) + "  group by p_id")
 		rows2.Next()
@@ -1319,11 +1373,59 @@ func getProductsInMainStock(filter string, val string) [] product {
 
 		rows2.Close()
 
-		tmp.Qty = hav.Int64 - gne.Int64 - (ld.Int64 - uld.Int64)
+		//tmp.Qty = hav.Int64 - gne.Int64 - (ld.Int64 - uld.Int64)
+		tmp.Qty = hav.Int64 - (ld.Int64 - uld.Int64)
 
 		tmp2 = append(tmp2, tmp)
 	}
 	rows.Close()
+	return tmp2
+}
+
+func getProductsInVan(v_id string) [] productVan {
+	tmp2 := []productVan{}
+
+	rows2 := getResultDB("select p_id , sum(qty) as qty from ldng where v_id = " + v_id + "  group by p_id")
+	for rows2.Next() {
+
+		var p_id sql.NullInt64
+		var qty sql.NullInt64
+
+		err := rows2.Scan(&p_id, &qty)
+		checkErr(err, errDBquery)
+
+		tmp3 := getProductVan(strconv.FormatInt(p_id.Int64, 10))
+		tmp3.Loaded = qty.Int64
+		//select p_id , sum(qty) as qty from u_ldng where v_id = 0 and p_id = 0 group by p_id
+		rows3 := getResultDB("select sum(qty) as qty from u_ldng where v_id = " + v_id + " and p_id = " + strconv.FormatInt(p_id.Int64, 10) + " group by p_id")
+		rows3.Next()
+
+		err = rows3.Scan(&qty)
+		if err != nil {
+			qty.Int64 = 0
+		}
+
+		tmp3.Unloaded = qty.Int64
+
+		tmp3.Rest = tmp3.Loaded - tmp3.Unloaded
+		rows3.Close()
+
+		//to calculate sold items
+		rows3 = getResultDB("select sum(qty) as qty from inv_reg LEFT JOIN inv ON inv_reg.i_id=inv.id where inv.v_id = " + v_id + " and inv_reg.p_id = " + strconv.FormatInt(p_id.Int64, 10) + " group by inv_reg.p_id")
+		rows3.Next()
+
+		err = rows3.Scan(&qty)
+		if err != nil {
+			qty.Int64 = 0
+		}
+
+		tmp3.Rest -= qty.Int64
+		rows3.Close()
+
+		tmp2 = append(tmp2, tmp3)
+	}
+	rows2.Close()
+
 	return tmp2
 }
 
@@ -1398,7 +1500,7 @@ func getProducts(filter string, val string) [] product {
 		rows2.Close()
 
 		tmp.Qty = hav.Int64 - gne.Int64
-		tmp.QtyVan = ld.Int64 - uld.Int64
+		tmp.QtyVan = ld.Int64 - uld.Int64 - gne.Int64
 		tmp.QtyStk = tmp.Qty - tmp.QtyVan
 
 		tmp2 = append(tmp2, tmp)
@@ -1421,11 +1523,12 @@ func products(w http.ResponseWriter, r *http.Request) {
 	}
 
 	type sendData struct {
+		Title    string
 		Nid      int64
 		Products []product
 	}
 
-	results := sendData{getNextID("pro"), getProducts("''", "''")}
+	results := sendData{dbName, getNextID("pro"), getProducts("''", "''")}
 
 	showFile(w, r, "products", results)
 }
@@ -1528,7 +1631,18 @@ func payment(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 
 	if r.Form.Get("submit") == "Add" {
-		insertData("cus_pay", r.Form.Get("id") + ",'" + r.Form.Get("dte") + "'," + r.Form.Get("i_id") + ",'" + r.Form.Get("des") + "'," + r.Form.Get("tot"))
+		//id,remaining
+		s := strings.Split(r.Form.Get("i_id"), ",")
+		i_id := s[0]
+		avail, _ := strconv.Atoi(s[1])
+		req, _ := strconv.Atoi(r.Form.Get("tot"))
+		if avail >= req {
+
+			insertData("cus_pay", r.Form.Get("id") + ",'" + r.Form.Get("dte") + "'," + i_id + ",'" + r.Form.Get("des") + "'," + r.Form.Get("tot"))
+		} else {
+			http.Redirect(w, r, "error", http.StatusSeeOther)
+			return
+		}
 	} else if r.Form.Get("submit") == "Save" {
 		updateData("cus_pay", r.Form.Get("id"), "des='" + r.Form.Get("des") + "', dte='" + r.Form.Get("dte") + "', tot=" + r.Form.Get("tot"))
 	} else if r.Form.Get("submit") == "Delete" {
@@ -1536,6 +1650,7 @@ func payment(w http.ResponseWriter, r *http.Request) {
 	}
 
 	type sendData struct {
+		Title    string
 		Nid      int64
 		Dte      string
 		Payments []customerPayment
@@ -1543,17 +1658,36 @@ func payment(w http.ResponseWriter, r *http.Request) {
 	}
 	now := time.Now()
 
-	results := sendData{getNextID("cus_pay"), now.Format("01/02/2006"), getCustomerPaymentsForPayment("''", "''"), get_invoicesForPayments("''", "''")}
+	var results sendData
+
+	if r.Form.Get("q") == "" {
+		results = sendData{dbName, getNextID("cus_pay"), now.Format("01/02/2006"), getCustomerPaymentsForPayment("''", "''"), get_invoicesForPayments("''", "''")}
+	} else {
+		results = sendData{dbName, getNextID("cus_pay"), now.Format("01/02/2006"), getCustomerPaymentsForPayment("i_id", r.Form.Get("q")), get_invoicesForPayments("id", r.Form.Get("q"))}
+	}
 
 	showFile(w, r, "payment", results)
 }
 
+func home(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()
+	if r.Form.Get("submit") != "" {
+		dbName = r.Form.Get("submit")
+		initDatabase()
+		http.Redirect(w, r, "stat", http.StatusSeeOther)
+		return
+	}
+
+	showFile(w, r, "home", "")
+}
+
 func startService() {
 	//err := http.ListenAndServeTLS(":8080", "hostcert.pem", "hostkey.pem", nil)
-	err := http.ListenAndServe("localhost:8000", nil)
+	err := http.ListenAndServe("localhost:8008", nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
+
 }
 
 func main() {
@@ -1570,12 +1704,13 @@ func main() {
 	http.HandleFunc("/payment", payment)
 	http.HandleFunc("/editGRN", editGRN)
 	http.HandleFunc("/editInvoice", editInvoice)
+	http.HandleFunc("/home", home)
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if (r.URL.Path == "/") {
-			http.Redirect(w, r, "stat", http.StatusSeeOther)
+			http.Redirect(w, r, "home", http.StatusSeeOther)
 		} else {
-			http.ServeFile(w, r, r.URL.Path[1:])
+			http.ServeFile(w, r, "helper/" + r.URL.Path[1:])
 		}
 	})
 	startService()
