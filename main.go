@@ -305,7 +305,7 @@ func debugMSG(msg string) {
 }
 
 func readFile(path string) string {
-	s, _ := ioutil.ReadFile(path)
+	s, _ := ioutil.ReadFile("./core/" + path)
 	return string(s)
 }
 
