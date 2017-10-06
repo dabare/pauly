@@ -144,7 +144,7 @@
                                             {{($g.Ven).Phn}}
                                         </address>
                                         <p>
-                                            <span><strong>Invoice Date:</strong> {{$g.Dte}}</span>
+                                            <span><strong>GRN Date:</strong> {{$g.Dte}}</span>
                                         </p>
                                     </div>
                                 </div>

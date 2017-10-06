@@ -11,6 +11,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"os"
 )
 
 var mysql_user string = "root"
@@ -326,12 +327,18 @@ func showFile(w http.ResponseWriter, r *http.Request, file string, data interfac
 }
 
 func checkErr(err error, typ int) {
+	// Of course, this name isn't unique,
+	// I usually use time.Now().Unix() or something
+	// to get unique log names.
+	logFile, err := os.Create("./log/" + time.Now().Format("01_02_2006_15.04.05") + ".txt")
+	log.SetOutput(logFile)
+
 	if err == nil {
 		return
 	}
 	switch typ {
 	default:
-		panic(err)
+		log.Panic(err)
 	}
 }
 
@@ -1074,9 +1081,9 @@ func editInvoice(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	case "Delete":
-		executeDB("DELETE FROM inv_reg WHERE g_id=" + r.Form.Get("id"))
-		deleteData("grn", r.Form.Get("id"))
-		http.Redirect(w, r, "grn", http.StatusSeeOther)
+		executeDB("DELETE FROM inv_reg WHERE i_id=" + r.Form.Get("id"))
+		deleteData("inv", r.Form.Get("id"))
+		http.Redirect(w, r, "invoice", http.StatusSeeOther)
 	}
 
 	inv := get_invoice(r.Form.Get("id"))
