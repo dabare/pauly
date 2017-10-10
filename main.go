@@ -330,14 +330,15 @@ func checkErr(err error, typ int) {
 	// Of course, this name isn't unique,
 	// I usually use time.Now().Unix() or something
 	// to get unique log names.
-	logFile, err := os.Create("./log/" + time.Now().Format("01_02_2006_15.04.05") + ".txt")
-	log.SetOutput(logFile)
 
 	if err == nil {
 		return
 	}
 	switch typ {
 	default:
+		t := time.Now().Format("01_02_2006_15.04.05")
+		logFile, err := os.Create("./log/" + t + ".txt")
+		log.SetOutput(logFile)
 		log.Panic(err)
 	}
 }
