@@ -349,7 +349,7 @@ func initDatabase() {
 
 func getResultDB(query string) *sql.Rows {
 	debugMSG(query)
-	database, _ := sql.Open("sqlite3", "./" + dbName + ".db")
+	database, _ := sql.Open("sqlite3", "./database/" + dbName + ".db")
 	rows, err := database.Query(query)
 	checkErr(err, errDBquery)
 
@@ -361,7 +361,7 @@ func getResultDB(query string) *sql.Rows {
 
 func executeDB(exe string) {
 	debugMSG(exe)
-	database, _ := sql.Open("sqlite3", "./" + dbName + ".db")
+	database, _ := sql.Open("sqlite3", "./database/" + dbName + ".db")
 	_, err := database.Exec(exe)
 	checkErr(err, errDBquery)
 	database.Close()
@@ -1087,6 +1087,10 @@ func editInvoice(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "invoice", http.StatusSeeOther)
 	}
 
+	if r.Form.Get("id") == "" {
+		http.Redirect(w, r, "invoice", http.StatusSeeOther)
+		return
+	}
 	inv := get_invoice(r.Form.Get("id"))
 	result := data{dbName, inv, getProductsInVan(strconv.FormatInt(inv.V_id, 10)), getNextID("inv_reg")}
 	showFile(w, r, "editInvoice", result)
@@ -1696,6 +1700,30 @@ func startService() {
 		log.Fatal("ListenAndServe: ", err)
 	}
 
+}
+
+func int2floatStr(in int64) string {
+	val := in/100
+	return strconv.FormatInt(val,10) + "." + strconv.FormatInt(in - (val*100),10)
+}
+
+func strfloat2strint(in string) string {
+	s := strings.Split(in, ".")
+	val := s[0]
+	if (len(s) == 1) {
+		val += "00"
+	} else if (len(s) == 2) {
+		ss := strings.Split(s[1], "")
+
+		if (len(ss) == 1) {
+			val += ss[0] + "0"
+		} else if (len(ss) > 1) {
+			val += ss[0] + ss[1]
+		} else {
+			val += "00"
+		}
+	}
+	return val
 }
 
 func main() {

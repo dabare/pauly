@@ -128,7 +128,7 @@
                         <div class="row">
                             <div class=""><h3 class="m-t-none m-b">Details</h3>
 
-                                <form role="form" action="/products" method="POST">
+                                <form class="cform" role="form" action="/products" method="POST">
                                     <div class="form-group"><label>ID</label>
                                         <input name="id" readonly required type="text" placeholder="ID"
                                                class="form-control" value="{{.Nid}}">
@@ -251,6 +251,37 @@
         });
 
     </script>
+ <!-- Jquery Validate -->
+    <script src="js/plugins/validate/jquery.validate.min.js"></script>
 
+    <script>
+         $(document).ready(function(){
+
+             $(".cform").validate({
+                 rules: {
+                     password: {
+                         required: true,
+                         minlength: 3
+                     },
+                     url: {
+                         required: true,
+                         url: true
+                     },
+                     number: {
+                         required: true,
+                         number: true
+                     },
+                     min: {
+                         required: true,
+                         minlength: 6
+                     },
+                     max: {
+                         required: true,
+                         maxlength: 4
+                     }
+                 }
+             });
+        });
+    </script>
 </body>
 </html>
