@@ -86,7 +86,7 @@
                         <div class="row">
                             <div class=""><h3 class="m-t-none m-b">Details</h3>
 
-                                <form role="form" action="/products" method="POST">
+                                <form role="form" action="/products" method="POST" class="cform">
                                     <div class="form-group"><label>ID</label>
                                         <input name="id" readonly required type="text" placeholder="ID"
                                                class="form-control" value="{{.Id}}">
@@ -97,11 +97,11 @@
                                     </div>
                                     <div class="form-group"><label>Buy Price</label>
                                         <input name="b_p" required type="number" placeholder="Buy Price"
-                                               class="form-control" value="{{.B_p}}">
+                                               class="form-control" value="{{dec .B_p}}">
                                     </div>
                                     <div class="form-group"><label>Sell Price</label>
                                         <input name="s_p" required type="number" placeholder="Sell Price"
-                                               class="form-control" value="{{.S_p}}">
+                                               class="form-control" value="{{dec .S_p}}">
                                     </div>
                                     <div>
                                         <strong><input name="submit" type="submit"
@@ -184,8 +184,8 @@
                                         {{range .Products}}
                                         <tr class="gradeA">
                                             <td>{{.Des}}</td>
-                                            <td>{{.B_p}}</td>
-                                            <td>{{.S_p}}</td>
+                                            <td>{{dec .B_p }}</td>
+                                            <td>{{dec .S_p}}</td>
                                             <td>{{.QtyStk}}</td>
                                             <td>{{.QtyVan}}</td>
                                             <td>{{.Qty}}</td>

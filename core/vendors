@@ -189,7 +189,7 @@
                                                             {{.Name}}
                                                         </a></td>
                                                         <td>{{.Phn}}</td>
-                                                        <td>{{.Dne}}</td>
+                                                        <td>{{dec .Dne}}</td>
                                                         <td><a data-toggle="modal"
                                                                class="btn btn-info btn-sm btn-outline" href="#c{{.Id}}">View
                                                             /
@@ -214,7 +214,7 @@
                         <div class="ibox-content">
                             <div class="tab-content">
                                 {{range .Vendors}}
-                                <div id="cus{{.Id}}" class="tab-pane">
+                                <div id="cus{{.Id}}" class="tab-pane {{if .Active}} active {{end}}">
                                     <div class="m-b-lg">
                                         <h2>{{.Name}}</h2>
                                         <br>
@@ -223,7 +223,7 @@
                                             <br>
                                             {{.Ad}}
                                             <br>
-                                            Total payment: {{.Dne}}
+                                            Total payment: {{dec .Dne}}
                                         </p>
                                     </div>
                                     <div class="client-detail">
@@ -239,7 +239,7 @@
                                                     <div class="vertical-timeline-content">
 
                                                         <p>GRN. No.:{{.G_no}}
-                                                            Total:{{.Grnd_tot}}
+                                                            Total:{{dec .Grnd_tot}}
                                                             <button type="button" class="btn btn-info btn-xs"
                                                                     data-toggle="modal" data-target="#i{{.Id}}">
                                                                 GRN
@@ -292,8 +292,8 @@
                     <tr>
                         <td>{{.P_des}}</td>
                         <td>{{.Qty}}</td>
-                        <td>{{.B_p}}</td>
-                        <td>{{.Tot}}</td>
+                        <td>{{dec .B_p}}</td>
+                        <td>{{dec .Tot}}</td>
                     </tr>
                     {{end}}
                     <tr>
@@ -306,19 +306,19 @@
                         <td><strong>Sub Total</strong></td>
                         <td></td>
                         <td></td>
-                        <td>{{.Sub_tot}}</td>
+                        <td>{{dec .Sub_tot}}</td>
                     </tr>
                     <tr>
                         <td><strong>Vat</strong></td>
                         <td></td>
                         <td></td>
-                        <td>{{.Vat}}</td>
+                        <td>{{dec .Vat}}</td>
                     </tr>
                     <tr>
                         <td><strong>Grand Total</strong></td>
                         <td></td>
                         <td></td>
-                        <td>{{.Grnd_tot}}</td>
+                        <td>{{dec .Grnd_tot}}</td>
                     </tr>
                     </tbody>
                 </table>

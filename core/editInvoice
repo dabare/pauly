@@ -108,7 +108,7 @@
                         <select name="p_id" data-placeholder="Choose an Item" class="chosen-select "
                                 style="width:350px;" onchange="setVal()">
                             {{range .Products}}
-                            <option value="{{.Id}},{{.Rest}},{{.B_p}},{{.S_p}}">{{.Des}} -----Buy:{{.B_p}}, Sell:{{.S_p}}, Qty.:{{.Rest}}</option>
+                            <option value="{{.Id}},{{.Rest}},{{dec .B_p}},{{dec .S_p}}">{{.Des}} -----Buy:{{dec .B_p}}, Sell:{{dec .S_p}}, Qty.:{{.Rest}}</option>
                             {{end}}
                         </select>
                     </div>
@@ -116,8 +116,8 @@
                     <div class="minimalize-styl-2">
                         <input hidden value="{{$g.Id}}" name="id">
                         <input hidden value="{{.NxtID}}" name="r_id">
-                        <input name="b_p"  type="number" placeholder="Buy Price" value="">
-                        <input name="s_p"  type="number" placeholder="Sell Price" value="">
+                        <input name="b_p"  type="number" placeholder="Buy Price" value="" step="0.01">
+                        <input name="s_p"  type="number" placeholder="Sell Price" value="" step="0.01">
                         <input name="qty" required type="number" placeholder="Qty" value="">
                         <input type="submit" name="submit" class="btn btn-primary " value="Add">
                     </div>
@@ -172,10 +172,10 @@
                                                        class="btn btn-sm btn-danger">remove</a>
                                                 </div>
                                             </td>
-                                            <td>{{.B_p}}</td>
-                                            <td>{{.S_p}}</td>
+                                            <td>{{dec .B_p}}</td>
+                                            <td>{{dec .S_p}}</td>
                                             <td>{{.Qty}}</td>
-                                            <td>{{.Tot}}</td>
+                                            <td>{{dec .Tot}}</td>
                                             <td>{{.Margine}}%</td>
                                         </tr>
                                         {{end}}
@@ -188,18 +188,17 @@
                                     <tbody>
                                     <tr>
                                         <td><strong>Sub Total :</strong></td>
-                                        <td>{{$g.Sub_tot}}</td>
+                                        <td>{{dec $g.Sub_tot}}</td>
                                     </tr>
                                     <tr>
                                         <td><strong>Vat :</strong></td>
-                                        <td><input name="vat" type="number" required value="{{$g.Vat}}"><input hidden
-                                                                                                               name="id"
-                                                                                                               value="{{$g.Id}}">
+                                        <td><input name="vat" type="number" required value="{{dec $g.Vat}}" step="0.01">
+                                            <input hidden name="id" value="{{$g.Id}}">
                                         </td>
                                     </tr>
                                     <tr>
                                         <td><strong>Grand Total :</strong></td>
-                                        <td>{{$g.Grnd_tot}}</td>
+                                        <td>{{dec $g.Grnd_tot}}</td>
                                     </tr>
                                     <tr>
                                         <td><strong>Margine :</strong></td>

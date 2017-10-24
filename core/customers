@@ -193,7 +193,7 @@
                                                             {{.Name}}
                                                         </a></td>
                                                         <td>{{.Phn}}</td>
-                                                        <td>{{.Due}}</td>
+                                                        <td>{{dec .Due}}</td>
 
                                                         <td>
                                                             {{.Pro}}%
@@ -234,7 +234,7 @@
                                             {{.Ad}}
                                         </p>
                                         <div>
-                                            payments done {{.Dne}} / payments pending {{.Due}}
+                                            payments done {{dec .Dne}} / payments pending {{dec .Due}}
                                             <br>
                                             <small>
                                                 {{.Pro}}%
@@ -260,7 +260,7 @@
                                                             <br>
                                                             Margine: {{.Margine}}
                                                             <br>
-                                                            Total:{{.Grnd_tot}}
+                                                            Total:{{dec .Grnd_tot}}
                                                             <button type="button" class="btn btn-info btn-xs"
                                                                     data-toggle="modal" data-target="#i{{.Id}}">
                                                                 invoice
@@ -323,8 +323,8 @@
                     <tr>
                         <td>{{.P_des}}</td>
                         <td>{{.Qty}}</td>
-                        <td>{{.S_p}}</td>
-                        <td>{{.Tot}}</td>
+                        <td>{{dec .S_p}}</td>
+                        <td>{{dec .Tot}}</td>
                     </tr>
                     {{end}}
                     <tr>
@@ -337,19 +337,19 @@
                         <td><strong>Sub Total</strong></td>
                         <td></td>
                         <td></td>
-                        <td>{{.Sub_tot}}</td>
+                        <td>{{dec .Sub_tot}}</td>
                     </tr>
                     <tr>
                         <td><strong>Vat</strong></td>
                         <td></td>
                         <td></td>
-                        <td>{{.Vat}}</td>
+                        <td>{{dec .Vat}}</td>
                     </tr>
                     <tr>
                         <td><strong>Grand Total</strong></td>
                         <td></td>
                         <td></td>
-                        <td>{{.Grnd_tot}}</td>
+                        <td>{{dec .Grnd_tot}}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -383,7 +383,7 @@
                     {{range .Payments}}
                     <tr>
                         <td>{{.Dte}}</td>
-                        <td>{{.Tot}}</td>
+                        <td>{{dec .Tot}}</td>
                     </tr>
                     {{end}}
                     <tr>
@@ -392,15 +392,15 @@
                     </tr>
                     <tr>
                         <td><strong>Total</strong></td>
-                        <td>{{.Grnd_tot}}</td>
+                        <td>{{dec .Grnd_tot}}</td>
                     </tr>
                     <tr>
                         <td><strong>Payments Done</strong></td>
-                        <td>{{.PaymentsDone}}</td>
+                        <td>{{dec .PaymentsDone}}</td>
                     </tr>
                     <tr>
                         <td><strong>Due</strong></td>
-                        <td>{{.RemainingPayment}}</td>
+                        <td>{{dec .RemainingPayment}}</td>
                     </tr>
                     </tbody>
                 </table>

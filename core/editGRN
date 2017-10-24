@@ -99,7 +99,7 @@
     {{$p := .Products}}
     <div id="page-wrapper" class="gray-bg">
         <div class="row border-bottom">
-            <form role="form" action="/editGRN" method="POST">
+            <form role="form" action="/editGRN" method="POST" >
                 <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
                     <div class="navbar-header">
                         <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i
@@ -118,7 +118,7 @@
                     <div class="minimalize-styl-2">
                         <input hidden value="{{$g.Id}}" name="id">
                         <input hidden value="{{.NxtID}}" name="r_id">
-                        <input name="b_p" required type="number" placeholder="Buy Price" value="">
+                        <input name="b_p" required type="number" placeholder="Buy Price" value="" step="0.01">
                         <input name="qty" required type="number" placeholder="Qty" value="">
                         <input type="submit" name="submit" class="btn btn-primary " value="Add">
                     </div>
@@ -172,8 +172,8 @@
                                                 </div>
                                             </td>
                                             <td>{{.Qty}}</td>
-                                            <td>{{.B_p}}</td>
-                                            <td>{{.Tot}}</td>
+                                            <td>{{dec .B_p}}</td>
+                                            <td>{{dec .Tot}}</td>
                                         </tr>
                                         {{end}}
 
@@ -185,18 +185,18 @@
                                     <tbody>
                                     <tr>
                                         <td><strong>Sub Total :</strong></td>
-                                        <td>{{$g.Sub_tot}}</td>
+                                        <td>{{dec $g.Sub_tot}}</td>
                                     </tr>
                                     <tr>
                                         <td><strong>Vat :</strong></td>
-                                        <td><input name="vat" type="number" required value="{{$g.Vat}}"><input hidden
+                                        <td><input name="vat" type="number" required value="{{dec $g.Vat}}" step="0.01"><input hidden
                                                                                                                name="id"
                                                                                                                value="{{$g.Id}}">
                                         </td>
                                     </tr>
                                     <tr>
                                         <td><strong>Grand Total :</strong></td>
-                                        <td>{{$g.Grnd_tot}}</td>
+                                        <td>{{dec $g.Grnd_tot}}</td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -552,5 +552,37 @@
 
 </script>
 
+ <!-- Jquery Validate -->
+    <script src="js/plugins/validate/jquery.validate.min.js"></script>
+
+    <script>
+         $(document).ready(function(){
+
+             $(".cform").validate({
+                 rules: {
+                     password: {
+                         required: true,
+                         minlength: 3
+                     },
+                     url: {
+                         required: true,
+                         url: true
+                     },
+                     number: {
+                         required: true,
+                         number: true
+                     },
+                     min: {
+                         required: true,
+                         minlength: 6
+                     },
+                     max: {
+                         required: true,
+                         maxlength: 4
+                     }
+                 }
+             });
+        });
+    </script>
 </body>
 </html>

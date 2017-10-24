@@ -116,7 +116,7 @@
                             {{range .Invoices}}
                             {{if .RemainingPayment}}
                             <option value="{{.Id}},{{.RemainingPayment}}">{{(.Cus).Name}} :-
-                                Inv.No.:{{.I_no}}_Po.No.:{{.Po_no}}_Due:{{.RemainingPayment}}
+                                Inv.No.:{{.I_no}}_Po.No.:{{.Po_no}}_Due:{{dec .RemainingPayment}}
                             </option>
                             {{end}}
                             {{end}}
@@ -125,7 +125,7 @@
                     <div class="minimalize-styl-2" id="data_1">
                         <input name="id" hidden value="{{.Nid}}">
                         <input name="des" required type="text" placeholder="Description" value="">
-                        <input name="tot" required type="number" placeholder="Payment" value="">
+                        <input name="tot" required type="number" placeholder="Payment" value="" step="0.01">
                         <div class="input-group date">
                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                             <input name="dte" required type="text" class="form-control" value="{{.Dte}}">
@@ -158,7 +158,7 @@
                                     </div>
                                     <div class="form-group"><label>Payment</label>
                                         <input name="tot" required type="number" placeholder="Payment"
-                                               class="form-control" value="{{.Tot}}">
+                                               class="form-control" value="{{dec .Tot}}" step="0.01">
                                     </div>
                                     <div class="form-group" id="data_1"><label>Date</label>
                                         <div class="input-group date">
@@ -207,7 +207,7 @@
                                     <td>{{.Dte}}</td>
                                     <td>{{.I_no}}</td>
                                     <td>{{.C_name}}</td>
-                                    <td>{{.Tot}}</td>
+                                    <td>{{dec .Tot}}</td>
                                     <td>{{.Des}}</td>
                                     <th>
                                         <a data-toggle="modal" class="pull-right btn btn-xs btn-warning"

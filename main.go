@@ -316,12 +316,15 @@ func showFile(w http.ResponseWriter, r *http.Request, file string, data interfac
 	if !checkUser(w, r) {
 		return
 	}
+	fm := template.FuncMap{"dec": func(a int64) string {
+		return int2floatStr(a)
+	}}
 	t := template.New("fieldname example")
 	if homepage {
 		homepage = false
 		t, _ = t.Parse(readFile("home"))
 	} else {
-		t, _ = t.Parse(readFile(file))
+		t, _ = t.Funcs(fm).Parse(readFile(file))
 	}
 	t.Execute(w, data)
 }
@@ -1038,12 +1041,12 @@ func editGRN(w http.ResponseWriter, r *http.Request) {
 
 	switch r.Form.Get("submit") {
 	case "Save":
-		executeDB("UPDATE grn SET vat=" + r.Form.Get("vat") + " WHERE id=" + r.Form.Get("id"))
+		executeDB("UPDATE grn SET vat=" + strfloat2strint(r.Form.Get("vat")) + " WHERE id=" + r.Form.Get("id"))
 	case "remove":
 		executeDB("DELETE FROM grn_reg WHERE id=" + r.Form.Get("r_id"))
 	case "Add":
-		executeDB("INSERT INTO grn_reg VALUES(" + r.Form.Get("r_id") + "," + r.Form.Get("id") + "," + r.Form.Get("p_id") + "," + r.Form.Get("b_p") + "," + r.Form.Get("qty") + ")")
-		println(r.Form.Get("p_id"))
+		executeDB("INSERT INTO grn_reg VALUES(" + r.Form.Get("r_id") + "," + r.Form.Get("id") + "," + r.Form.Get("p_id") + "," + strfloat2strint(r.Form.Get("b_p")) + "," + r.Form.Get("qty") + ")")
+	//println(r.Form.Get("p_id"))
 	case "Delete":
 		executeDB("DELETE FROM grn_reg WHERE g_id=" + r.Form.Get("id"))
 		deleteData("grn", r.Form.Get("id"))
@@ -1066,7 +1069,7 @@ func editInvoice(w http.ResponseWriter, r *http.Request) {
 
 	switch r.Form.Get("submit") {
 	case "Save":
-		executeDB("UPDATE inv SET vat=" + r.Form.Get("vat") + " WHERE id=" + r.Form.Get("id"))
+		executeDB("UPDATE inv SET vat=" + strfloat2strint(r.Form.Get("vat")) + " WHERE id=" + r.Form.Get("id"))
 	case "remove":
 		executeDB("DELETE FROM inv_reg WHERE id=" + r.Form.Get("r_id"))
 	case "Add":
@@ -1076,7 +1079,7 @@ func editInvoice(w http.ResponseWriter, r *http.Request) {
 		avail, _ := strconv.Atoi(s[1])
 		req, _ := strconv.Atoi(r.Form.Get("qty"))
 		if avail >= req {
-			executeDB("INSERT INTO inv_reg VALUES(" + r.Form.Get("r_id") + "," + r.Form.Get("id") + "," + p_id + "," + r.Form.Get("b_p") + "," + r.Form.Get("s_p") + "," + r.Form.Get("qty") + ")")
+			executeDB("INSERT INTO inv_reg VALUES(" + r.Form.Get("r_id") + "," + r.Form.Get("id") + "," + p_id + "," + strfloat2strint(r.Form.Get("b_p")) + "," + strfloat2strint(r.Form.Get("s_p")) + "," + r.Form.Get("qty") + ")")
 		} else {
 			http.Redirect(w, r, "error", http.StatusSeeOther)
 			return
@@ -1104,6 +1107,7 @@ type vendor struct {
 	Dne       int64
 	DeleteBTN bool
 	Grns      []_grn
+	Active    bool
 }
 
 func getVendor(id string) vendor {
@@ -1167,11 +1171,13 @@ func getSimplyVendors(filter string, val string) [] vendor {
 func getVendors(filter string, val string) [] vendor {
 	tmp2 := []vendor{}
 
-	rows := getResultDB("SELECT * FROM ven WHERE " + filter + "=" + val)
+	rows := getResultDB("SELECT * FROM ven WHERE " + filter + "=" + val + "ORDER BY name")
 
+	i := true
 	for rows.Next() {
 		tmp := vendor{}
-
+		tmp.Active = i
+		i = false
 		var id sql.NullInt64
 		var name sql.NullString
 		var phn sql.NullString
@@ -1527,9 +1533,9 @@ func products(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 
 	if r.Form.Get("submit") == "Add" {
-		insertData("pro", r.Form.Get("id") + ",'" + r.Form.Get("des") + "'," + r.Form.Get("s_p") + "," + r.Form.Get("b_p"))
+		insertData("pro", r.Form.Get("id") + ",'" + r.Form.Get("des") + "'," + strfloat2strint(r.Form.Get("s_p")) + "," + strfloat2strint(r.Form.Get("b_p")))
 	} else if r.Form.Get("submit") == "Save" {
-		updateData("pro", r.Form.Get("id"), "des='" + r.Form.Get("des") + "', s_p=" + r.Form.Get("s_p") + ", b_p=" + r.Form.Get("b_p"))
+		updateData("pro", r.Form.Get("id"), "des='" + r.Form.Get("des") + "', s_p=" + strfloat2strint(r.Form.Get("s_p")) + ", b_p=" + strfloat2strint(r.Form.Get("b_p")))
 	} else if r.Form.Get("submit") == "Delete" {
 		deleteData("pro", r.Form.Get("id"))
 	}
@@ -1650,13 +1656,13 @@ func payment(w http.ResponseWriter, r *http.Request) {
 		req, _ := strconv.Atoi(r.Form.Get("tot"))
 		if avail >= req {
 
-			insertData("cus_pay", r.Form.Get("id") + ",'" + r.Form.Get("dte") + "'," + i_id + ",'" + r.Form.Get("des") + "'," + r.Form.Get("tot"))
+			insertData("cus_pay", r.Form.Get("id") + ",'" + r.Form.Get("dte") + "'," + i_id + ",'" + r.Form.Get("des") + "'," + strfloat2strint(r.Form.Get("tot")))
 		} else {
 			http.Redirect(w, r, "error", http.StatusSeeOther)
 			return
 		}
 	} else if r.Form.Get("submit") == "Save" {
-		updateData("cus_pay", r.Form.Get("id"), "des='" + r.Form.Get("des") + "', dte='" + r.Form.Get("dte") + "', tot=" + r.Form.Get("tot"))
+		updateData("cus_pay", r.Form.Get("id"), "des='" + r.Form.Get("des") + "', dte='" + r.Form.Get("dte") + "', tot=" + strfloat2strint(r.Form.Get("tot")))
 	} else if r.Form.Get("submit") == "Delete" {
 		deleteData("cus_pay", r.Form.Get("id"))
 	}
@@ -1703,8 +1709,13 @@ func startService() {
 }
 
 func int2floatStr(in int64) string {
-	val := in/100
-	return strconv.FormatInt(val,10) + "." + strconv.FormatInt(in - (val*100),10)
+	val := in / 100
+	diff := in - (val * 100)
+	if (diff < 10) {
+		return strconv.FormatInt(val, 10) + ".0" + strconv.FormatInt(diff, 10)
+	} else {
+		return strconv.FormatInt(val, 10) + "." + strconv.FormatInt(diff, 10)
+	}
 }
 
 func strfloat2strint(in string) string {

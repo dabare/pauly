@@ -187,8 +187,8 @@
                                                                 <td>{{.I_no}}</td>
                                                                 <td>{{$c.Name}}</td>
                                                                 <td>{{.Po_no}}</td>
-                                                                <td>{{.Grnd_tot}}</td>
-                                                                <td>{{.PaymentsDone}}</td>
+                                                                <td>{{dec .Grnd_tot}}</td>
+                                                                <td>{{dec .PaymentsDone}}</td>
                                                                 <td>{{.Margine}}
                                                                     <a class="pull-right btn btn-xs btn-info"
                                                                        href="editInvoice?id={{.Id}}">view/edit</a>
