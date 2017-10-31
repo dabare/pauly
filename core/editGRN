@@ -99,7 +99,7 @@
     {{$p := .Products}}
     <div id="page-wrapper" class="gray-bg">
         <div class="row border-bottom">
-            <form role="form" action="/editGRN" method="POST" >
+            <form role="form" action="/editGRN" method="POST" onsubmit="return validateForm()" name="myForm">
                 <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
                     <div class="navbar-header">
                         <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i
@@ -110,7 +110,7 @@
                         <select name="p_id" data-placeholder="Choose an Item" class="chosen-select "
                                 style="width:350px;">
                             {{range .Products}}
-                            <option value="{{.Id}}">{{.Des}}</option>
+                            <option value="{{.Id}},{{dec .B_p}}">{{.Des}} -----Buy:{{dec .B_p}}</option>
                             {{end}}
                         </select>
                     </div>
@@ -118,7 +118,7 @@
                     <div class="minimalize-styl-2">
                         <input hidden value="{{$g.Id}}" name="id">
                         <input hidden value="{{.NxtID}}" name="r_id">
-                        <input name="b_p" required type="number" placeholder="Buy Price" value="" step="0.01">
+                        <input name="b_p" type="number" placeholder="Buy Price" value="" step="0.01">
                         <input name="qty" required type="number" placeholder="Qty" value="">
                         <input type="submit" name="submit" class="btn btn-primary " value="Add">
                     </div>
@@ -584,5 +584,17 @@
              });
         });
     </script>
+
+<script>
+function validateForm() {
+    var x = document.forms["myForm"]["p_id"].value;
+    var b = document.forms["myForm"]["b_p"].value;
+    var splits = x.split(',', 2);
+
+    if(b==''){
+    document.forms["myForm"]["b_p"].value=splits[1]
+    }
+}
+</script>
 </body>
 </html>

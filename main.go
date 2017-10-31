@@ -1045,7 +1045,9 @@ func editGRN(w http.ResponseWriter, r *http.Request) {
 	case "remove":
 		executeDB("DELETE FROM grn_reg WHERE id=" + r.Form.Get("r_id"))
 	case "Add":
-		executeDB("INSERT INTO grn_reg VALUES(" + r.Form.Get("r_id") + "," + r.Form.Get("id") + "," + r.Form.Get("p_id") + "," + strfloat2strint(r.Form.Get("b_p")) + "," + r.Form.Get("qty") + ")")
+		s := strings.Split(r.Form.Get("p_id"), ",")
+		p_id := s[0]
+		executeDB("INSERT INTO grn_reg VALUES(" + r.Form.Get("r_id") + "," + r.Form.Get("id") + "," + p_id + "," + strfloat2strint(r.Form.Get("b_p")) + "," + r.Form.Get("qty") + ")")
 	//println(r.Form.Get("p_id"))
 	case "Delete":
 		executeDB("DELETE FROM grn_reg WHERE g_id=" + r.Form.Get("id"))

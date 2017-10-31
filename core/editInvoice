@@ -566,8 +566,8 @@
 <script>
 function validateForm() {
     var x = document.forms["myForm"]["p_id"].value;
-     var b = document.forms["myForm"]["b_p"].value;
-      var s = document.forms["myForm"]["s_p"].value;
+    var b = document.forms["myForm"]["b_p"].value;
+    var s = document.forms["myForm"]["s_p"].value;
     var qty = document.forms["myForm"]["qty"].value;
     var splits = x.split(',', 4);
 
