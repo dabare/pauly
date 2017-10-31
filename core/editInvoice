@@ -108,7 +108,7 @@
                         <select name="p_id" data-placeholder="Choose an Item" class="chosen-select "
                                 style="width:350px;" onchange="setVal()">
                             {{range .Products}}
-                            <option value="{{.Id}},{{.Rest}},{{dec .B_p}},{{dec .S_p}}">{{.Des}} -----Buy:{{dec .B_p}}, Sell:{{dec .S_p}}, Qty.:{{.Rest}}</option>
+                            {{if .Rest}}<option value="{{.Id}},{{.Rest}},{{dec .B_p}},{{dec .S_p}}">{{.Des}} -----Buy:{{dec .B_p}}, Sell:{{dec .S_p}}, Qty.:{{.Rest}}</option>{{end}}
                             {{end}}
                         </select>
                     </div>

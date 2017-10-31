@@ -3,10 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="57e85100-2f54-459c-97e9-78ee3227d650" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/editGRN" afterPath="$PROJECT_DIR$/core/editGRN" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/editInvoice" afterPath="$PROJECT_DIR$/core/editInvoice" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/tmp" afterPath="$PROJECT_DIR$/core/tmp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.go" afterPath="$PROJECT_DIR$/main.go" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -21,7 +18,7 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main.go" pinned="false" current-in-tab="true">
+      <file leaf-file-name="main.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.go">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="44">
@@ -238,6 +235,16 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="editInvoice" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/core/editInvoice">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="257">
+              <caret line="110" column="179" lean-forward="false" selection-start-line="110" selection-start-column="179" selection-end-line="110" selection-end-column="179" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -303,16 +310,16 @@
         <option value="$PROJECT_DIR$/core/customers" />
         <option value="$PROJECT_DIR$/core/vendors" />
         <option value="$PROJECT_DIR$/core/tmp" />
-        <option value="$PROJECT_DIR$/core/editInvoice" />
         <option value="$PROJECT_DIR$/main.go" />
         <option value="$PROJECT_DIR$/core/editGRN" />
+        <option value="$PROJECT_DIR$/core/editInvoice" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="60" />
-    <option name="y" value="88" />
-    <option name="width" value="1313" />
+    <option name="x" value="6" />
+    <option name="y" value="97" />
+    <option name="width" value="1412" />
     <option name="height" value="626" />
   </component>
   <component name="ProjectView">
@@ -631,22 +638,29 @@
       <option name="project" value="LOCAL" />
       <updated>1508821174527</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="editgrn buy price not necessory">
+      <created>1509427075096</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1509427075096</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="60" y="88" width="1313" height="626" extended-state="0" />
+    <frame x="6" y="97" width="1412" height="626" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="DB Browser" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32945737" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="DB Execution Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3275862" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17422867" sideWeight="0.511805" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17422867" sideWeight="0.51133144" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17422867" sideWeight="0.48819497" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17422867" sideWeight="0.48866856" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21249048" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19759206" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="MaxCompute Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="MaxCompute Job" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="MaxCompute Job Explorer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32945737" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -695,7 +709,8 @@
     <MESSAGE value="remove empty values" />
     <MESSAGE value="error log" />
     <MESSAGE value="decimal support" />
-    <option name="LAST_COMMIT_MESSAGE" value="decimal support" />
+    <MESSAGE value="editgrn buy price not necessory" />
+    <option name="LAST_COMMIT_MESSAGE" value="editgrn buy price not necessory" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -902,14 +917,6 @@
             <element signature="n#script#20;n#body#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#script#22;n#body#0;n#html#0;n#!!top" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/editInvoice">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="32">
-          <caret line="98" column="27" lean-forward="false" selection-start-line="98" selection-start-column="27" selection-end-line="98" selection-end-column="27" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1125,6 +1132,14 @@
             <element signature="e#39587#39644#0" expanded="false" />
             <element signature="e#39650#39707#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/editInvoice">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="257">
+          <caret line="110" column="179" lean-forward="false" selection-start-line="110" selection-start-column="179" selection-end-line="110" selection-end-column="179" />
+          <folding />
         </state>
       </provider>
     </entry>
