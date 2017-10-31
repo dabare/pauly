@@ -1301,11 +1301,93 @@ func unload(w http.ResponseWriter, r *http.Request) {
 	showFile(w, r, "unload", results)
 }
 
-func stat(w http.ResponseWriter, r *http.Request) {
-	type data struct {
-		Title string
+type income struct {
+	Date string
+	Tot  int64
+}
+
+func getIncome(from string, to string) [] income {
+	tmp2 := []income{}
+	rows := getResultDB("select sum(inv_reg.s_p*inv_reg.qty+inv.vat) as tot , inv.dte from inv_reg join inv on inv_reg.i_id=inv.id where inv.dte between '" + from + "' and '" + to + "' group by inv.dte order by inv.dte asc")
+
+	for rows.Next() {
+		tmp := income{}
+
+		var tot sql.NullInt64
+		var dte sql.RawBytes
+
+		err := rows.Scan(&tot, &dte)
+		checkErr(err, errDBquery)
+
+		tmp.Tot = tot.Int64
+		tmp.Date = string(dte)
+
+		tmp2 = append(tmp2, tmp)
 	}
-	results := data{dbName}
+	rows.Close()
+	return tmp2
+}
+
+const (
+	stdLongMonth = "January"
+	stdMonth = "Jan"
+	stdNumMonth = "1"
+	stdZeroMonth = "01"
+	stdLongWeekDay = "Monday"
+	stdWeekDay = "Mon"
+	stdDay = "2"
+	stdUnderDay = "_2"
+	stdZeroDay = "02"
+	stdHour = "15"
+	stdHour12 = "3"
+	stdZeroHour12 = "03"
+	stdMinute = "4"
+	stdZeroMinute = "04"
+	stdSecond = "5"
+	stdZeroSecond = "05"
+	stdLongYear = "2006"
+	stdYear = "06"
+	stdPM = "PM"
+	stdpm = "pm"
+	stdTZ = "MST"
+	stdISO8601TZ = "Z0700"  // prints Z for UTC
+	stdISO8601ColonTZ = "Z07:00" // prints Z for UTC
+	stdNumTZ = "-0700"  // always numeric
+	stdNumShortTZ = "-07"    // always numeric
+	stdNumColonTZ = "-07:00" // always numeric
+)
+
+func stat(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()
+	type data struct {
+		Title   string
+		Records []income
+		From    string
+		To      string
+	}
+	now := time.Now()
+
+	now.Format("01/02/2006")
+
+	//select sum(inv_reg.s_p*inv_reg.qty+inv.vat) as tot , inv.dte from inv_reg join inv on inv_reg.i_id=inv.id where inv.dte between '2017-09-07' and '2017-12-14' group by inv.dte order by inv.dte asc;
+	from := now.Format("01") + "/1/" + now.Format("2006")
+	to := now.Format("01/02/2006")
+
+	if (r.Form.Get("from")!="") {
+		from = r.Form.Get("from")
+	}
+	if (r.Form.Get("to")!="") {
+		to = r.Form.Get("to")
+	}
+
+	//m,d,y
+	s := strings.Split(from, "/")
+	sqlFrom := s[2] + "-" + s[0] + "-" + s[1]
+
+	s = strings.Split(to, "/")
+	sqlTo := s[2] + "-" + s[0] + "-" + s[1]
+
+	results := data{dbName, getIncome(sqlFrom, sqlTo), from, to}
 	showFile(w, r, "stat", results)
 }
 
