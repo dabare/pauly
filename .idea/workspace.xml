@@ -2,9 +2,300 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="57e85100-2f54-459c-97e9-78ee3227d650" name="Default" comment="stat total and day sale">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out.exe" afterPath="$PROJECT_DIR$/out.exe" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/css/patterns/4.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/css/patterns/header-profile-skin-1.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/css/patterns/header-profile-skin-2.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/css/patterns/header-profile-skin-3.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/css/patterns/header-profile.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/css/patterns/shattered.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/font-awesome/fonts/fontawesome-webfontd41d.eot" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/font-awesome/fonts/fontawesome-webfonte0a5.eot" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/font-awesome/fonts/fontawesome-webfonte0a5.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/font-awesome/fonts/fontawesome-webfonte0a5.woff" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/font-awesome/fonts/fontawesome-webfonte0a5.woff2" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/fonts/glyphicons-halflings-regular.eot" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/fonts/glyphicons-halflings-regular.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/fonts/glyphicons-halflings-regular.woff" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/fonts/glyphicons-halflings-regular.woff2" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/fonts/glyphicons-halflings-regulard41d.eot" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/img/landing/avatar_all.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/img/landing/header_one.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/img/landing/header_two.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/img/landing/word_map.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/patterns/3.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/patterns/4.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/patterns/header-profile-skin-1.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/patterns/header-profile-skin-2.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/patterns/header-profile-skin-3.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/patterns/header-profile.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/patterns/shattered.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/blueimp/img/error.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/blueimp/img/loading.gif" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/blueimp/img/play-pause.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/blueimp/img/video-play.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/chosen/chosen-sprite.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/chosen/chosen-sprite@2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/footable/fonts/footable.eot" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/footable/fonts/footable.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/footable/fonts/footable.woff" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/footable/fonts/footabled41d.eot" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/iCheck/green.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/iCheck/green@2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/images/bootstrap-colorpicker/alpha-horizontal.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/images/bootstrap-colorpicker/alpha.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/images/bootstrap-colorpicker/hue-horizontal.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/images/bootstrap-colorpicker/hue.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/images/bootstrap-colorpicker/saturation.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/images/sprite-skin-flat.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/images/spritemap.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/images/spritemap@2x.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/jQueryUI/images/ui-bg_flat_0_aaaaaa_40x100.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/jQueryUI/images/ui-bg_flat_75_ffffff_40x100.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/jQueryUI/images/ui-bg_glass_55_fbf9ee_1x400.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/jQueryUI/images/ui-bg_glass_65_ffffff_1x400.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/jQueryUI/images/ui-bg_glass_75_dadada_1x400.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/jQueryUI/images/ui-bg_glass_75_e6e6e6_1x400.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/jQueryUI/images/ui-bg_glass_95_fef1ec_1x400.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/jQueryUI/images/ui-bg_highlight-soft_75_cccccc_1x100.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/jQueryUI/images/ui-icons_222222_256x240.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/jQueryUI/images/ui-icons_2e83ff_256x240.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/jQueryUI/images/ui-icons_454545_256x240.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/jQueryUI/images/ui-icons_888888_256x240.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/jQueryUI/images/ui-icons_cd0a0a_256x240.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/slick/ajax-loader.gif" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/slick/fonts/slick.eot" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/slick/fonts/slick.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/slick/fonts/slick.woff" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/slick/fonts/slickd41d.eot" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/email_templates/img/header.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/font-awesome/fonts/fontawesome-webfontd41d.eot" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/font-awesome/fonts/fontawesome-webfonte0a5.eot" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/font-awesome/fonts/fontawesome-webfonte0a5.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/font-awesome/fonts/fontawesome-webfonte0a5.woff" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/font-awesome/fonts/fontawesome-webfonte0a5.woff2" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/fonts/glyphicons-halflings-regular.eot" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/fonts/glyphicons-halflings-regular.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/fonts/glyphicons-halflings-regular.woff" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/fonts/glyphicons-halflings-regular.woff2" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/fonts/glyphicons-halflings-regulard41d.eot" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/gritter/images/gritter-light.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/gritter/images/gritter.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/gritter/images/ie-spacer.gif" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/core/customers" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/core/db.sql" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/core/delivery" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/core/editGRN" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/core/editInvoice" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/core/grn" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/core/home" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/core/invoice" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/core/load" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/core/payment" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/core/products" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/core/stat" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/core/tmp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/core/unload" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/core/vendors" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/database/Consumer.db" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/database/Product.db" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/database/mandy.db" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/css/animate.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/css/bootstrap.min.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/css/style.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/font-awesome/css/font-awesome.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/font-awesome/fonts/fontawesome-webfonte0a5.svg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/fonts/glyphicons-halflings-regular.svg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/js/angular-translate/angular-translate.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/js/angular/angular-sanitize.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/js/angular/angular.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/js/app.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/js/bootstrap/bootstrap.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/js/bootstrap/ui-bootstrap-tpls-0.12.0.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/js/config.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/js/controllers.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/js/directives.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/js/inspinia.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/js/jquery/jquery-2.1.1.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/js/plugins/angular-idle/angular-idle.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/js/plugins/jquery-ui/jquery-ui.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/js/plugins/metisMenu/jquery.metisMenu.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/js/plugins/oclazyload/dist/ocLazyLoad.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/js/plugins/pace/pace.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/js/plugins/slimscroll/jquery.slimscroll.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/js/translations.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/Angular/js/ui-router/angular-ui-router.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/animate.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/bootstrap.min.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/blueimp/css/blueimp-gallery.min.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/blueimp/img/error.svg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/blueimp/img/play-pause.svg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/blueimp/img/video-play.svg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/chartist/chartist.min.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/chosen/chosen.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/clockpicker/clockpicker.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/codemirror/ambiance.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/codemirror/codemirror.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/colorpicker/bootstrap-colorpicker.min.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/cropper/cropper.min.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/dataTables/dataTables.bootstrap.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/dataTables/dataTables.responsive.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/dataTables/dataTables.tableTools.min.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/datapicker/datepicker3.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/daterangepicker/daterangepicker-bs3.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/dropzone/basic.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/dropzone/dropzone.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/fonts/glyphicons-halflings-regular-2.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/fonts/glyphicons-halflings-regular-3.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/fonts/glyphicons-halflings-regular-4.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/fonts/glyphicons-halflings-regular.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/fonts/glyphicons-halflings-regulard41d.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/footable/fonts/footable.svg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/footable/footable.core.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/fullcalendar/fullcalendar.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/fullcalendar/fullcalendar.print.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/iCheck/custom.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/images/collection.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/images/collection_hover.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/ionRangeSlider/ion.rangeSlider.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/jasny/jasny-bootstrap.min.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/jqGrid/ui.jqgrid.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/jsTree/style.min.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/morris/morris-0.4.3.min.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/nouslider/jquery.nouislider.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/select2/select2.min.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/slick/fonts/slick.svg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/slick/slick-theme.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/slick/slick.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/steps/jquery.steps.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/summernote/summernote-bs3.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/summernote/summernote.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/sweetalert/sweetalert.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/switchery/switchery.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/plugins/toastr/toastr.min.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/css/style.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/email_templates/action.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/email_templates/alert.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/email_templates/billing.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/email_templates/styles.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/font-awesome/css/font-awesome.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/font-awesome/css/font-awesome.min.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/font-awesome/fonts/fontawesome-webfonte0a5.svg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/fonts/glyphicons-halflings-regular.svg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/bootstrap.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/bootstrap.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/demo/chartjs-demo.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/demo/flot-demo.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/demo/morris-demo.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/demo/peity-demo.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/demo/rickshaw-demo.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/demo/sparkline-demo.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/inspinia.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/jquery-2.1.1.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/jquery-ui-1.10.4.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/jquery-ui.custom.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/blueimp/jquery.blueimp-gallery.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/chartJs/Chart.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/chartist/chartist.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/chosen/chosen.jquery.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/clockpicker/clockpicker.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/codemirror/codemirror.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/codemirror/mode/javascript/javascript.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/colorpicker/bootstrap-colorpicker.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/cropper/cropper.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/dataTables/dataTables.bootstrap.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/dataTables/dataTables.responsive.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/dataTables/dataTables.tableTools.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/dataTables/jquery.dataTables.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/datapicker/bootstrap-datepicker.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/daterangepicker/daterangepicker.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/diff_match_patch/javascript/diff_match_patch.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/dropzone/dropzone.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/easypiechart/jquery.easypiechart.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/flot/curvedLines.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/flot/jquery.flot.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/flot/jquery.flot.pie.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/flot/jquery.flot.resize.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/flot/jquery.flot.spline.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/flot/jquery.flot.symbol.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/flot/jquery.flot.time.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/flot/jquery.flot.tooltip.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/footable/footable.all.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/fullcalendar/fullcalendar.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/fullcalendar/moment.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/gritter/jquery.gritter.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/gritter/jquery.gritter.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/iCheck/icheck.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/idle-timer/idle-timer.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/ionRangeSlider/ion.rangeSlider.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/jasny/jasny-bootstrap.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/jeditable/jquery.jeditable.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/jqGrid/i18n/grid.locale-en.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/jqGrid/jquery.jqGrid.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/jquery-ui/jquery-ui.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/jsKnob/jquery.knob.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/jsTree/jstree.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/jvectormap/jquery-jvectormap-2.0.2.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/masonary/masonry.pkgd.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/metisMenu/jquery.metisMenu.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/morris/morris.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/morris/raphael-2.1.0.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/nestable/jquery.nestable.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/nouslider/jquery.nouislider.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/pace/pace.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/peity/jquery.peity.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/preetyTextDiff/jquery.pretty-text-diff.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/rickshaw/rickshaw.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/rickshaw/vendor/d3.v3.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/select2/select2.full.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/slick/slick.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/slimscroll/jquery.slimscroll.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/sparkline/jquery.sparkline.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/staps/jquery.steps.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/summernote/summernote.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/sweetalert/sweetalert.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/switchery/switchery.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/tinycon/tinycon.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/toastr/toastr.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/validate/jquery.validate.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/video/responsible-video.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/helper/js/plugins/wow/wow.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/main.go" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/1 nov 2017/start.bat" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backup/main.go_20.sep.back" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/database/Bakery.db" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/database/Consumer.db" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/database/Product.db" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/database/mandy.db" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/log/10_23_2017_11.11.46.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/log/10_23_2017_14.24.41.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/log/10_23_2017_14.24.42.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/log/10_23_2017_14.24.49.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/log/10_23_2017_14.24.50.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/log/10_23_2017_14.25.30.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/log/10_23_2017_14.25.31.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/log/10_23_2017_14.28.56.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/log/10_23_2017_14.29.08.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/log/10_24_2017_09.38.21.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/log/10_24_2017_09.38.26.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/log/10_24_2017_09.48.56.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/log/10_24_2017_09.55.58.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/log/11_01_2017_10.43.46.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/log/11_01_2017_10.45.24.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/log/11_01_2017_10.46.45.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/log/11_01_2017_11.01.25.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/log/11_01_2017_11.05.53.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/log/11_01_2017_11.06.50.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/log/11_01_2017_11.07.02.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/log/11_01_2017_11.07.25.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/log/11_01_2017_11.07.29.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/log/11_01_2017_11.07.53.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/stat" afterPath="$PROJECT_DIR$/core/stat" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/home" afterPath="$PROJECT_DIR$/core/home" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.go" afterPath="$PROJECT_DIR$/main.go" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -19,50 +310,53 @@
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="main.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="1419" column="27" lean-forward="false" selection-start-line="1419" selection-start-column="27" selection-end-line="1419" selection-end-column="27" />
+            <state relative-caret-position="94">
+              <caret line="305" column="0" lean-forward="true" selection-start-line="305" selection-start-column="0" selection-end-line="305" selection-end-column="0" />
               <folding>
-                <element signature="e#412#544#0" expanded="false" />
-                <element signature="e#559#665#0" expanded="false" />
-                <element signature="e#682#788#0" expanded="false" />
-                <element signature="e#806#946#0" expanded="false" />
+                <element signature="e#14#200#0" expanded="true" />
+                <element signature="e#443#575#0" expanded="false" />
+                <element signature="e#590#696#0" expanded="false" />
+                <element signature="e#713#819#0" expanded="false" />
+                <element signature="e#837#977#0" expanded="false" />
                 <element signature="n#!!block;n#getProductVan#0" expanded="false" />
-                <element signature="e#1087#1666#0" expanded="false" />
+                <element signature="e#1118#1697#0" expanded="false" />
                 <element signature="n#!!block;n#getVansForDelivery#0" expanded="false" />
-                <element signature="e#1868#3440#0" expanded="false" />
-                <element signature="e#1898#1924#0" expanded="false" />
-                <element signature="e#1930#1957#0" expanded="false" />
-                <element signature="e#2286#3394#0" expanded="false" />
-                <element signature="e#2842#2866#0" expanded="false" />
-                <element signature="e#3286#3310#0" expanded="false" />
+                <element signature="e#1899#3471#0" expanded="false" />
+                <element signature="e#1929#1955#0" expanded="false" />
+                <element signature="e#1961#1988#0" expanded="false" />
+                <element signature="e#2317#3425#0" expanded="false" />
+                <element signature="e#2873#2897#0" expanded="false" />
+                <element signature="e#3317#3341#0" expanded="false" />
                 <element signature="n#!!block;n#getLoadings#0" expanded="false" />
-                <element signature="e#3622#4181#0" expanded="false" />
-                <element signature="e#4049#4110#0" expanded="false" />
+                <element signature="e#3653#4212#0" expanded="false" />
+                <element signature="e#4080#4141#0" expanded="false" />
                 <element signature="n#!!block;n#getUnoadings#0" expanded="false" />
-                <element signature="e#4383#4944#0" expanded="false" />
-                <element signature="e#4812#4873#0" expanded="false" />
+                <element signature="e#4414#4975#0" expanded="false" />
+                <element signature="e#4843#4904#0" expanded="false" />
                 <element signature="n#!!block;n#getVansForLoading#0" expanded="false" />
-                <element signature="e#5146#5483#0" expanded="false" />
-                <element signature="e#5176#5202#0" expanded="false" />
-                <element signature="e#5208#5235#0" expanded="false" />
+                <element signature="e#5177#5514#0" expanded="false" />
+                <element signature="e#5207#5233#0" expanded="false" />
+                <element signature="e#5239#5266#0" expanded="false" />
                 <element signature="n#!!block;n#getVansForUnoading#0" expanded="false" />
-                <element signature="e#5686#6026#0" expanded="false" />
-                <element signature="e#5716#5742#0" expanded="false" />
-                <element signature="e#5748#5775#0" expanded="false" />
+                <element signature="e#5717#6057#0" expanded="false" />
+                <element signature="e#5747#5773#0" expanded="false" />
+                <element signature="e#5779#5806#0" expanded="false" />
                 <element signature="n#!!block;n#debugMSG#0" expanded="false" />
                 <element signature="n#!!block;n#readFile#0" expanded="false" />
                 <element signature="n#!!block;n#showFile#0" expanded="false" />
-                <element signature="e#6351#6364#0" expanded="false" />
-                <element signature="e#6417#6446#0" expanded="false" />
-                <element signature="e#6501#6559#0" expanded="false" />
-                <element signature="e#6565#6612#0" expanded="false" />
+                <element signature="e#6486#6499#0" expanded="false" />
+                <element signature="e#6552#6581#0" expanded="false" />
+                <element signature="e#6636#6694#0" expanded="false" />
+                <element signature="e#6700#6747#0" expanded="false" />
                 <element signature="n#!!block;n#checkErr#0" expanded="false" />
-                <element signature="e#6673#6710#0" expanded="false" />
-                <element signature="e#6805#6818#0" expanded="false" />
+                <element signature="e#6808#6845#0" expanded="false" />
+                <element signature="e#6940#6953#0" expanded="false" />
+                <element signature="e#6955#7178#0" expanded="false" />
+                <element signature="e#6969#7175#0" expanded="false" />
                 <element signature="n#!!block;n#initDatabase#0" expanded="false" />
                 <element signature="n#!!block;n#getResultDB#0" expanded="false" />
                 <element signature="n#!!block;n#executeDB#0" expanded="false" />
@@ -70,200 +364,211 @@
                 <element signature="n#!!block;n#deleteData#0" expanded="false" />
                 <element signature="n#!!block;n#updateData#0" expanded="false" />
                 <element signature="n#!!block;n#getNextID#0" expanded="false" />
-                <element signature="e#8026#8042#0" expanded="false" />
+                <element signature="e#8161#8177#0" expanded="false" />
                 <element signature="n#!!block;n#checkUser#0" expanded="false" />
-                <element signature="e#8270#8350#0" expanded="false" />
+                <element signature="e#8405#8485#0" expanded="false" />
                 <element signature="n#!!block;n#getVansForInvoice#0" expanded="false" />
-                <element signature="e#8537#8893#0" expanded="false" />
-                <element signature="e#8574#8600#0" expanded="false" />
-                <element signature="e#8606#8633#0" expanded="false" />
+                <element signature="e#8672#9028#0" expanded="false" />
+                <element signature="e#8709#8735#0" expanded="false" />
+                <element signature="e#8741#8768#0" expanded="false" />
                 <element signature="n#!!block;n#getSimplyCustomers#0" expanded="false" />
-                <element signature="e#9100#9412#0" expanded="false" />
+                <element signature="e#9235#9547#0" expanded="false" />
                 <element signature="n#!!block;n#invoice#0" expanded="false" />
-                <element signature="e#9548#9930#0" expanded="false" />
-                <element signature="e#9943#10038#0" expanded="false" />
-                <element signature="e#10074#10189#0" expanded="false" />
+                <element signature="e#9683#10065#0" expanded="false" />
+                <element signature="e#10078#10173#0" expanded="false" />
+                <element signature="e#10209#10324#0" expanded="false" />
                 <element signature="n#!!block;n#grn#0" expanded="false" />
-                <element signature="e#10330#10651#0" expanded="false" />
-                <element signature="e#10664#10761#0" expanded="false" />
-                <element signature="e#10797#10901#0" expanded="false" />
-                <element signature="e#10957#11070#0" expanded="false" />
+                <element signature="e#10465#10786#0" expanded="false" />
+                <element signature="e#10799#10896#0" expanded="false" />
+                <element signature="e#10932#11036#0" expanded="false" />
+                <element signature="e#11092#11205#0" expanded="false" />
                 <element signature="n#!!block;n#getCustomerPayments#0" expanded="false" />
-                <element signature="e#11290#11661#0" expanded="false" />
-                <element signature="e#11711#11859#0" expanded="false" />
+                <element signature="e#11425#11796#0" expanded="false" />
+                <element signature="e#11846#11994#0" expanded="false" />
                 <element signature="n#!!block;n#calculateMargine#0" expanded="false" />
-                <element signature="e#11931#11948#0" expanded="false" />
+                <element signature="e#12066#12083#0" expanded="false" />
                 <element signature="n#!!block;n#getInvoiceRecords#0" expanded="false" />
-                <element signature="e#12174#12923#0" expanded="false" />
-                <element signature="e#12968#13416#0" expanded="false" />
+                <element signature="e#12309#13058#0" expanded="false" />
+                <element signature="e#13103#13551#0" expanded="false" />
                 <element signature="n#!!block;n#getSimplyCustomer#0" expanded="false" />
-                <element signature="e#13558#13822#0" expanded="false" />
+                <element signature="e#13693#13957#0" expanded="false" />
                 <element signature="n#!!block;n#get_invoices#0" expanded="false" />
-                <element signature="e#14045#15327#0" expanded="false" />
-                <element signature="e#14779#14813#0" expanded="false" />
-                <element signature="e#14885#14942#0" expanded="false" />
-                <element signature="e#15107#15134#0" expanded="false" />
-                <element signature="e#15140#15203#0" expanded="false" />
-                <element signature="e#15231#15261#0" expanded="false" />
-                <element signature="e#15267#15296#0" expanded="false" />
+                <element signature="e#14180#15462#0" expanded="false" />
+                <element signature="e#14914#14948#0" expanded="false" />
+                <element signature="e#15020#15077#0" expanded="false" />
+                <element signature="e#15242#15269#0" expanded="false" />
+                <element signature="e#15275#15338#0" expanded="false" />
+                <element signature="e#15366#15396#0" expanded="false" />
+                <element signature="e#15402#15431#0" expanded="false" />
                 <element signature="n#!!block;n#get_invoice#0" expanded="false" />
-                <element signature="e#15492#16727#0" expanded="false" />
-                <element signature="e#16206#16240#0" expanded="false" />
-                <element signature="e#16312#16369#0" expanded="false" />
-                <element signature="e#16534#16561#0" expanded="false" />
-                <element signature="e#16567#16630#0" expanded="false" />
-                <element signature="e#16658#16688#0" expanded="false" />
-                <element signature="e#16694#16723#0" expanded="false" />
-                <element signature="e#16771#16957#0" expanded="false" />
+                <element signature="e#15627#16862#0" expanded="false" />
+                <element signature="e#16341#16375#0" expanded="false" />
+                <element signature="e#16447#16504#0" expanded="false" />
+                <element signature="e#16669#16696#0" expanded="false" />
+                <element signature="e#16702#16765#0" expanded="false" />
+                <element signature="e#16793#16823#0" expanded="false" />
+                <element signature="e#16829#16858#0" expanded="false" />
+                <element signature="e#16906#17092#0" expanded="false" />
                 <element signature="n#!!block;n#getCustomers#0" expanded="false" />
-                <element signature="e#17157#17904#0" expanded="false" />
-                <element signature="e#17626#17693#0" expanded="false" />
-                <element signature="e#17722#17752#0" expanded="false" />
-                <element signature="e#17790#17812#0" expanded="false" />
-                <element signature="e#17818#17874#0" expanded="false" />
+                <element signature="e#17292#18039#0" expanded="false" />
+                <element signature="e#17761#17828#0" expanded="false" />
+                <element signature="e#17857#17887#0" expanded="false" />
+                <element signature="e#17925#17947#0" expanded="false" />
+                <element signature="e#17953#18009#0" expanded="false" />
                 <element signature="n#!!block;n#customers#0" expanded="false" />
-                <element signature="e#18042#18173#0" expanded="false" />
-                <element signature="e#18213#18356#0" expanded="false" />
-                <element signature="e#18398#18440#0" expanded="false" />
-                <element signature="e#18457#18528#0" expanded="false" />
-                <element signature="e#18550#18602#0" expanded="false" />
-                <element signature="e#18660#18762#0" expanded="false" />
+                <element signature="e#18177#18308#0" expanded="false" />
+                <element signature="e#18348#18491#0" expanded="false" />
+                <element signature="e#18533#18575#0" expanded="false" />
+                <element signature="e#18592#18663#0" expanded="false" />
+                <element signature="e#18685#18737#0" expanded="false" />
+                <element signature="e#18795#18897#0" expanded="false" />
                 <element signature="n#!!block;n#getGrnRecords#0" expanded="false" />
-                <element signature="e#18941#19563#0" expanded="false" />
-                <element signature="e#19604#19792#0" expanded="false" />
+                <element signature="e#19076#19698#0" expanded="false" />
+                <element signature="e#19739#19927#0" expanded="false" />
                 <element signature="n#!!block;n#get_grns#0" expanded="false" />
-                <element signature="e#19975#20684#0" expanded="false" />
-                <element signature="e#20433#20462#0" expanded="false" />
-                <element signature="e#20530#20560#0" expanded="false" />
-                <element signature="e#20566#20595#0" expanded="false" />
+                <element signature="e#20110#20819#0" expanded="false" />
+                <element signature="e#20568#20597#0" expanded="false" />
+                <element signature="e#20665#20695#0" expanded="false" />
+                <element signature="e#20701#20730#0" expanded="false" />
                 <element signature="n#!!block;n#get_grn#0" expanded="false" />
-                <element signature="e#20836#21501#0" expanded="false" />
-                <element signature="e#21278#21307#0" expanded="false" />
-                <element signature="e#21375#21405#0" expanded="false" />
-                <element signature="e#21411#21440#0" expanded="false" />
+                <element signature="e#20971#21636#0" expanded="false" />
+                <element signature="e#21413#21442#0" expanded="false" />
+                <element signature="e#21510#21540#0" expanded="false" />
+                <element signature="e#21546#21575#0" expanded="false" />
                 <element signature="n#!!block;n#editGRN#0" expanded="false" />
-                <element signature="e#21613#21696#0" expanded="false" />
-                <element signature="e#21699#22385#0" expanded="false" />
-                <element signature="e#21730#21848#0" expanded="false" />
-                <element signature="e#21850#21930#0" expanded="false" />
-                <element signature="e#21932#22181#0" expanded="false" />
-                <element signature="e#22214#22382#0" expanded="false" />
-                <element signature="e#22494#22576#0" expanded="false" />
+                <element signature="e#21748#21831#0" expanded="false" />
+                <element signature="e#21834#22520#0" expanded="false" />
+                <element signature="e#21865#21983#0" expanded="false" />
+                <element signature="e#21985#22065#0" expanded="false" />
+                <element signature="e#22067#22316#0" expanded="false" />
+                <element signature="e#22349#22517#0" expanded="false" />
+                <element signature="e#22549#22612#0" expanded="false" />
+                <element signature="e#22629#22711#0" expanded="false" />
                 <element signature="n#!!block;n#editInvoice#0" expanded="false" />
-                <element signature="e#22701#22791#0" expanded="false" />
-                <element signature="e#22794#23683#0" expanded="false" />
-                <element signature="e#22825#22943#0" expanded="false" />
-                <element signature="e#22945#23025#0" expanded="false" />
-                <element signature="e#23027#23506#0" expanded="false" />
-                <element signature="e#23206#23432#0" expanded="false" />
-                <element signature="e#23438#23506#0" expanded="false" />
-                <element signature="e#23508#23680#0" expanded="false" />
-                <element signature="e#23833#23919#0" expanded="false" />
-                <element signature="e#23974#24122#0" expanded="false" />
+                <element signature="e#22836#22926#0" expanded="false" />
+                <element signature="e#22929#23818#0" expanded="false" />
+                <element signature="e#22960#23078#0" expanded="false" />
+                <element signature="e#23080#23160#0" expanded="false" />
+                <element signature="e#23162#23641#0" expanded="false" />
+                <element signature="e#23341#23567#0" expanded="false" />
+                <element signature="e#23573#23641#0" expanded="false" />
+                <element signature="e#23643#23815#0" expanded="false" />
+                <element signature="e#23847#23914#0" expanded="false" />
+                <element signature="e#23968#24054#0" expanded="false" />
+                <element signature="e#24109#24257#0" expanded="false" />
                 <element signature="n#!!block;n#getVendor#0" expanded="false" />
-                <element signature="e#24251#24515#0" expanded="false" />
+                <element signature="e#24386#24650#0" expanded="false" />
                 <element signature="n#!!block;n#getSimplyVendors#0" expanded="false" />
-                <element signature="e#24733#25195#0" expanded="false" />
-                <element signature="e#25081#25111#0" expanded="false" />
-                <element signature="e#25135#25165#0" expanded="false" />
+                <element signature="e#24868#25330#0" expanded="false" />
+                <element signature="e#25216#25246#0" expanded="false" />
+                <element signature="e#25270#25300#0" expanded="false" />
                 <element signature="n#!!block;n#getVendors#0" expanded="false" />
-                <element signature="e#25419#25973#0" expanded="false" />
-                <element signature="e#25859#25889#0" expanded="false" />
-                <element signature="e#25913#25943#0" expanded="false" />
+                <element signature="e#25554#26108#0" expanded="false" />
+                <element signature="e#25994#26024#0" expanded="false" />
+                <element signature="e#26048#26078#0" expanded="false" />
                 <element signature="n#!!block;n#vendors#0" expanded="false" />
-                <element signature="e#26109#26240#0" expanded="false" />
-                <element signature="e#26280#26423#0" expanded="false" />
-                <element signature="e#26465#26507#0" expanded="false" />
-                <element signature="e#26524#26587#0" expanded="false" />
-                <element signature="e#26609#26659#0" expanded="false" />
+                <element signature="e#26244#26375#0" expanded="false" />
+                <element signature="e#26415#26558#0" expanded="false" />
+                <element signature="e#26600#26642#0" expanded="false" />
+                <element signature="e#26659#26722#0" expanded="false" />
+                <element signature="e#26744#26794#0" expanded="false" />
                 <element signature="n#!!block;n#delivery#0" expanded="false" />
-                <element signature="e#26832#26928#0" expanded="false" />
-                <element signature="e#26972#27397#0" expanded="false" />
-                <element signature="e#27141#27319#0" expanded="false" />
-                <element signature="e#27325#27393#0" expanded="false" />
-                <element signature="e#27439#27719#0" expanded="false" />
-                <element signature="e#27761#27803#0" expanded="false" />
-                <element signature="e#27843#27920#0" expanded="false" />
-                <element signature="e#27936#28032#0" expanded="false" />
-                <element signature="e#28054#28167#0" expanded="false" />
+                <element signature="e#26967#27063#0" expanded="false" />
+                <element signature="e#27107#27532#0" expanded="false" />
+                <element signature="e#27276#27454#0" expanded="false" />
+                <element signature="e#27460#27528#0" expanded="false" />
+                <element signature="e#27574#27854#0" expanded="false" />
+                <element signature="e#27896#27938#0" expanded="false" />
+                <element signature="e#27978#28055#0" expanded="false" />
+                <element signature="e#28071#28167#0" expanded="false" />
+                <element signature="e#28189#28302#0" expanded="false" />
                 <element signature="n#!!block;n#load#0" expanded="false" />
-                <element signature="e#28293#28333#0" expanded="false" />
-                <element signature="e#28355#28394#0" expanded="false" />
+                <element signature="e#28428#28468#0" expanded="false" />
+                <element signature="e#28490#28529#0" expanded="false" />
                 <element signature="n#!!block;n#unload#0" expanded="false" />
-                <element signature="e#28517#28557#0" expanded="false" />
-                <element signature="e#28579#28619#0" expanded="false" />
+                <element signature="e#28652#28692#0" expanded="false" />
+                <element signature="e#28714#28754#0" expanded="false" />
+                <element signature="e#28806#28853#0" expanded="false" />
                 <element signature="n#!!block;n#getIncome#0" expanded="false" />
-                <element signature="e#29544#29585#0" expanded="false" />
-                <element signature="e#29651#29692#0" expanded="false" />
-                <element signature="e#29749#29782#0" expanded="false" />
-                <element signature="e#29821#30450#0" expanded="false" />
-                <element signature="e#31057#31085#0" expanded="false" />
-                <element signature="e#31467#31613#0" expanded="false" />
+                <element signature="e#29392#29920#0" expanded="false" />
+                <element signature="e#29679#29720#0" expanded="false" />
+                <element signature="e#29786#29827#0" expanded="false" />
+                <element signature="e#29884#29917#0" expanded="false" />
+                <element signature="e#29956#30585#0" expanded="false" />
+                <element signature="n#!!block;n#stat#0" expanded="false" />
+                <element signature="e#30665#30762#0" expanded="false" />
+                <element signature="e#31130#31162#0" expanded="false" />
+                <element signature="e#31192#31220#0" expanded="false" />
+                <element signature="e#31438#31506#0" expanded="false" />
+                <element signature="e#31468#31502#0" expanded="false" />
+                <element signature="e#31523#31552#0" expanded="false" />
+                <element signature="e#31602#31748#0" expanded="false" />
                 <element signature="n#!!block;n#getProductsInMainStock#0" expanded="false" />
-                <element signature="e#31793#33490#0" expanded="false" />
-                <element signature="e#32158#32188#0" expanded="false" />
-                <element signature="e#32194#32223#0" expanded="false" />
-                <element signature="e#32676#32698#0" expanded="false" />
-                <element signature="e#32719#32816#0" expanded="false" />
-                <element signature="e#33100#33122#0" expanded="false" />
-                <element signature="e#33312#33333#0" expanded="false" />
+                <element signature="e#31928#33625#0" expanded="false" />
+                <element signature="e#32293#32323#0" expanded="false" />
+                <element signature="e#32329#32358#0" expanded="false" />
+                <element signature="e#32811#32833#0" expanded="false" />
+                <element signature="e#32854#32951#0" expanded="false" />
+                <element signature="e#33235#33257#0" expanded="false" />
+                <element signature="e#33447#33468#0" expanded="false" />
                 <element signature="n#!!block;n#getProductsInVan#0" expanded="false" />
-                <element signature="e#33721#34724#0" expanded="false" />
-                <element signature="e#34220#34242#0" expanded="false" />
-                <element signature="e#34628#34650#0" expanded="false" />
+                <element signature="e#33856#34859#0" expanded="false" />
+                <element signature="e#34355#34377#0" expanded="false" />
+                <element signature="e#34763#34785#0" expanded="false" />
                 <element signature="n#!!block;n#getProducts#0" expanded="false" />
-                <element signature="e#34924#36424#0" expanded="false" />
-                <element signature="e#35289#35319#0" expanded="false" />
-                <element signature="e#35325#35354#0" expanded="false" />
-                <element signature="e#35614#35636#0" expanded="false" />
-                <element signature="e#35809#35831#0" expanded="false" />
-                <element signature="e#36024#36046#0" expanded="false" />
-                <element signature="e#36236#36257#0" expanded="false" />
+                <element signature="e#35059#36559#0" expanded="false" />
+                <element signature="e#35424#35454#0" expanded="false" />
+                <element signature="e#35460#35489#0" expanded="false" />
+                <element signature="e#35749#35771#0" expanded="false" />
+                <element signature="e#35944#35966#0" expanded="false" />
+                <element signature="e#36159#36181#0" expanded="false" />
+                <element signature="e#36371#36392#0" expanded="false" />
                 <element signature="n#!!block;n#products#0" expanded="false" />
-                <element signature="e#36563#36719#0" expanded="false" />
-                <element signature="e#36759#36927#0" expanded="false" />
-                <element signature="e#36969#37011#0" expanded="false" />
-                <element signature="e#37028#37095#0" expanded="false" />
-                <element signature="e#37117#37168#0" expanded="false" />
+                <element signature="e#36698#36854#0" expanded="false" />
+                <element signature="e#36894#37062#0" expanded="false" />
+                <element signature="e#37104#37146#0" expanded="false" />
+                <element signature="e#37163#37230#0" expanded="false" />
+                <element signature="e#37252#37303#0" expanded="false" />
                 <element signature="n#!!block;n#getCustomerPaymentsForPayment#0" expanded="false" />
-                <element signature="e#37356#37859#0" expanded="false" />
+                <element signature="e#37491#37994#0" expanded="false" />
                 <element signature="n#!!block;n#get_invoicesForPayments#0" expanded="false" />
-                <element signature="e#38079#39354#0" expanded="false" />
-                <element signature="e#38813#38847#0" expanded="false" />
-                <element signature="e#38919#38976#0" expanded="false" />
-                <element signature="e#39098#39125#0" expanded="false" />
-                <element signature="e#39131#39194#0" expanded="false" />
-                <element signature="e#39222#39252#0" expanded="false" />
-                <element signature="e#39258#39287#0" expanded="false" />
-                <element signature="e#39318#39351#0" expanded="false" />
+                <element signature="e#38214#39489#0" expanded="false" />
+                <element signature="e#38948#38982#0" expanded="false" />
+                <element signature="e#39054#39111#0" expanded="false" />
+                <element signature="e#39233#39260#0" expanded="false" />
+                <element signature="e#39266#39329#0" expanded="false" />
+                <element signature="e#39357#39387#0" expanded="false" />
+                <element signature="e#39393#39422#0" expanded="false" />
+                <element signature="e#39453#39486#0" expanded="false" />
                 <element signature="n#!!block;n#payment#0" expanded="false" />
-                <element signature="e#39490#39903#0" expanded="false" />
-                <element signature="e#39665#39826#0" expanded="false" />
-                <element signature="e#39832#39900#0" expanded="false" />
-                <element signature="e#39943#40100#0" expanded="false" />
-                <element signature="e#40142#40188#0" expanded="false" />
-                <element signature="e#40205#40320#0" expanded="false" />
-                <element signature="e#40390#40551#0" expanded="false" />
-                <element signature="e#40412#40548#0" expanded="false" />
-                <element signature="e#40557#40742#0" expanded="false" />
-                <element signature="e#40579#40739#0" expanded="false" />
+                <element signature="e#39625#40038#0" expanded="false" />
+                <element signature="e#39800#39961#0" expanded="false" />
+                <element signature="e#39967#40035#0" expanded="false" />
+                <element signature="e#40078#40235#0" expanded="false" />
+                <element signature="e#40277#40323#0" expanded="false" />
+                <element signature="e#40340#40455#0" expanded="false" />
+                <element signature="e#40525#40686#0" expanded="false" />
+                <element signature="e#40547#40683#0" expanded="false" />
+                <element signature="e#40692#40877#0" expanded="false" />
+                <element signature="e#40714#40874#0" expanded="false" />
                 <element signature="n#!!block;n#home#0" expanded="false" />
-                <element signature="e#40881#40994#0" expanded="false" />
+                <element signature="e#41016#41129#0" expanded="false" />
                 <element signature="n#!!block;n#startService#0" expanded="false" />
-                <element signature="e#41193#41234#0" expanded="false" />
+                <element signature="e#41328#41369#0" expanded="false" />
                 <element signature="n#!!block;n#int2floatStr#0" expanded="false" />
-                <element signature="e#41335#41412#0" expanded="false" />
-                <element signature="e#41418#41494#0" expanded="false" />
+                <element signature="e#41470#41547#0" expanded="false" />
+                <element signature="e#41553#41629#0" expanded="false" />
                 <element signature="n#!!block;n#strfloat2strint#0" expanded="false" />
-                <element signature="e#41599#41617#0" expanded="false" />
-                <element signature="e#41640#41803#0" expanded="false" />
-                <element signature="e#41695#41722#0" expanded="false" />
-                <element signature="e#41745#41774#0" expanded="false" />
-                <element signature="e#41780#41800#0" expanded="false" />
+                <element signature="e#41734#41752#0" expanded="false" />
+                <element signature="e#41775#41938#0" expanded="false" />
+                <element signature="e#41830#41857#0" expanded="false" />
+                <element signature="e#41880#41909#0" expanded="false" />
+                <element signature="e#41915#41935#0" expanded="false" />
                 <element signature="n#!!block;n#main#0" expanded="false" />
-                <element signature="e#42399#42549#0" expanded="false" />
-                <element signature="e#42426#42483#0" expanded="false" />
-                <element signature="e#42489#42546#0" expanded="false" />
+                <element signature="e#42547#42697#0" expanded="false" />
+                <element signature="e#42574#42631#0" expanded="false" />
+                <element signature="e#42637#42694#0" expanded="false" />
+                <element signature="n#!!block;n#initFiles#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -337,13 +642,14 @@
         <option value="$PROJECT_DIR$/core/editInvoice" />
         <option value="$PROJECT_DIR$/core/invoice" />
         <option value="$PROJECT_DIR$/core/stat" />
+        <option value="$PROJECT_DIR$/core/home" />
         <option value="$PROJECT_DIR$/main.go" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="28" />
-    <option name="y" value="178" />
+    <option name="x" value="53" />
+    <option name="y" value="111" />
     <option name="width" value="1313" />
     <option name="height" value="626" />
   </component>
@@ -372,20 +678,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="out" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="out" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="out" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -684,12 +976,19 @@
       <option name="project" value="LOCAL" />
       <updated>1509451167788</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="stat total and day sale">
+      <created>1509515873327</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1509515873327</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="28" y="178" width="1313" height="626" extended-state="0" />
-    <editor active="true" />
+    <frame x="53" y="111" width="1313" height="626" extended-state="0" />
+    <editor active="false" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="DB Browser" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32945737" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -699,14 +998,14 @@
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32954547" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28219697" sideWeight="0.48866856" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32954547" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23023255" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23023255" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="MaxCompute Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="MaxCompute Job" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="MaxCompute Job Explorer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32945737" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24875312" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="MaxCompute Project Explorer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32945737" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39978448" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39962122" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -751,39 +1050,40 @@
     <MESSAGE value="editgrn buy price not necessory" />
     <MESSAGE value="edit invoice display only available stock" />
     <MESSAGE value="stat income" />
-    <option name="LAST_COMMIT_MESSAGE" value="stat income" />
+    <MESSAGE value="stat total and day sale" />
+    <option name="LAST_COMMIT_MESSAGE" value="stat total and day sale" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/main.go</url>
-          <line>502</line>
+          <line>512</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/main.go</url>
-          <line>476</line>
+          <line>486</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/main.go</url>
-          <line>1285</line>
+          <line>1295</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/main.go</url>
-          <line>1298</line>
+          <line>1308</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/main.go</url>
-          <line>1219</line>
+          <line>1229</line>
           <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/main.go</url>
-          <line>333</line>
+          <line>343</line>
           <option name="timeStamp" value="13" />
         </line-breakpoint>
       </breakpoints>
@@ -795,17 +1095,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="db://[mandy] CONSOLE - mandy" />
-    <entry file="db://[mandy] SESSION BROWSER - mandy" />
-    <entry file="file://$PROJECT_DIR$/db.sql" />
-    <entry file="file://$PROJECT_DIR$/helper/js/demo/morris-demo.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/customers" />
     <entry file="file://$PROJECT_DIR$/delivery" />
     <entry file="file://$PROJECT_DIR$/editGRN" />
     <entry file="file://$PROJECT_DIR$/editInvoice" />
@@ -818,13 +1107,6 @@
     <entry file="file://$PROJECT_DIR$/unload" />
     <entry file="file://$PROJECT_DIR$/vendors" />
     <entry file="file://$PROJECT_DIR$/stat" />
-    <entry file="file://$PROJECT_DIR$/core/db.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1066">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/logfile.txt" />
     <entry file="file://$PROJECT_DIR$/log/10_06_2017_10.35.25log.txt" />
     <entry file="file://$PROJECT_DIR$/log/10_06_2017_10.35.29log.txt" />
@@ -886,34 +1168,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/products">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="92">
-          <caret line="253" column="0" lean-forward="false" selection-start-line="253" selection-start-column="0" selection-end-line="284" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/payment">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="153" column="22" lean-forward="false" selection-start-line="153" selection-start-column="22" selection-end-line="153" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/customers">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3390">
-          <caret line="226" column="92" lean-forward="false" selection-start-line="226" selection-start-column="69" selection-end-line="226" selection-end-column="98" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/vendors">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3240">
-          <caret line="216" column="98" lean-forward="false" selection-start-line="216" selection-start-column="98" selection-end-line="216" selection-end-column="98" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/core/tmp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -921,39 +1175,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/grn">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="162" column="61" lean-forward="false" selection-start-line="162" selection-start-column="61" selection-end-line="162" selection-end-column="61" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/editInvoice">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="110" column="88" lean-forward="false" selection-start-line="110" selection-start-column="88" selection-end-line="110" selection-end-column="88" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/editGRN">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="157">
-          <caret line="111" column="47" lean-forward="true" selection-start-line="111" selection-start-column="28" selection-end-line="111" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/invoice">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="377">
-          <caret line="133" column="94" lean-forward="false" selection-start-line="133" selection-start-column="91" selection-end-line="133" selection-end-column="94" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/log/10_24_2017_09.55.58.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -961,7 +1186,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
           <caret line="12" column="64" lean-forward="true" selection-start-line="12" selection-start-column="58" selection-end-line="12" selection-end-column="64" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -969,24 +1193,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="25" lean-forward="true" selection-start-line="0" selection-start-column="25" selection-end-line="0" selection-end-column="25" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/stat">
+    <entry file="file://$PROJECT_DIR$/backup/1 nov 2017/main.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="135" column="47" lean-forward="false" selection-start-line="135" selection-start-column="47" selection-end-line="135" selection-end-column="47" />
-          <folding>
-            <element signature="n#script#24;n#body#0;n#html#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="1419" column="27" lean-forward="false" selection-start-line="1419" selection-start-column="27" selection-end-line="1419" selection-end-column="27" />
+        <state relative-caret-position="131">
+          <caret line="352" column="37" lean-forward="true" selection-start-line="352" selection-start-column="8" selection-end-line="352" selection-end-column="37" />
           <folding>
             <element signature="e#412#544#0" expanded="false" />
             <element signature="e#559#665#0" expanded="false" />
@@ -1025,7 +1238,8 @@
             <element signature="n#!!block;n#checkErr#0" expanded="false" />
             <element signature="e#6673#6710#0" expanded="false" />
             <element signature="e#6805#6818#0" expanded="false" />
-            <element signature="n#!!block;n#initDatabase#0" expanded="false" />
+            <element signature="e#6820#7043#0" expanded="false" />
+            <element signature="e#6834#7040#0" expanded="false" />
             <element signature="n#!!block;n#getResultDB#0" expanded="false" />
             <element signature="n#!!block;n#executeDB#0" expanded="false" />
             <element signature="n#!!block;n#insertData#0" expanded="false" />
@@ -1110,6 +1324,7 @@
             <element signature="e#21850#21930#0" expanded="false" />
             <element signature="e#21932#22181#0" expanded="false" />
             <element signature="e#22214#22382#0" expanded="false" />
+            <element signature="e#22414#22477#0" expanded="false" />
             <element signature="e#22494#22576#0" expanded="false" />
             <element signature="n#!!block;n#editInvoice#0" expanded="false" />
             <element signature="e#22701#22791#0" expanded="false" />
@@ -1120,6 +1335,7 @@
             <element signature="e#23206#23432#0" expanded="false" />
             <element signature="e#23438#23506#0" expanded="false" />
             <element signature="e#23508#23680#0" expanded="false" />
+            <element signature="e#23712#23779#0" expanded="false" />
             <element signature="e#23833#23919#0" expanded="false" />
             <element signature="e#23974#24122#0" expanded="false" />
             <element signature="n#!!block;n#getVendor#0" expanded="false" />
@@ -1154,12 +1370,20 @@
             <element signature="n#!!block;n#unload#0" expanded="false" />
             <element signature="e#28517#28557#0" expanded="false" />
             <element signature="e#28579#28619#0" expanded="false" />
+            <element signature="e#28671#28718#0" expanded="false" />
             <element signature="n#!!block;n#getIncome#0" expanded="false" />
+            <element signature="e#29257#29785#0" expanded="false" />
             <element signature="e#29544#29585#0" expanded="false" />
             <element signature="e#29651#29692#0" expanded="false" />
             <element signature="e#29749#29782#0" expanded="false" />
             <element signature="e#29821#30450#0" expanded="false" />
+            <element signature="n#!!block;n#stat#0" expanded="false" />
+            <element signature="e#30530#30627#0" expanded="false" />
+            <element signature="e#30995#31027#0" expanded="false" />
             <element signature="e#31057#31085#0" expanded="false" />
+            <element signature="e#31303#31371#0" expanded="false" />
+            <element signature="e#31333#31367#0" expanded="false" />
+            <element signature="e#31388#31417#0" expanded="false" />
             <element signature="e#31467#31613#0" expanded="false" />
             <element signature="n#!!block;n#getProductsInMainStock#0" expanded="false" />
             <element signature="e#31793#33490#0" expanded="false" />
@@ -1222,10 +1446,384 @@
             <element signature="e#41695#41722#0" expanded="false" />
             <element signature="e#41745#41774#0" expanded="false" />
             <element signature="e#41780#41800#0" expanded="false" />
-            <element signature="n#!!block;n#main#0" expanded="false" />
             <element signature="e#42399#42549#0" expanded="false" />
             <element signature="e#42426#42483#0" expanded="false" />
             <element signature="e#42489#42546#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/customers">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="64">
+          <caret line="209" column="14" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="446" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/db.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="19" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/delivery">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="267" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/editGRN">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="157">
+          <caret line="111" column="47" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="600" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/editInvoice">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="110" column="88" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="587" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/grn">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="156" column="26" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="532" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/home">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="139">
+          <caret line="31" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/invoice">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="199">
+          <caret line="125" column="26" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="575" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/load">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="183" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/payment">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="165" column="19" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="598" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/products">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="137">
+          <caret line="256" column="12" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="287" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/stat">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="230">
+          <caret line="139" column="13" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="515" selection-end-column="0" />
+          <folding>
+            <element signature="n#script#24;n#body#0;n#html#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/unload">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="187" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/vendors">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="124">
+          <caret line="203" column="15" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="347" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="94">
+          <caret line="305" column="0" lean-forward="true" selection-start-line="305" selection-start-column="0" selection-end-line="305" selection-end-column="0" />
+          <folding>
+            <element signature="e#14#200#0" expanded="true" />
+            <element signature="e#443#575#0" expanded="false" />
+            <element signature="e#590#696#0" expanded="false" />
+            <element signature="e#713#819#0" expanded="false" />
+            <element signature="e#837#977#0" expanded="false" />
+            <element signature="n#!!block;n#getProductVan#0" expanded="false" />
+            <element signature="e#1118#1697#0" expanded="false" />
+            <element signature="n#!!block;n#getVansForDelivery#0" expanded="false" />
+            <element signature="e#1899#3471#0" expanded="false" />
+            <element signature="e#1929#1955#0" expanded="false" />
+            <element signature="e#1961#1988#0" expanded="false" />
+            <element signature="e#2317#3425#0" expanded="false" />
+            <element signature="e#2873#2897#0" expanded="false" />
+            <element signature="e#3317#3341#0" expanded="false" />
+            <element signature="n#!!block;n#getLoadings#0" expanded="false" />
+            <element signature="e#3653#4212#0" expanded="false" />
+            <element signature="e#4080#4141#0" expanded="false" />
+            <element signature="n#!!block;n#getUnoadings#0" expanded="false" />
+            <element signature="e#4414#4975#0" expanded="false" />
+            <element signature="e#4843#4904#0" expanded="false" />
+            <element signature="n#!!block;n#getVansForLoading#0" expanded="false" />
+            <element signature="e#5177#5514#0" expanded="false" />
+            <element signature="e#5207#5233#0" expanded="false" />
+            <element signature="e#5239#5266#0" expanded="false" />
+            <element signature="n#!!block;n#getVansForUnoading#0" expanded="false" />
+            <element signature="e#5717#6057#0" expanded="false" />
+            <element signature="e#5747#5773#0" expanded="false" />
+            <element signature="e#5779#5806#0" expanded="false" />
+            <element signature="n#!!block;n#debugMSG#0" expanded="false" />
+            <element signature="n#!!block;n#readFile#0" expanded="false" />
+            <element signature="n#!!block;n#showFile#0" expanded="false" />
+            <element signature="e#6486#6499#0" expanded="false" />
+            <element signature="e#6552#6581#0" expanded="false" />
+            <element signature="e#6636#6694#0" expanded="false" />
+            <element signature="e#6700#6747#0" expanded="false" />
+            <element signature="n#!!block;n#checkErr#0" expanded="false" />
+            <element signature="e#6808#6845#0" expanded="false" />
+            <element signature="e#6940#6953#0" expanded="false" />
+            <element signature="e#6955#7178#0" expanded="false" />
+            <element signature="e#6969#7175#0" expanded="false" />
+            <element signature="n#!!block;n#initDatabase#0" expanded="false" />
+            <element signature="n#!!block;n#getResultDB#0" expanded="false" />
+            <element signature="n#!!block;n#executeDB#0" expanded="false" />
+            <element signature="n#!!block;n#insertData#0" expanded="false" />
+            <element signature="n#!!block;n#deleteData#0" expanded="false" />
+            <element signature="n#!!block;n#updateData#0" expanded="false" />
+            <element signature="n#!!block;n#getNextID#0" expanded="false" />
+            <element signature="e#8161#8177#0" expanded="false" />
+            <element signature="n#!!block;n#checkUser#0" expanded="false" />
+            <element signature="e#8405#8485#0" expanded="false" />
+            <element signature="n#!!block;n#getVansForInvoice#0" expanded="false" />
+            <element signature="e#8672#9028#0" expanded="false" />
+            <element signature="e#8709#8735#0" expanded="false" />
+            <element signature="e#8741#8768#0" expanded="false" />
+            <element signature="n#!!block;n#getSimplyCustomers#0" expanded="false" />
+            <element signature="e#9235#9547#0" expanded="false" />
+            <element signature="n#!!block;n#invoice#0" expanded="false" />
+            <element signature="e#9683#10065#0" expanded="false" />
+            <element signature="e#10078#10173#0" expanded="false" />
+            <element signature="e#10209#10324#0" expanded="false" />
+            <element signature="n#!!block;n#grn#0" expanded="false" />
+            <element signature="e#10465#10786#0" expanded="false" />
+            <element signature="e#10799#10896#0" expanded="false" />
+            <element signature="e#10932#11036#0" expanded="false" />
+            <element signature="e#11092#11205#0" expanded="false" />
+            <element signature="n#!!block;n#getCustomerPayments#0" expanded="false" />
+            <element signature="e#11425#11796#0" expanded="false" />
+            <element signature="e#11846#11994#0" expanded="false" />
+            <element signature="n#!!block;n#calculateMargine#0" expanded="false" />
+            <element signature="e#12066#12083#0" expanded="false" />
+            <element signature="n#!!block;n#getInvoiceRecords#0" expanded="false" />
+            <element signature="e#12309#13058#0" expanded="false" />
+            <element signature="e#13103#13551#0" expanded="false" />
+            <element signature="n#!!block;n#getSimplyCustomer#0" expanded="false" />
+            <element signature="e#13693#13957#0" expanded="false" />
+            <element signature="n#!!block;n#get_invoices#0" expanded="false" />
+            <element signature="e#14180#15462#0" expanded="false" />
+            <element signature="e#14914#14948#0" expanded="false" />
+            <element signature="e#15020#15077#0" expanded="false" />
+            <element signature="e#15242#15269#0" expanded="false" />
+            <element signature="e#15275#15338#0" expanded="false" />
+            <element signature="e#15366#15396#0" expanded="false" />
+            <element signature="e#15402#15431#0" expanded="false" />
+            <element signature="n#!!block;n#get_invoice#0" expanded="false" />
+            <element signature="e#15627#16862#0" expanded="false" />
+            <element signature="e#16341#16375#0" expanded="false" />
+            <element signature="e#16447#16504#0" expanded="false" />
+            <element signature="e#16669#16696#0" expanded="false" />
+            <element signature="e#16702#16765#0" expanded="false" />
+            <element signature="e#16793#16823#0" expanded="false" />
+            <element signature="e#16829#16858#0" expanded="false" />
+            <element signature="e#16906#17092#0" expanded="false" />
+            <element signature="n#!!block;n#getCustomers#0" expanded="false" />
+            <element signature="e#17292#18039#0" expanded="false" />
+            <element signature="e#17761#17828#0" expanded="false" />
+            <element signature="e#17857#17887#0" expanded="false" />
+            <element signature="e#17925#17947#0" expanded="false" />
+            <element signature="e#17953#18009#0" expanded="false" />
+            <element signature="n#!!block;n#customers#0" expanded="false" />
+            <element signature="e#18177#18308#0" expanded="false" />
+            <element signature="e#18348#18491#0" expanded="false" />
+            <element signature="e#18533#18575#0" expanded="false" />
+            <element signature="e#18592#18663#0" expanded="false" />
+            <element signature="e#18685#18737#0" expanded="false" />
+            <element signature="e#18795#18897#0" expanded="false" />
+            <element signature="n#!!block;n#getGrnRecords#0" expanded="false" />
+            <element signature="e#19076#19698#0" expanded="false" />
+            <element signature="e#19739#19927#0" expanded="false" />
+            <element signature="n#!!block;n#get_grns#0" expanded="false" />
+            <element signature="e#20110#20819#0" expanded="false" />
+            <element signature="e#20568#20597#0" expanded="false" />
+            <element signature="e#20665#20695#0" expanded="false" />
+            <element signature="e#20701#20730#0" expanded="false" />
+            <element signature="n#!!block;n#get_grn#0" expanded="false" />
+            <element signature="e#20971#21636#0" expanded="false" />
+            <element signature="e#21413#21442#0" expanded="false" />
+            <element signature="e#21510#21540#0" expanded="false" />
+            <element signature="e#21546#21575#0" expanded="false" />
+            <element signature="n#!!block;n#editGRN#0" expanded="false" />
+            <element signature="e#21748#21831#0" expanded="false" />
+            <element signature="e#21834#22520#0" expanded="false" />
+            <element signature="e#21865#21983#0" expanded="false" />
+            <element signature="e#21985#22065#0" expanded="false" />
+            <element signature="e#22067#22316#0" expanded="false" />
+            <element signature="e#22349#22517#0" expanded="false" />
+            <element signature="e#22549#22612#0" expanded="false" />
+            <element signature="e#22629#22711#0" expanded="false" />
+            <element signature="n#!!block;n#editInvoice#0" expanded="false" />
+            <element signature="e#22836#22926#0" expanded="false" />
+            <element signature="e#22929#23818#0" expanded="false" />
+            <element signature="e#22960#23078#0" expanded="false" />
+            <element signature="e#23080#23160#0" expanded="false" />
+            <element signature="e#23162#23641#0" expanded="false" />
+            <element signature="e#23341#23567#0" expanded="false" />
+            <element signature="e#23573#23641#0" expanded="false" />
+            <element signature="e#23643#23815#0" expanded="false" />
+            <element signature="e#23847#23914#0" expanded="false" />
+            <element signature="e#23968#24054#0" expanded="false" />
+            <element signature="e#24109#24257#0" expanded="false" />
+            <element signature="n#!!block;n#getVendor#0" expanded="false" />
+            <element signature="e#24386#24650#0" expanded="false" />
+            <element signature="n#!!block;n#getSimplyVendors#0" expanded="false" />
+            <element signature="e#24868#25330#0" expanded="false" />
+            <element signature="e#25216#25246#0" expanded="false" />
+            <element signature="e#25270#25300#0" expanded="false" />
+            <element signature="n#!!block;n#getVendors#0" expanded="false" />
+            <element signature="e#25554#26108#0" expanded="false" />
+            <element signature="e#25994#26024#0" expanded="false" />
+            <element signature="e#26048#26078#0" expanded="false" />
+            <element signature="n#!!block;n#vendors#0" expanded="false" />
+            <element signature="e#26244#26375#0" expanded="false" />
+            <element signature="e#26415#26558#0" expanded="false" />
+            <element signature="e#26600#26642#0" expanded="false" />
+            <element signature="e#26659#26722#0" expanded="false" />
+            <element signature="e#26744#26794#0" expanded="false" />
+            <element signature="n#!!block;n#delivery#0" expanded="false" />
+            <element signature="e#26967#27063#0" expanded="false" />
+            <element signature="e#27107#27532#0" expanded="false" />
+            <element signature="e#27276#27454#0" expanded="false" />
+            <element signature="e#27460#27528#0" expanded="false" />
+            <element signature="e#27574#27854#0" expanded="false" />
+            <element signature="e#27896#27938#0" expanded="false" />
+            <element signature="e#27978#28055#0" expanded="false" />
+            <element signature="e#28071#28167#0" expanded="false" />
+            <element signature="e#28189#28302#0" expanded="false" />
+            <element signature="n#!!block;n#load#0" expanded="false" />
+            <element signature="e#28428#28468#0" expanded="false" />
+            <element signature="e#28490#28529#0" expanded="false" />
+            <element signature="n#!!block;n#unload#0" expanded="false" />
+            <element signature="e#28652#28692#0" expanded="false" />
+            <element signature="e#28714#28754#0" expanded="false" />
+            <element signature="e#28806#28853#0" expanded="false" />
+            <element signature="n#!!block;n#getIncome#0" expanded="false" />
+            <element signature="e#29392#29920#0" expanded="false" />
+            <element signature="e#29679#29720#0" expanded="false" />
+            <element signature="e#29786#29827#0" expanded="false" />
+            <element signature="e#29884#29917#0" expanded="false" />
+            <element signature="e#29956#30585#0" expanded="false" />
+            <element signature="n#!!block;n#stat#0" expanded="false" />
+            <element signature="e#30665#30762#0" expanded="false" />
+            <element signature="e#31130#31162#0" expanded="false" />
+            <element signature="e#31192#31220#0" expanded="false" />
+            <element signature="e#31438#31506#0" expanded="false" />
+            <element signature="e#31468#31502#0" expanded="false" />
+            <element signature="e#31523#31552#0" expanded="false" />
+            <element signature="e#31602#31748#0" expanded="false" />
+            <element signature="n#!!block;n#getProductsInMainStock#0" expanded="false" />
+            <element signature="e#31928#33625#0" expanded="false" />
+            <element signature="e#32293#32323#0" expanded="false" />
+            <element signature="e#32329#32358#0" expanded="false" />
+            <element signature="e#32811#32833#0" expanded="false" />
+            <element signature="e#32854#32951#0" expanded="false" />
+            <element signature="e#33235#33257#0" expanded="false" />
+            <element signature="e#33447#33468#0" expanded="false" />
+            <element signature="n#!!block;n#getProductsInVan#0" expanded="false" />
+            <element signature="e#33856#34859#0" expanded="false" />
+            <element signature="e#34355#34377#0" expanded="false" />
+            <element signature="e#34763#34785#0" expanded="false" />
+            <element signature="n#!!block;n#getProducts#0" expanded="false" />
+            <element signature="e#35059#36559#0" expanded="false" />
+            <element signature="e#35424#35454#0" expanded="false" />
+            <element signature="e#35460#35489#0" expanded="false" />
+            <element signature="e#35749#35771#0" expanded="false" />
+            <element signature="e#35944#35966#0" expanded="false" />
+            <element signature="e#36159#36181#0" expanded="false" />
+            <element signature="e#36371#36392#0" expanded="false" />
+            <element signature="n#!!block;n#products#0" expanded="false" />
+            <element signature="e#36698#36854#0" expanded="false" />
+            <element signature="e#36894#37062#0" expanded="false" />
+            <element signature="e#37104#37146#0" expanded="false" />
+            <element signature="e#37163#37230#0" expanded="false" />
+            <element signature="e#37252#37303#0" expanded="false" />
+            <element signature="n#!!block;n#getCustomerPaymentsForPayment#0" expanded="false" />
+            <element signature="e#37491#37994#0" expanded="false" />
+            <element signature="n#!!block;n#get_invoicesForPayments#0" expanded="false" />
+            <element signature="e#38214#39489#0" expanded="false" />
+            <element signature="e#38948#38982#0" expanded="false" />
+            <element signature="e#39054#39111#0" expanded="false" />
+            <element signature="e#39233#39260#0" expanded="false" />
+            <element signature="e#39266#39329#0" expanded="false" />
+            <element signature="e#39357#39387#0" expanded="false" />
+            <element signature="e#39393#39422#0" expanded="false" />
+            <element signature="e#39453#39486#0" expanded="false" />
+            <element signature="n#!!block;n#payment#0" expanded="false" />
+            <element signature="e#39625#40038#0" expanded="false" />
+            <element signature="e#39800#39961#0" expanded="false" />
+            <element signature="e#39967#40035#0" expanded="false" />
+            <element signature="e#40078#40235#0" expanded="false" />
+            <element signature="e#40277#40323#0" expanded="false" />
+            <element signature="e#40340#40455#0" expanded="false" />
+            <element signature="e#40525#40686#0" expanded="false" />
+            <element signature="e#40547#40683#0" expanded="false" />
+            <element signature="e#40692#40877#0" expanded="false" />
+            <element signature="e#40714#40874#0" expanded="false" />
+            <element signature="n#!!block;n#home#0" expanded="false" />
+            <element signature="e#41016#41129#0" expanded="false" />
+            <element signature="n#!!block;n#startService#0" expanded="false" />
+            <element signature="e#41328#41369#0" expanded="false" />
+            <element signature="n#!!block;n#int2floatStr#0" expanded="false" />
+            <element signature="e#41470#41547#0" expanded="false" />
+            <element signature="e#41553#41629#0" expanded="false" />
+            <element signature="n#!!block;n#strfloat2strint#0" expanded="false" />
+            <element signature="e#41734#41752#0" expanded="false" />
+            <element signature="e#41775#41938#0" expanded="false" />
+            <element signature="e#41830#41857#0" expanded="false" />
+            <element signature="e#41880#41909#0" expanded="false" />
+            <element signature="e#41915#41935#0" expanded="false" />
+            <element signature="n#!!block;n#main#0" expanded="false" />
+            <element signature="e#42547#42697#0" expanded="false" />
+            <element signature="e#42574#42631#0" expanded="false" />
+            <element signature="e#42637#42694#0" expanded="false" />
+            <element signature="n#!!block;n#initFiles#0" expanded="false" />
           </folding>
         </state>
       </provider>

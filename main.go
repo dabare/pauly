@@ -2,7 +2,7 @@ package main
 
 import (
 	"net/http"
-	"io/ioutil"
+	//"io/ioutil"
 	"log"
 	"html/template"
 	"database/sql"
@@ -22,6 +22,8 @@ var errDefault = 0
 var errTimeConversion = 3
 var errMysqlDBname = 1
 var errDBquery = 2
+
+var files map[string]string
 
 var dbName = "mandy"
 
@@ -302,14 +304,22 @@ func getVansForUnoading(filter string, val string) []van {
 	return tmp2
 }
 
+var debugCount = 0
 func debugMSG(msg string) {
-	println("Done!")
+	println(strconv.Itoa(debugCount) +" Done!")
+	debugCount++
 	//println(msg)
 }
 
 func readFile(path string) string {
-	s, _ := ioutil.ReadFile("./core/" + path)
-	return string(s)
+	s := ""
+
+	//out, _ := ioutil.ReadFile("./core/" + path)
+	//s = string(out)
+
+	s = files[path]
+
+	return s
 }
 
 var homepage = true
@@ -1855,6 +1865,7 @@ func strfloat2strint(in string) string {
 }
 
 func main() {
+	initFiles()
 	initDatabase()
 	http.HandleFunc("/invoice", invoice)
 	http.HandleFunc("/grn", grn)
@@ -1879,4 +1890,5303 @@ func main() {
 	})
 	startService()
 
+}
+
+func initFiles() {
+	files = make(map[string]string)
+	files["customers"] = `
+	<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{.Title}}</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    <!-- Toastr style -->
+    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <link href="css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+    <link href="css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div id="wrapper">
+
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav metismenu" id="side-menu">
+                <li class="">
+                    <a href="stat"><i class="fa fa-line-chart"></i> <span class="nav-label">Stats</span></a>
+                </li>
+                <li class="">
+                    <a href="payment"><i class="fa fa-money"></i> <span class="nav-label">Payment</span></a>
+                </li>
+                <li class="">
+                    <a href="load"><i class="fa fa-download"></i> <span class="nav-label">Loading</span></a>
+                </li>
+                <li class="">
+                    <a href="unload"><i class="fa fa-upload"></i> <span class="nav-label">Unloading</span></a>
+                </li>
+                <li class="">
+                    <a href="delivery"><i class="fa fa-bus"></i> <span class="nav-label">Delivery</span></a>
+                </li>
+                <li class="">
+                    <a href="invoice"><i class="fa fa-usd"></i> <span class="nav-label">Invoice</span></a>
+                </li>
+                <li class="">
+                    <a href="grn"><i class="fa fa-gbp"></i> <span class="nav-label">GRN</span></a>
+                </li>
+                <li class="">
+                    <a href="products"><i class="fa fa-cubes"></i> <span class="nav-label">Products</span></a>
+                </li>
+                <li class="active">
+                    <a href="customers"><i class="fa fa-slideshare"></i> <span class="nav-label">Customers</span></a>
+                </li>
+                <li class="">
+                    <a href="vendors"><i class="fa fa-users"></i> <span class="nav-label">Vendors</span></a>
+                </li>
+                <li class="">
+                    <a href="home"><i class="fa fa-home"></i> <span class="nav-label">Home</span></a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+
+    <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom">
+            <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i>
+                    </a>
+                </div>
+                <div class="">
+                    <a data-toggle="modal" href="#Addnew" class="btn btn-primary minimalize-styl-2">Add new</a>
+                </div>
+
+            </nav>
+        </div>
+
+
+        <div id="Addnew" class="modal fade" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class=""><h3 class="m-t-none m-b">Details</h3>
+
+                                <form role="form" action="/customers" method="POST">
+                                    <div class="form-group"><label>ID</label>
+                                        <input name="id" readonly required type="text" placeholder="ID"
+                                               class="form-control" value="{{.Nid}}">
+                                    </div>
+                                    <div class="form-group"><label>Name</label>
+                                        <input name="name" required type="text" placeholder="Name"
+                                               class="form-control" value="">
+                                    </div>
+                                    <div class="form-group"><label>Phone</label>
+                                        <input name="phn" type="text" placeholder="Phone"
+                                               class="form-control" value="">
+                                    </div>
+                                    <div class="form-group"><label>Address</label>
+                                        <input name="ad" type="text" placeholder="Address"
+                                               class="form-control" value="">
+                                    </div>
+
+                                    <div>
+                                        <strong><input name="submit" type="submit"
+                                                       class="btn btn-sm btn-primary pull-right m-t-n-xs"
+                                                       value="Add"></strong>
+                                        <strong><input type="reset" class="btn btn-sm btn-warning pull-right m-t-n-xs"
+                                                       value="Reset"></strong>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{range .Customers}}
+        <div id="c{{.Id}}" class="modal fade" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class=""><h3 class="m-t-none m-b">Details</h3>
+
+                                <form role="form" action="/customers" method="POST">
+                                    <div class="form-group"><label>ID</label>
+                                        <input name="id" readonly required type="text" placeholder="ID"
+                                               class="form-control" value="{{.Id}}">
+                                    </div>
+                                    <div class="form-group"><label>Name</label>
+                                        <input name="name" required type="text" placeholder="Name"
+                                               class="form-control" value="{{.Name}}">
+                                    </div>
+                                    <div class="form-group"><label>Phone</label>
+                                        <input name="phn" type="text" placeholder="Phone"
+                                               class="form-control" value="{{.Phn}}">
+                                    </div>
+                                    <div class="form-group"><label>Address</label>
+                                        <input name="ad" type="text" placeholder="Address"
+                                               class="form-control" value="{{.Ad}}">
+                                    </div>
+
+                                    <div>
+                                        <strong><input name="submit" type="submit"
+                                                       class="btn btn-sm btn-primary pull-right m-t-n-xs" value="Save"></strong>
+                                        {{if .DeleteBTN}}
+                                        <strong><input name="submit" type="submit"
+                                                       class="btn btn-sm btn-danger pull-right m-t-n-xs" value="Delete"></strong>
+                                        {{end}}
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{end}}
+
+
+        <div class="wrapper wrapper-content  animated fadeInRight">
+            <div class="row">
+                <div class="col-sm-7">
+                    <div class="ibox">
+                        <div class="ibox-content">
+                            <div class="clients-list">
+                                <div class="tab-content">
+                                    <div class="tab-pane active">
+                                        <div class="full-height-scroll">
+                                            <div class="table-responsive">
+                                                <table class="table table-striped table-hover dataTables-example">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Name</th>
+                                                        <th>Phone</th>
+                                                        <th>Pending Dues</th>
+                                                        <th>Due Progress</th>
+                                                        <th>Option</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {{range .Customers}}
+                                                    <tr>
+                                                        <td><a data-toggle="tab" href="#cus{{.Id}}" class="client-link">
+                                                            {{.Name}}
+                                                        </a></td>
+                                                        <td>{{.Phn}}</td>
+                                                        <td>{{dec .Due}}</td>
+
+                                                        <td>
+                                                            {{.Pro}}%
+                                                        </td>
+
+
+                                                        <td><a data-toggle="modal"
+                                                               class="btn btn-info btn-sm btn-outline" href="#c{{.Id}}">View
+                                                            /
+                                                            Edit</a>
+                                                        </td>
+                                                    </tr>
+                                                    {{end}}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="ibox ">
+
+                        <div class="ibox-content">
+                            <div class="tab-content">
+                                {{range .Customers}}
+                                <div id="cus{{.Id}}" class="tab-pane {{if .Active}} active {{end}}">
+                                    <div class="m-b-lg">
+                                        <h2>{{.Name}}</h2>
+                                        <br>
+                                        <p>
+                                            {{.Phn}}
+                                            <br>
+                                            {{.Ad}}
+                                        </p>
+                                        <div>
+                                            payments done {{dec .Dne}} / payments pending {{dec .Due}}
+                                            <br>
+                                            <small>
+                                                {{.Pro}}%
+                                            </small>
+                                            <div class="progress progress-mini">
+                                                <div style="width: {{.Pro}}%;" class="progress-bar"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="client-detail">
+                                        <div class="full-height-scroll">
+                                            <strong>Timeline activity</strong>
+
+                                            <div id="vertical-timeline" class="vertical-container dark-timeline">
+                                                {{range .Invoices}}
+                                                <div class="vertical-timeline-block">
+                                                    <div class="vertical-timeline-icon navy-bg">
+                                                        <i class="fa fa-usd"></i>
+                                                    </div>
+                                                    <div class="vertical-timeline-content">
+
+                                                        <p>Inv. No.:{{.I_no}} P.O. No.:{{.Po_no}}
+                                                            <br>
+                                                            Margine: {{.Margine}}
+                                                            <br>
+                                                            Total:{{dec .Grnd_tot}}
+                                                            <button type="button" class="btn btn-info btn-xs"
+                                                                    data-toggle="modal" data-target="#i{{.Id}}">
+                                                                invoice
+                                                            </button>
+                                                            <button type="button" class="btn btn-success btn-xs"
+                                                                    data-toggle="modal" data-target="#p{{.Id}}">
+                                                                payments
+                                                            </button>
+                                                        </p>
+                                                        <br>
+                                                        Payment Completed {{.Progress}}%
+                                                        <div class="progress progress-mini">
+                                                            <div style="width: {{.Progress}}%;"
+                                                                 class="progress-bar"></div>
+                                                        </div>
+                                                        <span class="vertical-date small text-muted"> Date: {{.Dte}} </span>
+                                                    </div>
+                                                </div>
+
+                                                {{end}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{end}}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{{range .Customers}}
+{{range .Invoices}}
+<div class="modal inmodal fade" id="i{{.Id}}" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title">Inv. No.:{{.I_no}} P.O. No.:{{.Po_no}}</h4>
+                <h5>Date:{{.Dte}}</h5>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>Qty</th>
+                        <th>U.Price</th>
+                        <th>Total</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{range .Records}}
+                    <tr>
+                        <td>{{.P_des}}</td>
+                        <td>{{.Qty}}</td>
+                        <td>{{dec .S_p}}</td>
+                        <td>{{dec .Tot}}</td>
+                    </tr>
+                    {{end}}
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sub Total</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td>{{dec .Sub_tot}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Vat</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td>{{dec .Vat}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Grand Total</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td>{{dec .Grnd_tot}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white btn-sm" data-dismiss="modal">Close</button>
+                <a href="editInvoice?id={{.Id}}" type="button" class="btn btn-warning btn-sm">Edit/View</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal fade" id="p{{.Id}}" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title">Inv. No.:{{.I_no}} P.O. No.:{{.Po_no}}</h4>
+                <h5>Date:{{.Dte}}</h5>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Amount</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{range .Payments}}
+                    <tr>
+                        <td>{{.Dte}}</td>
+                        <td>{{dec .Tot}}</td>
+                    </tr>
+                    {{end}}
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Total</strong></td>
+                        <td>{{dec .Grnd_tot}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Payments Done</strong></td>
+                        <td>{{dec .PaymentsDone}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Due</strong></td>
+                        <td>{{dec .RemainingPayment}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white btn-sm" data-dismiss="modal">Close</button>
+                <a href="payment?q={{.Id}}" type="button" class="btn btn-warning btn-sm">Edit/View</a>
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}
+{{end}}
+<!-- Mainly scripts -->
+<script src="js/jquery-2.1.1.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="js/inspinia.js"></script>
+<script src="js/plugins/pace/pace.min.js"></script>
+
+
+<script src="js/plugins/dataTables/jquery.dataTables.js"></script>
+<script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
+<script src="js/plugins/dataTables/dataTables.responsive.js"></script>
+<script src="js/plugins/dataTables/dataTables.tableTools.min.js"></script>
+
+<script>
+        $(document).ready(function() {
+            $('.dataTables-example').DataTable({
+                "dom": 'lTfigt'
+
+            });
+
+
+        });
+
+
+</script>
+</body>
+</html>
+
+	`
+	files["db.sql"] = `
+	CREATE TABLE IF NOT EXISTS cus (
+    id INT PRIMARY KEY,
+    name VARCHAR(255),
+    phn VARCHAR(255),
+    ad VARCHAR(255)
+);
+
+
+CREATE TABLE IF NOT EXISTS cus_pay (
+    id INT PRIMARY KEY,
+     dte DATE,
+     i_id INT,
+     des VARCHAR(255),
+     tot INT
+);
+
+CREATE TABLE IF NOT EXISTS ven (
+    id INT PRIMARY KEY,
+    name VARCHAR(255),
+    phn VARCHAR(255),
+    ad VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS pro (
+    id INT PRIMARY KEY,
+    des VARCHAR(255),
+    s_p INT,
+    b_p INT
+);
+
+CREATE TABLE IF NOT EXISTS van (
+    id INT PRIMARY KEY,
+    des VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS ldng (
+id INT PRIMARY KEY,
+    v_id INT,
+    p_id INT,
+    qty INT,
+    dte DATE
+);
+
+
+CREATE TABLE IF NOT EXISTS u_ldng (
+id INT PRIMARY KEY,
+    v_id INT,
+    p_id INT,
+    qty INT,
+    dte DATE
+);
+
+CREATE TABLE IF NOT EXISTS grn (
+    id INT PRIMARY KEY,
+    v_id INT,
+    g_no VARCHAR(255),
+    vat INT,
+    dte DATE
+);
+
+
+CREATE TABLE IF NOT EXISTS grn_reg (
+    id INT PRIMARY KEY,
+    g_id INT,
+    p_id INT,
+    b_p INT,
+    qty INT
+);
+
+CREATE TABLE IF NOT EXISTS inv (
+    id INT PRIMARY KEY,
+    c_id INT,
+    v_id INT,
+    i_no VARCHAR(255),
+    po_no VARCHAR(255),
+    vat INT,
+    dte DATE
+);
+
+
+CREATE TABLE IF NOT EXISTS inv_reg (
+    id INT PRIMARY KEY,
+    i_id INT,
+    p_id INT,
+    b_p INT,
+    s_p INT,
+    qty INT
+);
+
+	`
+	files["delivery"] = `
+	<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{.Title}}</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    <!-- Toastr style -->
+    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- Sweet Alert -->
+    <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div id="wrapper">
+
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav metismenu" id="side-menu">
+                <li class="">
+                    <a href="stat"><i class="fa fa-line-chart"></i> <span class="nav-label">Stats</span></a>
+                </li>
+                <li class="">
+                    <a href="payment"><i class="fa fa-money"></i> <span class="nav-label">Payment</span></a>
+                </li>
+                <li class="">
+                    <a href="load"><i class="fa fa-download"></i> <span class="nav-label">Loading</span></a>
+                </li>
+                <li class="">
+                    <a href="unload"><i class="fa fa-upload"></i> <span class="nav-label">Unloading</span></a>
+                </li>
+                <li class="active">
+                    <a href="delivery"><i class="fa fa-bus"></i> <span class="nav-label">Delivery</span></a>
+                </li>
+                <li class="">
+                    <a href="invoice"><i class="fa fa-usd"></i> <span class="nav-label">Invoice</span></a>
+                </li>
+                <li class="">
+                    <a href="grn"><i class="fa fa-gbp"></i> <span class="nav-label">GRN</span></a>
+                </li>
+                <li class="">
+                    <a href="products"><i class="fa fa-cubes"></i> <span class="nav-label">Products</span></a>
+                </li>
+                <li class="">
+                    <a href="customers"><i class="fa fa-slideshare"></i> <span class="nav-label">Customers</span></a>
+                </li>
+                <li class="">
+                    <a href="vendors"><i class="fa fa-users"></i> <span class="nav-label">Vendors</span></a>
+                </li>
+                <li class="">
+                    <a href="home"><i class="fa fa-home"></i> <span class="nav-label">Home</span></a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+
+    {{range .Vans}}
+    <div id="editvan_{{.Id}}" class="modal fade" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class=""><h3 class="m-t-none m-b">Details</h3>
+
+                            <form role="form" action="/delivery" method="POST">
+                                <div class="form-group"><label>ID</label>
+                                    <input name="id" readonly required type="text" placeholder="ID"
+                                           class="form-control" value="{{.Id}}">
+                                </div>
+                                <div class="form-group"><label>Description</label>
+                                    <input name="des" required type="text" placeholder="Description"
+                                           class="form-control" value="{{.Des}}">
+                                </div>
+                                <div>
+                                    <strong><input name="submit" type="submit"
+                                                   class="btn btn-sm btn-primary pull-right m-t-n-xs"
+                                                   value="Save"></strong>
+                                    {{if .Delete}}
+                                    <strong><input name="submit" type="submit"
+                                                   class="btn btn-sm btn-danger pull-right m-t-n-xs"
+                                                   value="Delete"></strong>
+                                    {{end}}
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{end}}
+
+
+    <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom">
+            <form role="form" action="/delivery" method="POST">
+                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    <div class="navbar-header">
+                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i
+                                class="fa fa-bars"></i>
+                        </a>
+                    </div>
+
+                    <div class="minimalize-styl-2">
+                        <input hidden value="{{.NxtID}}" name="id">
+                        <input name="des" required type="text" placeholder="Description" value="">
+                    </div>
+                    <div class="minimalize-styl-2">
+                        <input type="submit" name="submit" class="btn btn-primary " value="Add Vehicle">
+                    </div>
+                </nav>
+            </form>
+        </div>
+
+        <div class="wrapper wrapper-content  animated fadeInRight">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="ibox">
+                        <div class="ibox-content">
+                            <h2>Vehicles</h2>
+                            <div class="input-group">
+                                <input type="text" class="input form-control"
+                                       id="filter"
+                                       placeholder="Search in Vehicles">
+                                </span>
+                            </div>
+                            <div class="clients-list">
+                                <ul class="nav nav-tabs">
+                                    {{range .Vans}}
+                                    <li {{if .Active}}class="active" {{end}}><a data-toggle="tab" href="#van{{.Id}}"><i
+                                            class="fa fa-bus"></i>
+                                        {{.Des}}</a>
+                                    </li>
+                                    {{end}}
+                                </ul>
+                                <div class="tab-content">
+                                    {{$pro := .Pro}}
+                                    {{$newid := .NxtLdID}}
+                                    {{range .Vans}}
+                                    {{$v := .Id}}
+                                    <div id="van{{.Id}}" class="tab-pane {{if .Active}}active{{end}}">
+                                        <a data-toggle="modal" class="btn btn-xs btn-warning btn-outline"
+                                           href="#editvan_{{.Id}}">edit</a>
+                                        <br>
+                                        <form role="form" action="/delivery" method="POST"
+                                              onsubmit="return validateForm()" name="myForm">
+                                            <select name="p_id" data-placeholder="Choose an Item" class="chosen-select "
+                                                    style="width:550px;">
+                                                {{range $pro}}
+                                                {{if .Qty}}
+                                                <option value="{{.Id}},{{.Qty}}">{{.Des}} ________available: {{.Qty}}
+                                                </option>
+                                                {{end}}
+                                                {{end}}
+                                            </select>
+                                            <input hidden value="{{$newid}}" name="id">
+                                            <input hidden value="{{.Id}}" name="v_id">
+                                            <input name="qty" required type="number" placeholder="Qty." value="">
+                                            <input type="submit" class="btn btn-sm btn-primary" name="submit"
+                                                   value="Add Item">
+                                        </form>
+                                        <div class="full-height-scroll">
+                                            <div class="col-lg-12">
+                                                <div class="ibox float-e-margins">
+                                                    <div class="ibox-content">
+                                                        <table class="footable table table-stripped" data-page-size="8"
+                                                               data-filter=#filter>
+                                                            <thead>
+                                                            <tr>
+                                                                <th>Product</th>
+                                                                <th>Van Stock</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            {{range .Pro}}
+                                                            {{if .Rest}}
+                                                            <tr class="gradeU">
+                                                                <td>{{.Des}}</td>
+                                                                <td>{{.Rest}}
+                                                                    <a class="btn btn-xs btn-danger pull-right"
+                                                                       href="delivery?v_id={{$v}}&p_id={{.Id}}&submit=unload&qty={{.Rest}}">Unload</a>
+                                                                </td>
+                                                            </tr>
+                                                            {{end}}
+                                                            {{end}}
+                                                            </tbody>
+                                                            <tfoot>
+                                                            <tr>
+                                                                <td colspan="5">
+                                                                    <ul class="pagination pull-right"></ul>
+                                                                </td>
+                                                            </tr>
+                                                            </tfoot>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    {{end}}
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+function validateForm() {
+    var x = document.forms["myForm"]["p_id"].value;
+    var qty = document.forms["myForm"]["qty"].value;
+    var splits = x.split(',', 2);
+    if (parseInt(splits[1])<parseInt(qty)) {
+     swal("Invalied Qty.", "Quantity must be lessthan or equal to "+splits[1], "warning");
+        return false;
+    }
+}
+</script>
+<!-- Mainly scripts -->
+<script src="js/jquery-2.1.1.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="js/inspinia.js"></script>
+<script src="js/plugins/pace/pace.min.js"></script>
+
+
+<!-- FooTable -->
+<script src="js/plugins/footable/footable.all.min.js"></script>
+
+<!-- Sweet alert -->
+<script src="js/plugins/sweetalert/sweetalert.min.js"></script>
+
+<!-- Page-Level Scripts -->
+<script>
+        $(document).ready(function() {
+
+            $('.footable').footable();
+            $('.footable2').footable();
+
+        });
+
+</script>
+
+</body>
+</html>
+
+	`
+	files["editGRN"] = `
+	<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{.Title}}</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    <!-- Toastr style -->
+    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+
+    <link href="css/plugins/chosen/chosen.css" rel="stylesheet">
+
+    <link href="css/plugins/colorpicker/bootstrap-colorpicker.min.css" rel="stylesheet">
+
+    <link href="css/plugins/cropper/cropper.min.css" rel="stylesheet">
+
+    <link href="css/plugins/switchery/switchery.css" rel="stylesheet">
+
+    <link href="css/plugins/jasny/jasny-bootstrap.min.css" rel="stylesheet">
+
+    <link href="css/plugins/nouslider/jquery.nouislider.css" rel="stylesheet">
+
+    <link href="css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+
+    <link href="css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
+    <link href="css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
+
+    <link href="css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+
+    <link href="css/plugins/clockpicker/clockpicker.css" rel="stylesheet">
+
+    <link href="css/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet">
+
+    <link href="css/plugins/select2/select2.min.css" rel="stylesheet">
+
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div id="wrapper">
+
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav metismenu" id="side-menu">
+                <li class="">
+                    <a href="stat"><i class="fa fa-line-chart"></i> <span class="nav-label">Stats</span></a>
+                </li>
+                <li class="">
+                    <a href="payment"><i class="fa fa-money"></i> <span class="nav-label">Payment</span></a>
+                </li>
+                <li class="">
+                    <a href="load"><i class="fa fa-download"></i> <span class="nav-label">Loading</span></a>
+                </li>
+                <li class="">
+                    <a href="unload"><i class="fa fa-upload"></i> <span class="nav-label">Unloading</span></a>
+                </li>
+                <li class="">
+                    <a href="delivery"><i class="fa fa-bus"></i> <span class="nav-label">Delivery</span></a>
+                </li>
+                <li class="">
+                    <a href="invoice"><i class="fa fa-usd"></i> <span class="nav-label">Invoice</span></a>
+                </li>
+                <li class="active">
+                    <a href="grn"><i class="fa fa-gbp"></i> <span class="nav-label">GRN</span></a>
+                </li>
+                <li class="">
+                    <a href="products"><i class="fa fa-cubes"></i> <span class="nav-label">Products</span></a>
+                </li>
+                <li class="">
+                    <a href="customers"><i class="fa fa-slideshare"></i> <span class="nav-label">Customers</span></a>
+                </li>
+                <li class="">
+                    <a href="vendors"><i class="fa fa-users"></i> <span class="nav-label">Vendors</span></a>
+                </li>
+                <li class="">
+                    <a href="home"><i class="fa fa-home"></i> <span class="nav-label">Home</span></a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+    {{$g := .Grn}}
+    {{$p := .Products}}
+    <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom">
+            <form role="form" action="/editGRN" method="POST" onsubmit="return validateForm()" name="myForm">
+                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    <div class="navbar-header">
+                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i
+                                class="fa fa-bars"></i>
+                        </a>
+                    </div>
+                    <div class="minimalize-styl-2 input-group">
+                        <select name="p_id" data-placeholder="Choose an Item" class="chosen-select "
+                                style="width:350px;">
+                            {{range .Products}}
+                            <option value="{{.Id}},{{dec .B_p}}">{{.Des}} -----Buy:{{dec .B_p}}</option>
+                            {{end}}
+                        </select>
+                    </div>
+
+                    <div class="minimalize-styl-2">
+                        <input hidden value="{{$g.Id}}" name="id">
+                        <input hidden value="{{.NxtID}}" name="r_id">
+                        <input name="b_p" type="number" placeholder="Buy Price" value="" step="0.01">
+                        <input name="qty" required type="number" placeholder="Qty" value="">
+                        <input type="submit" name="submit" class="btn btn-primary " value="Add">
+                    </div>
+                </nav>
+            </form>
+        </div>
+
+        <div class="wrapper wrapper-content  animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="wrapper wrapper-content animated fadeInRight">
+                        <div class="ibox-content p-xl">
+                            <form action="/editGRN" method="POST">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <h4>GRN No.</h4>
+                                        <h4 class="text-navy">{{$g.G_no}}</h4>
+                                        <span>To:</span>
+                                        <address>
+                                            <strong>{{($g.Ven).Name}}</strong><br>
+                                            {{($g.Ven).Ad}}
+                                            <br>
+                                            {{($g.Ven).Phn}}
+                                        </address>
+                                        <p>
+                                            <span><strong>GRN Date:</strong> {{$g.Dte}}</span>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="table-responsive m-t">
+                                    <table class="table invoice-table">
+                                        <thead>
+                                        <tr>
+                                            <th>Item List</th>
+                                            <th>Quantity</th>
+                                            <th>Unit Price</th>
+                                            <th>Total Price</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        {{range $g.Records}}
+                                        <tr>
+                                            <td>
+                                                <strong>{{.P_des}}</strong>
+
+                                                <div class="pull-right">
+                                                    <a href="editGRN?id={{$g.Id}}&r_id={{.Id}}&submit=remove"
+                                                       class="btn btn-sm btn-danger">remove</a>
+                                                </div>
+                                            </td>
+                                            <td>{{.Qty}}</td>
+                                            <td>{{dec .B_p}}</td>
+                                            <td>{{dec .Tot}}</td>
+                                        </tr>
+                                        {{end}}
+
+                                        </tbody>
+                                    </table>
+                                </div><!-- /table-responsive -->
+
+                                <table class="table invoice-total">
+                                    <tbody>
+                                    <tr>
+                                        <td><strong>Sub Total :</strong></td>
+                                        <td>{{dec $g.Sub_tot}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Vat :</strong></td>
+                                        <td><input name="vat" type="number" required value="{{dec $g.Vat}}" step="0.01"><input hidden
+                                                                                                               name="id"
+                                                                                                               value="{{$g.Id}}">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Grand Total :</strong></td>
+                                        <td>{{dec $g.Grnd_tot}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div class="col-sm-12">
+                                    <button type="submit" name="submit" value="Save" class="btn btn-primary pull-right">
+                                        Save
+                                    </button>
+                                    <button type="submit" name="submit" value="Delete" class="btn btn-danger">Delete GRN
+                                    </button>
+                                </div>
+                                <br>
+                                <input hidden value="{{$g.Id}}" name="id">
+
+                                <div class="input-group">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Mainly scripts -->
+<script src="js/jquery-2.1.1.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="js/inspinia.js"></script>
+<script src="js/plugins/pace/pace.min.js"></script>
+<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+<!-- Chosen -->
+<script src="js/plugins/chosen/chosen.jquery.js"></script>
+
+<!-- JSKnob -->
+<script src="js/plugins/jsKnob/jquery.knob.js"></script>
+
+<!-- Input Mask-->
+<script src="js/plugins/jasny/jasny-bootstrap.min.js"></script>
+
+<!-- Data picker -->
+<script src="js/plugins/datapicker/bootstrap-datepicker.js"></script>
+
+<!-- NouSlider -->
+<script src="js/plugins/nouslider/jquery.nouislider.min.js"></script>
+
+<!-- Switchery -->
+<script src="js/plugins/switchery/switchery.js"></script>
+
+<!-- IonRangeSlider -->
+<script src="js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+
+<!-- iCheck -->
+<script src="js/plugins/iCheck/icheck.min.js"></script>
+
+<!-- MENU -->
+<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+
+<!-- Color picker -->
+<script src="js/plugins/colorpicker/bootstrap-colorpicker.min.js"></script>
+
+<!-- Clock picker -->
+<script src="js/plugins/clockpicker/clockpicker.js"></script>
+
+<!-- Image cropper -->
+<script src="js/plugins/cropper/cropper.min.js"></script>
+
+<!-- Date range use moment.js same as full calendar plugin -->
+<script src="js/plugins/fullcalendar/moment.min.js"></script>
+
+<!-- Date range picker -->
+<script src="js/plugins/daterangepicker/daterangepicker.js"></script>
+
+<!-- Select2 -->
+<script src="js/plugins/select2/select2.full.min.js"></script>
+<script>
+        $(document).ready(function(){
+
+            var $image = $(".image-crop > img")
+            $($image).cropper({
+                aspectRatio: 1.618,
+                preview: ".img-preview",
+                done: function(data) {
+                    // Output the result data for cropping image.
+                }
+            });
+
+            var $inputImage = $("#inputImage");
+            if (window.FileReader) {
+                $inputImage.change(function() {
+                    var fileReader = new FileReader(),
+                            files = this.files,
+                            file;
+
+                    if (!files.length) {
+                        return;
+                    }
+
+                    file = files[0];
+
+                    if (/^image\/\w+$/.test(file.type)) {
+                        fileReader.readAsDataURL(file);
+                        fileReader.onload = function () {
+                            $inputImage.val("");
+                            $image.cropper("reset", true).cropper("replace", this.result);
+                        };
+                    } else {
+                        showMessage("Please choose an image file.");
+                    }
+                });
+            } else {
+                $inputImage.addClass("hide");
+            }
+
+            $("#download").click(function() {
+                window.open($image.cropper("getDataURL"));
+            });
+
+            $("#zoomIn").click(function() {
+                $image.cropper("zoom", 0.1);
+            });
+
+            $("#zoomOut").click(function() {
+                $image.cropper("zoom", -0.1);
+            });
+
+            $("#rotateLeft").click(function() {
+                $image.cropper("rotate", 45);
+            });
+
+            $("#rotateRight").click(function() {
+                $image.cropper("rotate", -45);
+            });
+
+            $("#setDrag").click(function() {
+                $image.cropper("setDragMode", "crop");
+            });
+
+            $('#data_1 .input-group.date').datepicker({
+                todayBtn: "linked",
+                keyboardNavigation: false,
+                forceParse: false,
+                calendarWeeks: true,
+                autoclose: true
+            });
+
+            $('#data_2 .input-group.date').datepicker({
+                startView: 1,
+                todayBtn: "linked",
+                keyboardNavigation: false,
+                forceParse: false,
+                autoclose: true,
+                format: "dd/mm/yyyy"
+            });
+
+            $('#data_3 .input-group.date').datepicker({
+                startView: 2,
+                todayBtn: "linked",
+                keyboardNavigation: false,
+                forceParse: false,
+                autoclose: true
+            });
+
+            $('#data_4 .input-group.date').datepicker({
+                minViewMode: 1,
+                keyboardNavigation: false,
+                forceParse: false,
+                autoclose: true,
+                todayHighlight: true
+            });
+
+            $('#data_5 .input-daterange').datepicker({
+                keyboardNavigation: false,
+                forceParse: false,
+                autoclose: true
+            });
+
+            var elem = document.querySelector('.js-switch');
+            var switchery = new Switchery(elem, { color: '#1AB394' });
+
+            var elem_2 = document.querySelector('.js-switch_2');
+            var switchery_2 = new Switchery(elem_2, { color: '#ED5565' });
+
+            var elem_3 = document.querySelector('.js-switch_3');
+            var switchery_3 = new Switchery(elem_3, { color: '#1AB394' });
+
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green'
+            });
+
+            $('.demo1').colorpicker();
+
+            var divStyle = $('.back-change')[0].style;
+            $('#demo_apidemo').colorpicker({
+                color: divStyle.backgroundColor
+            }).on('changeColor', function(ev) {
+                        divStyle.backgroundColor = ev.color.toHex();
+                    });
+
+            $('.clockpicker').clockpicker();
+
+            $('input[name="daterange"]').daterangepicker();
+
+            $('#reportrange span').html(moment().subtract(29, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
+
+            $('#reportrange').daterangepicker({
+                format: 'MM/DD/YYYY',
+                startDate: moment().subtract(29, 'days'),
+                endDate: moment(),
+                minDate: '01/01/2012',
+                maxDate: '12/31/2015',
+                dateLimit: { days: 60 },
+                showDropdowns: true,
+                showWeekNumbers: true,
+                timePicker: false,
+                timePickerIncrement: 1,
+                timePicker12Hour: true,
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                },
+                opens: 'right',
+                drops: 'down',
+                buttonClasses: ['btn', 'btn-sm'],
+                applyClass: 'btn-primary',
+                cancelClass: 'btn-default',
+                separator: ' to ',
+                locale: {
+                    applyLabel: 'Submit',
+                    cancelLabel: 'Cancel',
+                    fromLabel: 'From',
+                    toLabel: 'To',
+                    customRangeLabel: 'Custom',
+                    daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr','Sa'],
+                    monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                    firstDay: 1
+                }
+            }, function(start, end, label) {
+                console.log(start.toISOString(), end.toISOString(), label);
+                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            });
+
+            $(".select2_demo_1").select2();
+            $(".select2_demo_2").select2();
+            $(".select2_demo_3").select2({
+                placeholder: "Select a state",
+                allowClear: true
+            });
+
+
+        });
+        var config = {
+                '.chosen-select'           : {},
+                '.chosen-select-deselect'  : {allow_single_deselect:true},
+                '.chosen-select-no-single' : {disable_search_threshold:10},
+                '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+                '.chosen-select-width'     : {width:"95%"}
+                }
+            for (var selector in config) {
+                $(selector).chosen(config[selector]);
+            }
+
+        $("#ionrange_1").ionRangeSlider({
+            min: 0,
+            max: 5000,
+            type: 'double',
+            prefix: "$",
+            maxPostfix: "+",
+            prettify: false,
+            hasGrid: true
+        });
+
+        $("#ionrange_2").ionRangeSlider({
+            min: 0,
+            max: 10,
+            type: 'single',
+            step: 0.1,
+            postfix: " carats",
+            prettify: false,
+            hasGrid: true
+        });
+
+        $("#ionrange_3").ionRangeSlider({
+            min: -50,
+            max: 50,
+            from: 0,
+            postfix: "°",
+            prettify: false,
+            hasGrid: true
+        });
+
+        $("#ionrange_4").ionRangeSlider({
+            values: [
+                "January", "February", "March",
+                "April", "May", "June",
+                "July", "August", "September",
+                "October", "November", "December"
+            ],
+            type: 'single',
+            hasGrid: true
+        });
+
+        $("#ionrange_5").ionRangeSlider({
+            min: 10000,
+            max: 100000,
+            step: 100,
+            postfix: " km",
+            from: 55000,
+            hideMinMax: true,
+            hideFromTo: false
+        });
+
+        $(".dial").knob();
+
+        $("#basic_slider").noUiSlider({
+            start: 40,
+            behaviour: 'tap',
+            connect: 'upper',
+            range: {
+                'min':  20,
+                'max':  80
+            }
+        });
+
+        $("#range_slider").noUiSlider({
+            start: [ 40, 60 ],
+            behaviour: 'drag',
+            connect: true,
+            range: {
+                'min':  20,
+                'max':  80
+            }
+        });
+
+        $("#drag-fixed").noUiSlider({
+            start: [ 40, 60 ],
+            behaviour: 'drag-fixed',
+            connect: true,
+            range: {
+                'min':  20,
+                'max':  80
+            }
+        });
+
+
+</script>
+
+ <!-- Jquery Validate -->
+    <script src="js/plugins/validate/jquery.validate.min.js"></script>
+
+    <script>
+         $(document).ready(function(){
+
+             $(".cform").validate({
+                 rules: {
+                     password: {
+                         required: true,
+                         minlength: 3
+                     },
+                     url: {
+                         required: true,
+                         url: true
+                     },
+                     number: {
+                         required: true,
+                         number: true
+                     },
+                     min: {
+                         required: true,
+                         minlength: 6
+                     },
+                     max: {
+                         required: true,
+                         maxlength: 4
+                     }
+                 }
+             });
+        });
+    </script>
+
+<script>
+function validateForm() {
+    var x = document.forms["myForm"]["p_id"].value;
+    var b = document.forms["myForm"]["b_p"].value;
+    var splits = x.split(',', 2);
+
+    if(b==''){
+    document.forms["myForm"]["b_p"].value=splits[1]
+    }
+}
+</script>
+</body>
+</html>
+
+	`
+	files["editInvoice"] = `
+	<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{.Title}}</title>
+
+    <!-- Toastr style -->
+    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+
+    <link href="css/plugins/chosen/chosen.css" rel="stylesheet">
+
+    <link href="css/plugins/colorpicker/bootstrap-colorpicker.min.css" rel="stylesheet">
+
+    <link href="css/plugins/cropper/cropper.min.css" rel="stylesheet">
+
+    <link href="css/plugins/switchery/switchery.css" rel="stylesheet">
+
+    <link href="css/plugins/jasny/jasny-bootstrap.min.css" rel="stylesheet">
+
+    <link href="css/plugins/nouslider/jquery.nouislider.css" rel="stylesheet">
+
+    <link href="css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+
+    <link href="css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
+    <link href="css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
+
+    <link href="css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+
+    <link href="css/plugins/clockpicker/clockpicker.css" rel="stylesheet">
+
+    <link href="css/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet">
+
+    <link href="css/plugins/select2/select2.min.css" rel="stylesheet">
+
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+
+    <!-- Sweet Alert -->
+    <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div id="wrapper">
+
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav metismenu" id="side-menu">
+                <li class="">
+                    <a href="stat"><i class="fa fa-line-chart"></i> <span class="nav-label">Stats</span></a>
+                </li>
+                <li class="">
+                    <a href="payment"><i class="fa fa-money"></i> <span class="nav-label">Payment</span></a>
+                </li>
+                <li class="">
+                    <a href="load"><i class="fa fa-download"></i> <span class="nav-label">Loading</span></a>
+                </li>
+                <li class="">
+                    <a href="unload"><i class="fa fa-upload"></i> <span class="nav-label">Unloading</span></a>
+                </li>
+                <li class="">
+                    <a href="delivery"><i class="fa fa-bus"></i> <span class="nav-label">Delivery</span></a>
+                </li>
+                <li class="active">
+                    <a href="invoice"><i class="fa fa-usd"></i> <span class="nav-label">Invoice</span></a>
+                </li>
+                <li class="">
+                    <a href="grn"><i class="fa fa-gbp"></i> <span class="nav-label">GRN</span></a>
+                </li>
+                <li class="">
+                    <a href="products"><i class="fa fa-cubes"></i> <span class="nav-label">Products</span></a>
+                </li>
+                <li class="">
+                    <a href="customers"><i class="fa fa-slideshare"></i> <span class="nav-label">Customers</span></a>
+                </li>
+                <li class="">
+                    <a href="vendors"><i class="fa fa-users"></i> <span class="nav-label">Vendors</span></a>
+                </li>
+                <li class="">
+                    <a href="home"><i class="fa fa-home"></i> <span class="nav-label">Home</span></a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+    {{$g := .Inv}}
+    {{$p := .Products}}
+    <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom">
+            <form role="form" action="/editInvoice" method="POST" onsubmit="return validateForm()" name="myForm">
+                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    <div class="navbar-header">
+                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i
+                                class="fa fa-bars"></i>
+                        </a>
+                    </div>
+                    <div class="minimalize-styl-2 input-group">
+                        <select name="p_id" data-placeholder="Choose an Item" class="chosen-select "
+                                style="width:350px;" onchange="setVal()">
+                            {{range .Products}}
+                            {{if .Rest}}<option value="{{.Id}},{{.Rest}},{{dec .B_p}},{{dec .S_p}}">{{.Des}} -----Buy:{{dec .B_p}}, Sell:{{dec .S_p}}, Qty.:{{.Rest}}</option>{{end}}
+                            {{end}}
+                        </select>
+                    </div>
+
+                    <div class="minimalize-styl-2">
+                        <input hidden value="{{$g.Id}}" name="id">
+                        <input hidden value="{{.NxtID}}" name="r_id">
+                        <input name="b_p"  type="number" placeholder="Buy Price" value="" step="0.01">
+                        <input name="s_p"  type="number" placeholder="Sell Price" value="" step="0.01">
+                        <input name="qty" required type="number" placeholder="Qty" value="">
+                        <input type="submit" name="submit" class="btn btn-primary " value="Add">
+                    </div>
+                </nav>
+            </form>
+        </div>
+
+        <div class="wrapper wrapper-content  animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="wrapper wrapper-content animated fadeInRight">
+                        <div class="ibox-content p-xl">
+                            <form action="/editInvoice" method="POST">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <h4>Inv. No.</h4>
+                                        <h4 class="text-navy">{{$g.I_no}}</h4>
+                                        <span>To:</span>
+                                        <address>
+                                            <strong>{{($g.Cus).Name}}</strong><br>
+                                            {{($g.Cus).Ad}}
+                                            <br>
+                                            {{($g.Cus).Phn}}
+                                        </address>
+                                        <p>
+                                            <span><strong>Invoice Date:</strong> {{$g.Dte}}</span>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="table-responsive m-t">
+                                    <table class="table invoice-table">
+                                        <thead>
+                                        <tr>
+                                            <th>Item List</th>
+                                            <th>Buy Price</th>
+                                            <th>Unit Price</th>
+                                            <th>Quantity</th>
+                                            <th>Total Price</th>
+                                            <th>Margine</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        {{range $g.Records}}
+                                        <tr>
+                                            <td>
+                                                <strong>{{.P_des}}</strong>
+
+                                                <div class="pull-right">
+                                                    <a href="editInvoice?id={{$g.Id}}&r_id={{.Id}}&submit=remove"
+                                                       class="btn btn-sm btn-danger">remove</a>
+                                                </div>
+                                            </td>
+                                            <td>{{dec .B_p}}</td>
+                                            <td>{{dec .S_p}}</td>
+                                            <td>{{.Qty}}</td>
+                                            <td>{{dec .Tot}}</td>
+                                            <td>{{.Margine}}%</td>
+                                        </tr>
+                                        {{end}}
+
+                                        </tbody>
+                                    </table>
+                                </div><!-- /table-responsive -->
+
+                                <table class="table invoice-total">
+                                    <tbody>
+                                    <tr>
+                                        <td><strong>Sub Total :</strong></td>
+                                        <td>{{dec $g.Sub_tot}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Vat :</strong></td>
+                                        <td><input name="vat" type="number" required value="{{dec $g.Vat}}" step="0.01">
+                                            <input hidden name="id" value="{{$g.Id}}">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Grand Total :</strong></td>
+                                        <td>{{dec $g.Grnd_tot}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Margine :</strong></td>
+                                        <td>{{$g.Margine}}%</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div class="col-sm-12">
+                                    <button type="submit" name="submit" value="Save" class="btn btn-primary pull-right">
+                                        Save
+                                    </button>
+                                    <button type="submit" name="submit" value="Delete" class="btn btn-danger">Delete
+                                        Invoice
+                                    </button>
+                                </div>
+                                <br>
+                                <input hidden value="{{$g.Id}}" name="id">
+
+                                <div class="input-group">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Mainly scripts -->
+<script src="js/jquery-2.1.1.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="js/inspinia.js"></script>
+<script src="js/plugins/pace/pace.min.js"></script>
+<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+<!-- Chosen -->
+<script src="js/plugins/chosen/chosen.jquery.js"></script>
+
+<!-- JSKnob -->
+<script src="js/plugins/jsKnob/jquery.knob.js"></script>
+
+<!-- Input Mask-->
+<script src="js/plugins/jasny/jasny-bootstrap.min.js"></script>
+
+<!-- Data picker -->
+<script src="js/plugins/datapicker/bootstrap-datepicker.js"></script>
+
+<!-- NouSlider -->
+<script src="js/plugins/nouslider/jquery.nouislider.min.js"></script>
+
+<!-- Switchery -->
+<script src="js/plugins/switchery/switchery.js"></script>
+
+<!-- IonRangeSlider -->
+<script src="js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+
+<!-- iCheck -->
+<script src="js/plugins/iCheck/icheck.min.js"></script>
+
+<!-- MENU -->
+<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+
+<!-- Color picker -->
+<script src="js/plugins/colorpicker/bootstrap-colorpicker.min.js"></script>
+
+<!-- Clock picker -->
+<script src="js/plugins/clockpicker/clockpicker.js"></script>
+
+<!-- Image cropper -->
+<script src="js/plugins/cropper/cropper.min.js"></script>
+
+<!-- Date range use moment.js same as full calendar plugin -->
+<script src="js/plugins/fullcalendar/moment.min.js"></script>
+
+<!-- Date range picker -->
+<script src="js/plugins/daterangepicker/daterangepicker.js"></script>
+
+<!-- Sweet alert -->
+<script src="js/plugins/sweetalert/sweetalert.min.js"></script>
+
+<!-- Select2 -->
+<script src="js/plugins/select2/select2.full.min.js"></script>
+<script>
+        $(document).ready(function(){
+
+            var $image = $(".image-crop > img")
+            $($image).cropper({
+                aspectRatio: 1.618,
+                preview: ".img-preview",
+                done: function(data) {
+                    // Output the result data for cropping image.
+                }
+            });
+
+            var $inputImage = $("#inputImage");
+            if (window.FileReader) {
+                $inputImage.change(function() {
+                    var fileReader = new FileReader(),
+                            files = this.files,
+                            file;
+
+                    if (!files.length) {
+                        return;
+                    }
+
+                    file = files[0];
+
+                    if (/^image\/\w+$/.test(file.type)) {
+                        fileReader.readAsDataURL(file);
+                        fileReader.onload = function () {
+                            $inputImage.val("");
+                            $image.cropper("reset", true).cropper("replace", this.result);
+                        };
+                    } else {
+                        showMessage("Please choose an image file.");
+                    }
+                });
+            } else {
+                $inputImage.addClass("hide");
+            }
+
+            $("#download").click(function() {
+                window.open($image.cropper("getDataURL"));
+            });
+
+            $("#zoomIn").click(function() {
+                $image.cropper("zoom", 0.1);
+            });
+
+            $("#zoomOut").click(function() {
+                $image.cropper("zoom", -0.1);
+            });
+
+            $("#rotateLeft").click(function() {
+                $image.cropper("rotate", 45);
+            });
+
+            $("#rotateRight").click(function() {
+                $image.cropper("rotate", -45);
+            });
+
+            $("#setDrag").click(function() {
+                $image.cropper("setDragMode", "crop");
+            });
+
+            $('#data_1 .input-group.date').datepicker({
+                todayBtn: "linked",
+                keyboardNavigation: false,
+                forceParse: false,
+                calendarWeeks: true,
+                autoclose: true
+            });
+
+            $('#data_2 .input-group.date').datepicker({
+                startView: 1,
+                todayBtn: "linked",
+                keyboardNavigation: false,
+                forceParse: false,
+                autoclose: true,
+                format: "dd/mm/yyyy"
+            });
+
+            $('#data_3 .input-group.date').datepicker({
+                startView: 2,
+                todayBtn: "linked",
+                keyboardNavigation: false,
+                forceParse: false,
+                autoclose: true
+            });
+
+            $('#data_4 .input-group.date').datepicker({
+                minViewMode: 1,
+                keyboardNavigation: false,
+                forceParse: false,
+                autoclose: true,
+                todayHighlight: true
+            });
+
+            $('#data_5 .input-daterange').datepicker({
+                keyboardNavigation: false,
+                forceParse: false,
+                autoclose: true
+            });
+
+            var elem = document.querySelector('.js-switch');
+            var switchery = new Switchery(elem, { color: '#1AB394' });
+
+            var elem_2 = document.querySelector('.js-switch_2');
+            var switchery_2 = new Switchery(elem_2, { color: '#ED5565' });
+
+            var elem_3 = document.querySelector('.js-switch_3');
+            var switchery_3 = new Switchery(elem_3, { color: '#1AB394' });
+
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green'
+            });
+
+            $('.demo1').colorpicker();
+
+            var divStyle = $('.back-change')[0].style;
+            $('#demo_apidemo').colorpicker({
+                color: divStyle.backgroundColor
+            }).on('changeColor', function(ev) {
+                        divStyle.backgroundColor = ev.color.toHex();
+                    });
+
+            $('.clockpicker').clockpicker();
+
+            $('input[name="daterange"]').daterangepicker();
+
+            $('#reportrange span').html(moment().subtract(29, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
+
+            $('#reportrange').daterangepicker({
+                format: 'MM/DD/YYYY',
+                startDate: moment().subtract(29, 'days'),
+                endDate: moment(),
+                minDate: '01/01/2012',
+                maxDate: '12/31/2015',
+                dateLimit: { days: 60 },
+                showDropdowns: true,
+                showWeekNumbers: true,
+                timePicker: false,
+                timePickerIncrement: 1,
+                timePicker12Hour: true,
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                },
+                opens: 'right',
+                drops: 'down',
+                buttonClasses: ['btn', 'btn-sm'],
+                applyClass: 'btn-primary',
+                cancelClass: 'btn-default',
+                separator: ' to ',
+                locale: {
+                    applyLabel: 'Submit',
+                    cancelLabel: 'Cancel',
+                    fromLabel: 'From',
+                    toLabel: 'To',
+                    customRangeLabel: 'Custom',
+                    daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr','Sa'],
+                    monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                    firstDay: 1
+                }
+            }, function(start, end, label) {
+                console.log(start.toISOString(), end.toISOString(), label);
+                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            });
+
+            $(".select2_demo_1").select2();
+            $(".select2_demo_2").select2();
+            $(".select2_demo_3").select2({
+                placeholder: "Select a state",
+                allowClear: true
+            });
+
+
+        });
+        var config = {
+                '.chosen-select'           : {},
+                '.chosen-select-deselect'  : {allow_single_deselect:true},
+                '.chosen-select-no-single' : {disable_search_threshold:10},
+                '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+                '.chosen-select-width'     : {width:"95%"}
+                }
+            for (var selector in config) {
+                $(selector).chosen(config[selector]);
+            }
+
+        $("#ionrange_1").ionRangeSlider({
+            min: 0,
+            max: 5000,
+            type: 'double',
+            prefix: "$",
+            maxPostfix: "+",
+            prettify: false,
+            hasGrid: true
+        });
+
+        $("#ionrange_2").ionRangeSlider({
+            min: 0,
+            max: 10,
+            type: 'single',
+            step: 0.1,
+            postfix: " carats",
+            prettify: false,
+            hasGrid: true
+        });
+
+        $("#ionrange_3").ionRangeSlider({
+            min: -50,
+            max: 50,
+            from: 0,
+            postfix: "°",
+            prettify: false,
+            hasGrid: true
+        });
+
+        $("#ionrange_4").ionRangeSlider({
+            values: [
+                "January", "February", "March",
+                "April", "May", "June",
+                "July", "August", "September",
+                "October", "November", "December"
+            ],
+            type: 'single',
+            hasGrid: true
+        });
+
+        $("#ionrange_5").ionRangeSlider({
+            min: 10000,
+            max: 100000,
+            step: 100,
+            postfix: " km",
+            from: 55000,
+            hideMinMax: true,
+            hideFromTo: false
+        });
+
+        $(".dial").knob();
+
+        $("#basic_slider").noUiSlider({
+            start: 40,
+            behaviour: 'tap',
+            connect: 'upper',
+            range: {
+                'min':  20,
+                'max':  80
+            }
+        });
+
+        $("#range_slider").noUiSlider({
+            start: [ 40, 60 ],
+            behaviour: 'drag',
+            connect: true,
+            range: {
+                'min':  20,
+                'max':  80
+            }
+        });
+
+        $("#drag-fixed").noUiSlider({
+            start: [ 40, 60 ],
+            behaviour: 'drag-fixed',
+            connect: true,
+            range: {
+                'min':  20,
+                'max':  80
+            }
+        });
+
+
+
+</script>
+
+<script>
+function validateForm() {
+    var x = document.forms["myForm"]["p_id"].value;
+    var b = document.forms["myForm"]["b_p"].value;
+    var s = document.forms["myForm"]["s_p"].value;
+    var qty = document.forms["myForm"]["qty"].value;
+    var splits = x.split(',', 4);
+
+    if(b==''){
+    document.forms["myForm"]["b_p"].value=splits[2]
+    }
+    if(s==''){
+    document.forms["myForm"]["s_p"].value=splits[3]
+    }
+    if (parseInt(splits[1])<parseInt(qty)) {
+     swal("Invalied Qty.", "Quantity must be lessthan or equal to "+splits[1], "warning");
+        return false;
+    }
+}
+</script>
+</body>
+</html>
+
+	`
+	files["grn"] = `
+	<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{.Title}}</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    <!-- Toastr style -->
+    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- FooTable -->
+    <link href="css/plugins/footable/footable.core.css" rel="stylesheet">
+
+    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+
+    <link href="css/plugins/chosen/chosen.css" rel="stylesheet">
+
+    <link href="css/plugins/colorpicker/bootstrap-colorpicker.min.css" rel="stylesheet">
+
+    <link href="css/plugins/cropper/cropper.min.css" rel="stylesheet">
+
+    <link href="css/plugins/switchery/switchery.css" rel="stylesheet">
+
+    <link href="css/plugins/jasny/jasny-bootstrap.min.css" rel="stylesheet">
+
+    <link href="css/plugins/nouslider/jquery.nouislider.css" rel="stylesheet">
+
+    <link href="css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+
+    <link href="css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
+    <link href="css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
+
+    <link href="css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+
+    <link href="css/plugins/clockpicker/clockpicker.css" rel="stylesheet">
+
+    <link href="css/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet">
+
+    <link href="css/plugins/select2/select2.min.css" rel="stylesheet">
+
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div id="wrapper">
+
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav metismenu" id="side-menu">
+                <li class="">
+                    <a href="stat"><i class="fa fa-line-chart"></i> <span class="nav-label">Stats</span></a>
+                </li>
+                <li class="">
+                    <a href="payment"><i class="fa fa-money"></i> <span class="nav-label">Payment</span></a>
+                </li>
+                <li class="">
+                    <a href="load"><i class="fa fa-download"></i> <span class="nav-label">Loading</span></a>
+                </li>
+                <li class="">
+                    <a href="unload"><i class="fa fa-upload"></i> <span class="nav-label">Unloading</span></a>
+                </li>
+                <li class="">
+                    <a href="delivery"><i class="fa fa-bus"></i> <span class="nav-label">Delivery</span></a>
+                </li>
+                <li class="">
+                    <a href="invoice"><i class="fa fa-usd"></i> <span class="nav-label">Invoice</span></a>
+                </li>
+                <li class="active">
+                    <a href="grn"><i class="fa fa-gbp"></i> <span class="nav-label">GRN</span></a>
+                </li>
+                <li class="">
+                    <a href="products"><i class="fa fa-cubes"></i> <span class="nav-label">Products</span></a>
+                </li>
+                <li class="">
+                    <a href="customers"><i class="fa fa-slideshare"></i> <span class="nav-label">Customers</span></a>
+                </li>
+                <li class="">
+                    <a href="vendors"><i class="fa fa-users"></i> <span class="nav-label">Vendors</span></a>
+                </li>
+                <li class="">
+                    <a href="home"><i class="fa fa-home"></i> <span class="nav-label">Home</span></a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+
+    <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom">
+            <form role="form" action="/grn" method="POST">
+                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    <div class="navbar-header">
+                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i
+                                class="fa fa-bars"></i>
+                        </a>
+                    </div>
+                    <div class="minimalize-styl-2 input-group">
+                        <select name="v_id" data-placeholder="Choose an Vendor" class="chosen-select "
+                                style="width:350px;">
+                            {{range .Vendors}}
+                            <option value="{{.Id}}">{{.Name}}</option>
+                            {{end}}
+                        </select>
+                    </div>
+                    <div class="minimalize-styl-2" id="data_1">
+                        <input hidden value="{{.NxtID}}" name="id">
+                        <input name="g_no" required type="text" placeholder="GRN No." value="">
+                        <br>
+                        <div class="input-group date">
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            <input name="dte" required type="text" class="form-control" value="{{.Dte}}">
+                        </div>
+                    </div>
+                    <div class="minimalize-styl-2">
+
+                        <input type="submit" name="submit" class="btn btn-primary " value="Add">
+                    </div>
+                </nav>
+            </form>
+        </div>
+
+        <div class="wrapper wrapper-content  animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+
+                        <div class="ibox-content">
+                            <input type="text" class="form-control input-sm m-b-xs" id="filter"
+                                   placeholder="Search in GRN">
+
+                            <table class="footable table table-stripped" data-page-size="8" data-filter=#filter>
+                                <thead>
+                                <tr>
+                                    <th>GRN No.:</th>
+                                    <th>Date</th>
+                                    <th>Vendor</th>
+                                    <th>Grand Total</th>
+                                    <th data-hide="phone,tablet">Vat</th>
+                                    <th data-hide="phone,tablet">Sub Total</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {{range.Grns}}
+                                {{$v := .Ven}}
+                                <tr class="gradeX">
+                                    <td>{{.G_no}}</td>
+                                    <td>{{.Dte}}</td>
+                                    <td>{{$v.Name}}</td>
+                                    <td>{{dec .Grnd_tot}}<a class="pull-right btn btn-xs btn-info"
+                                                        href="editGRN?id={{.Id}}">view/edit</a></td>
+                                    <td class="center">{{dec .Vat}}</td>
+                                    <td class="center">{{dec .Sub_tot}}</td>
+                                </tr>
+                                {{end}}
+
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td colspan="5">
+                                        <ul class="pagination pull-right"></ul>
+                                    </td>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Mainly scripts -->
+<script src="js/jquery-2.1.1.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="js/inspinia.js"></script>
+<script src="js/plugins/pace/pace.min.js"></script>
+
+<!-- FooTable -->
+<script src="js/plugins/footable/footable.all.min.js"></script>
+
+<!-- Page-Level Scripts -->
+<script>
+        $(document).ready(function() {
+
+            $('.footable').footable();
+            $('.footable2').footable();
+
+        });
+
+</script>
+
+
+<!-- Chosen -->
+<script src="js/plugins/chosen/chosen.jquery.js"></script>
+
+<!-- JSKnob -->
+<script src="js/plugins/jsKnob/jquery.knob.js"></script>
+
+<!-- Input Mask-->
+<script src="js/plugins/jasny/jasny-bootstrap.min.js"></script>
+
+<!-- Data picker -->
+<script src="js/plugins/datapicker/bootstrap-datepicker.js"></script>
+
+<!-- NouSlider -->
+<script src="js/plugins/nouslider/jquery.nouislider.min.js"></script>
+
+<!-- Switchery -->
+<script src="js/plugins/switchery/switchery.js"></script>
+
+<!-- IonRangeSlider -->
+<script src="js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+
+<!-- iCheck -->
+<script src="js/plugins/iCheck/icheck.min.js"></script>
+
+<!-- MENU -->
+<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+
+<!-- Color picker -->
+<script src="js/plugins/colorpicker/bootstrap-colorpicker.min.js"></script>
+
+<!-- Clock picker -->
+<script src="js/plugins/clockpicker/clockpicker.js"></script>
+
+<!-- Image cropper -->
+<script src="js/plugins/cropper/cropper.min.js"></script>
+
+<!-- Date range use moment.js same as full calendar plugin -->
+<script src="js/plugins/fullcalendar/moment.min.js"></script>
+
+<!-- Date range picker -->
+<script src="js/plugins/daterangepicker/daterangepicker.js"></script>
+
+<!-- Select2 -->
+<script src="js/plugins/select2/select2.full.min.js"></script>
+<script>
+        $(document).ready(function(){
+
+            var $image = $(".image-crop > img")
+            $($image).cropper({
+                aspectRatio: 1.618,
+                preview: ".img-preview",
+                done: function(data) {
+                    // Output the result data for cropping image.
+                }
+            });
+
+            var $inputImage = $("#inputImage");
+            if (window.FileReader) {
+                $inputImage.change(function() {
+                    var fileReader = new FileReader(),
+                            files = this.files,
+                            file;
+
+                    if (!files.length) {
+                        return;
+                    }
+
+                    file = files[0];
+
+                    if (/^image\/\w+$/.test(file.type)) {
+                        fileReader.readAsDataURL(file);
+                        fileReader.onload = function () {
+                            $inputImage.val("");
+                            $image.cropper("reset", true).cropper("replace", this.result);
+                        };
+                    } else {
+                        showMessage("Please choose an image file.");
+                    }
+                });
+            } else {
+                $inputImage.addClass("hide");
+            }
+
+            $("#download").click(function() {
+                window.open($image.cropper("getDataURL"));
+            });
+
+            $("#zoomIn").click(function() {
+                $image.cropper("zoom", 0.1);
+            });
+
+            $("#zoomOut").click(function() {
+                $image.cropper("zoom", -0.1);
+            });
+
+            $("#rotateLeft").click(function() {
+                $image.cropper("rotate", 45);
+            });
+
+            $("#rotateRight").click(function() {
+                $image.cropper("rotate", -45);
+            });
+
+            $("#setDrag").click(function() {
+                $image.cropper("setDragMode", "crop");
+            });
+
+            $('#data_1 .input-group.date').datepicker({
+                todayBtn: "linked",
+                keyboardNavigation: false,
+                forceParse: false,
+                calendarWeeks: true,
+                autoclose: true
+            });
+
+            $('#data_2 .input-group.date').datepicker({
+                startView: 1,
+                todayBtn: "linked",
+                keyboardNavigation: false,
+                forceParse: false,
+                autoclose: true,
+                format: "dd/mm/yyyy"
+            });
+
+            $('#data_3 .input-group.date').datepicker({
+                startView: 2,
+                todayBtn: "linked",
+                keyboardNavigation: false,
+                forceParse: false,
+                autoclose: true
+            });
+
+            $('#data_4 .input-group.date').datepicker({
+                minViewMode: 1,
+                keyboardNavigation: false,
+                forceParse: false,
+                autoclose: true,
+                todayHighlight: true
+            });
+
+            $('#data_5 .input-daterange').datepicker({
+                keyboardNavigation: false,
+                forceParse: false,
+                autoclose: true
+            });
+
+            var elem = document.querySelector('.js-switch');
+            var switchery = new Switchery(elem, { color: '#1AB394' });
+
+            var elem_2 = document.querySelector('.js-switch_2');
+            var switchery_2 = new Switchery(elem_2, { color: '#ED5565' });
+
+            var elem_3 = document.querySelector('.js-switch_3');
+            var switchery_3 = new Switchery(elem_3, { color: '#1AB394' });
+
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green'
+            });
+
+            $('.demo1').colorpicker();
+
+            var divStyle = $('.back-change')[0].style;
+            $('#demo_apidemo').colorpicker({
+                color: divStyle.backgroundColor
+            }).on('changeColor', function(ev) {
+                        divStyle.backgroundColor = ev.color.toHex();
+                    });
+
+            $('.clockpicker').clockpicker();
+
+            $('input[name="daterange"]').daterangepicker();
+
+            $('#reportrange span').html(moment().subtract(29, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
+
+            $('#reportrange').daterangepicker({
+                format: 'MM/DD/YYYY',
+                startDate: moment().subtract(29, 'days'),
+                endDate: moment(),
+                minDate: '01/01/2012',
+                maxDate: '12/31/2015',
+                dateLimit: { days: 60 },
+                showDropdowns: true,
+                showWeekNumbers: true,
+                timePicker: false,
+                timePickerIncrement: 1,
+                timePicker12Hour: true,
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                },
+                opens: 'right',
+                drops: 'down',
+                buttonClasses: ['btn', 'btn-sm'],
+                applyClass: 'btn-primary',
+                cancelClass: 'btn-default',
+                separator: ' to ',
+                locale: {
+                    applyLabel: 'Submit',
+                    cancelLabel: 'Cancel',
+                    fromLabel: 'From',
+                    toLabel: 'To',
+                    customRangeLabel: 'Custom',
+                    daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr','Sa'],
+                    monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                    firstDay: 1
+                }
+            }, function(start, end, label) {
+                console.log(start.toISOString(), end.toISOString(), label);
+                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            });
+
+            $(".select2_demo_1").select2();
+            $(".select2_demo_2").select2();
+            $(".select2_demo_3").select2({
+                placeholder: "Select a state",
+                allowClear: true
+            });
+
+
+        });
+        var config = {
+                '.chosen-select'           : {},
+                '.chosen-select-deselect'  : {allow_single_deselect:true},
+                '.chosen-select-no-single' : {disable_search_threshold:10},
+                '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+                '.chosen-select-width'     : {width:"95%"}
+                }
+            for (var selector in config) {
+                $(selector).chosen(config[selector]);
+            }
+
+        $("#ionrange_1").ionRangeSlider({
+            min: 0,
+            max: 5000,
+            type: 'double',
+            prefix: "$",
+            maxPostfix: "+",
+            prettify: false,
+            hasGrid: true
+        });
+
+        $("#ionrange_2").ionRangeSlider({
+            min: 0,
+            max: 10,
+            type: 'single',
+            step: 0.1,
+            postfix: " carats",
+            prettify: false,
+            hasGrid: true
+        });
+
+        $("#ionrange_3").ionRangeSlider({
+            min: -50,
+            max: 50,
+            from: 0,
+            postfix: "°",
+            prettify: false,
+            hasGrid: true
+        });
+
+        $("#ionrange_4").ionRangeSlider({
+            values: [
+                "January", "February", "March",
+                "April", "May", "June",
+                "July", "August", "September",
+                "October", "November", "December"
+            ],
+            type: 'single',
+            hasGrid: true
+        });
+
+        $("#ionrange_5").ionRangeSlider({
+            min: 10000,
+            max: 100000,
+            step: 100,
+            postfix: " km",
+            from: 55000,
+            hideMinMax: true,
+            hideFromTo: false
+        });
+
+        $(".dial").knob();
+
+        $("#basic_slider").noUiSlider({
+            start: 40,
+            behaviour: 'tap',
+            connect: 'upper',
+            range: {
+                'min':  20,
+                'max':  80
+            }
+        });
+
+        $("#range_slider").noUiSlider({
+            start: [ 40, 60 ],
+            behaviour: 'drag',
+            connect: true,
+            range: {
+                'min':  20,
+                'max':  80
+            }
+        });
+
+        $("#drag-fixed").noUiSlider({
+            start: [ 40, 60 ],
+            behaviour: 'drag-fixed',
+            connect: true,
+            range: {
+                'min':  20,
+                'max':  80
+            }
+        });
+</script>
+
+
+</body>
+</html>
+
+	`
+	files["home"] = `
+	<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>mandy</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+    <div class="middle-box text-center loginscreen animated fadeInDown">
+        <div>
+
+
+
+            <h2>Select Business</h2>
+            <form class="m-t" role="form" action="home">
+                <input type="submit" class="btn btn-primary block full-width m-b btn-xl" value="Consumer" name="submit">
+                <input type="submit" class="btn btn-primary block full-width m-b btn-xl" value="Bakery" name="submit">
+            </form>
+        </div>
+    </div>
+
+    <!-- Mainly scripts -->
+    <script src="js/jquery-2.1.1.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
+
+	`
+
+	files["invoice"] = `
+	<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{.Title}}</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    <!-- Toastr style -->
+    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- FooTable -->
+    <link href="css/plugins/footable/footable.core.css" rel="stylesheet">
+
+    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+
+    <link href="css/plugins/chosen/chosen.css" rel="stylesheet">
+
+    <link href="css/plugins/colorpicker/bootstrap-colorpicker.min.css" rel="stylesheet">
+
+    <link href="css/plugins/cropper/cropper.min.css" rel="stylesheet">
+
+    <link href="css/plugins/switchery/switchery.css" rel="stylesheet">
+
+    <link href="css/plugins/jasny/jasny-bootstrap.min.css" rel="stylesheet">
+
+    <link href="css/plugins/nouslider/jquery.nouislider.css" rel="stylesheet">
+
+    <link href="css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+
+    <link href="css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
+    <link href="css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
+
+    <link href="css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+
+    <link href="css/plugins/clockpicker/clockpicker.css" rel="stylesheet">
+
+    <link href="css/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet">
+
+    <link href="css/plugins/select2/select2.min.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+<div id="wrapper">
+
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav metismenu" id="side-menu">
+                <li class="">
+                    <a href="stat"><i class="fa fa-line-chart"></i> <span class="nav-label">Stats</span></a>
+                </li>
+                <li class="">
+                    <a href="payment"><i class="fa fa-money"></i> <span class="nav-label">Payment</span></a>
+                </li>
+                <li class="">
+                    <a href="load"><i class="fa fa-download"></i> <span class="nav-label">Loading</span></a>
+                </li>
+                <li class="">
+                    <a href="unload"><i class="fa fa-upload"></i> <span class="nav-label">Unloading</span></a>
+                </li>
+                <li class="">
+                    <a href="delivery"><i class="fa fa-bus"></i> <span class="nav-label">Delivery</span></a>
+                </li>
+                <li class="active">
+                    <a href="invoice"><i class="fa fa-usd"></i> <span class="nav-label">Invoice</span></a>
+                </li>
+                <li class="">
+                    <a href="grn"><i class="fa fa-gbp"></i> <span class="nav-label">GRN</span></a>
+                </li>
+                <li class="">
+                    <a href="products"><i class="fa fa-cubes"></i> <span class="nav-label">Products</span></a>
+                </li>
+                <li class="">
+                    <a href="customers"><i class="fa fa-slideshare"></i> <span class="nav-label">Customers</span></a>
+                </li>
+                <li class="">
+                    <a href="vendors"><i class="fa fa-users"></i> <span class="nav-label">Vendors</span></a>
+                </li>
+                <li class="">
+                    <a href="home"><i class="fa fa-home"></i> <span class="nav-label">Home</span></a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+
+    <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom">
+            <form role="form" action="/invoice" method="POST">
+                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    <div class="navbar-header">
+                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i
+                                class="fa fa-bars"></i>
+                        </a>
+                    </div>
+                    <div class="minimalize-styl-2 input-group">
+                        <select name="c_id" data-placeholder="Choose a Customer" class="chosen-select "
+                                style="width:350px;">
+                            {{range .Cus}}
+                            <option value="{{.Id}}">{{.Name}}</option>
+                            {{end}}
+                        </select>
+                    </div>
+                    <div class="minimalize-styl-2 input-group">
+                        <select name="v_id" data-placeholder="Choose a Van" class="chosen-select "
+                                style="width:350px;">
+                            {{range .Vans}}
+                            <option value="{{.Id}}">{{.Des}}</option>
+                            {{end}}
+                        </select>
+                    </div>
+                    <div class="minimalize-styl-2" id="data_1">
+                        <input hidden value="{{.NxtID}}" name="id">
+                        <input name="i_no" required type="text" placeholder="Inv. No." value="">
+                        <input name="po_no" required type="text" placeholder="Po. No." value="">
+                        <br>
+                        <div class="input-group date">
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            <input name="dte" required type="text" class="form-control" value="{{.Dte}}">
+                        </div>
+                    </div>
+                    <div class="minimalize-styl-2">
+
+                        <input type="submit" name="submit" class="btn btn-primary " value="Add">
+                    </div>
+                </nav>
+            </form>
+        </div>
+
+        <div class="wrapper wrapper-content  animated fadeInRight">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="ibox">
+                        <div class="ibox-content">
+                            <h2>Vehicles</h2>
+                            <div class="input-group">
+                                <input type="text" class="input form-control"
+                                       id="filter"
+                                       placeholder="Search in Vehicles">
+                                </span>
+                            </div>
+                            <div class="clients-list">
+                                <ul class="nav nav-tabs">
+                                    {{range .Vans}}
+                                    <li {{if .Active}}class="active" {{end}}><a data-toggle="tab" href="#van{{.Id}}"><i
+                                            class="fa fa-bus"></i>
+                                        {{.Des}}</a>
+                                    </li>
+                                    {{end}}
+                                </ul>
+                                <div class="tab-content">
+                                    {{$newid := .NxtID}}
+                                    {{range .Vans}}
+                                    <div id="van{{.Id}}" class="tab-pane {{if .Active}}active{{end}}">
+                                        <div class="full-height-scroll">
+                                            <div class="col-lg-12">
+                                                <div class="ibox float-e-margins">
+                                                    <div class="ibox-content">
+                                                        <table class="footable table table-stripped" data-page-size="8"
+                                                               data-filter=#filter>
+                                                            <thead>
+                                                            <tr>
+                                                                <th>Date</th>
+                                                                <th>Inv. No.</th>
+                                                                <th>Cus. Name</th>
+                                                                <th>Po. No.</th>
+                                                                <th>G. Tot</th>
+                                                                <th>Payments</th>
+                                                                <th>Margine</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            {{range .Invoices}}
+                                                            {{$c:=.Cus}}
+                                                            <tr>
+                                                                <td>{{.Dte}}</td>
+                                                                <td>{{.I_no}}</td>
+                                                                <td>{{$c.Name}}</td>
+                                                                <td>{{.Po_no}}</td>
+                                                                <td>{{dec .Grnd_tot}}</td>
+                                                                <td>{{dec .PaymentsDone}}</td>
+                                                                <td>{{.Margine}}
+                                                                    <a class="pull-right btn btn-xs btn-info"
+                                                                       href="editInvoice?id={{.Id}}">view/edit</a>
+                                                                </td>
+                                                            </tr>
+                                                            {{end}}
+                                                            </tbody>
+                                                            <tfoot>
+                                                            <tr>
+                                                                <td colspan="5">
+                                                                    <ul class="pagination pull-right"></ul>
+                                                                </td>
+                                                            </tr>
+                                                            </tfoot>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    {{end}}
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Mainly scripts -->
+<script src="js/jquery-2.1.1.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="js/inspinia.js"></script>
+<script src="js/plugins/pace/pace.min.js"></script>
+
+<!-- FooTable -->
+<script src="js/plugins/footable/footable.all.min.js"></script>
+
+<!-- Page-Level Scripts -->
+<script>
+        $(document).ready(function() {
+
+            $('.footable').footable();
+            $('.footable2').footable();
+
+        });
+
+</script>
+
+
+<!-- Chosen -->
+<script src="js/plugins/chosen/chosen.jquery.js"></script>
+
+<!-- JSKnob -->
+<script src="js/plugins/jsKnob/jquery.knob.js"></script>
+
+<!-- Input Mask-->
+<script src="js/plugins/jasny/jasny-bootstrap.min.js"></script>
+
+<!-- Data picker -->
+<script src="js/plugins/datapicker/bootstrap-datepicker.js"></script>
+
+<!-- NouSlider -->
+<script src="js/plugins/nouslider/jquery.nouislider.min.js"></script>
+
+<!-- Switchery -->
+<script src="js/plugins/switchery/switchery.js"></script>
+
+<!-- IonRangeSlider -->
+<script src="js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+
+<!-- iCheck -->
+<script src="js/plugins/iCheck/icheck.min.js"></script>
+
+<!-- MENU -->
+<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+
+<!-- Color picker -->
+<script src="js/plugins/colorpicker/bootstrap-colorpicker.min.js"></script>
+
+<!-- Clock picker -->
+<script src="js/plugins/clockpicker/clockpicker.js"></script>
+
+<!-- Image cropper -->
+<script src="js/plugins/cropper/cropper.min.js"></script>
+
+<!-- Date range use moment.js same as full calendar plugin -->
+<script src="js/plugins/fullcalendar/moment.min.js"></script>
+
+<!-- Date range picker -->
+<script src="js/plugins/daterangepicker/daterangepicker.js"></script>
+
+<!-- Select2 -->
+<script src="js/plugins/select2/select2.full.min.js"></script>
+<script>
+        $(document).ready(function(){
+
+            var $image = $(".image-crop > img")
+            $($image).cropper({
+                aspectRatio: 1.618,
+                preview: ".img-preview",
+                done: function(data) {
+                    // Output the result data for cropping image.
+                }
+            });
+
+            var $inputImage = $("#inputImage");
+            if (window.FileReader) {
+                $inputImage.change(function() {
+                    var fileReader = new FileReader(),
+                            files = this.files,
+                            file;
+
+                    if (!files.length) {
+                        return;
+                    }
+
+                    file = files[0];
+
+                    if (/^image\/\w+$/.test(file.type)) {
+                        fileReader.readAsDataURL(file);
+                        fileReader.onload = function () {
+                            $inputImage.val("");
+                            $image.cropper("reset", true).cropper("replace", this.result);
+                        };
+                    } else {
+                        showMessage("Please choose an image file.");
+                    }
+                });
+            } else {
+                $inputImage.addClass("hide");
+            }
+
+            $("#download").click(function() {
+                window.open($image.cropper("getDataURL"));
+            });
+
+            $("#zoomIn").click(function() {
+                $image.cropper("zoom", 0.1);
+            });
+
+            $("#zoomOut").click(function() {
+                $image.cropper("zoom", -0.1);
+            });
+
+            $("#rotateLeft").click(function() {
+                $image.cropper("rotate", 45);
+            });
+
+            $("#rotateRight").click(function() {
+                $image.cropper("rotate", -45);
+            });
+
+            $("#setDrag").click(function() {
+                $image.cropper("setDragMode", "crop");
+            });
+
+            $('#data_1 .input-group.date').datepicker({
+                todayBtn: "linked",
+                keyboardNavigation: false,
+                forceParse: false,
+                calendarWeeks: true,
+                autoclose: true
+            });
+
+            $('#data_2 .input-group.date').datepicker({
+                startView: 1,
+                todayBtn: "linked",
+                keyboardNavigation: false,
+                forceParse: false,
+                autoclose: true,
+                format: "dd/mm/yyyy"
+            });
+
+            $('#data_3 .input-group.date').datepicker({
+                startView: 2,
+                todayBtn: "linked",
+                keyboardNavigation: false,
+                forceParse: false,
+                autoclose: true
+            });
+
+            $('#data_4 .input-group.date').datepicker({
+                minViewMode: 1,
+                keyboardNavigation: false,
+                forceParse: false,
+                autoclose: true,
+                todayHighlight: true
+            });
+
+            $('#data_5 .input-daterange').datepicker({
+                keyboardNavigation: false,
+                forceParse: false,
+                autoclose: true
+            });
+
+            var elem = document.querySelector('.js-switch');
+            var switchery = new Switchery(elem, { color: '#1AB394' });
+
+            var elem_2 = document.querySelector('.js-switch_2');
+            var switchery_2 = new Switchery(elem_2, { color: '#ED5565' });
+
+            var elem_3 = document.querySelector('.js-switch_3');
+            var switchery_3 = new Switchery(elem_3, { color: '#1AB394' });
+
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green'
+            });
+
+            $('.demo1').colorpicker();
+
+            var divStyle = $('.back-change')[0].style;
+            $('#demo_apidemo').colorpicker({
+                color: divStyle.backgroundColor
+            }).on('changeColor', function(ev) {
+                        divStyle.backgroundColor = ev.color.toHex();
+                    });
+
+            $('.clockpicker').clockpicker();
+
+            $('input[name="daterange"]').daterangepicker();
+
+            $('#reportrange span').html(moment().subtract(29, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
+
+            $('#reportrange').daterangepicker({
+                format: 'MM/DD/YYYY',
+                startDate: moment().subtract(29, 'days'),
+                endDate: moment(),
+                minDate: '01/01/2012',
+                maxDate: '12/31/2015',
+                dateLimit: { days: 60 },
+                showDropdowns: true,
+                showWeekNumbers: true,
+                timePicker: false,
+                timePickerIncrement: 1,
+                timePicker12Hour: true,
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                },
+                opens: 'right',
+                drops: 'down',
+                buttonClasses: ['btn', 'btn-sm'],
+                applyClass: 'btn-primary',
+                cancelClass: 'btn-default',
+                separator: ' to ',
+                locale: {
+                    applyLabel: 'Submit',
+                    cancelLabel: 'Cancel',
+                    fromLabel: 'From',
+                    toLabel: 'To',
+                    customRangeLabel: 'Custom',
+                    daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr','Sa'],
+                    monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                    firstDay: 1
+                }
+            }, function(start, end, label) {
+                console.log(start.toISOString(), end.toISOString(), label);
+                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            });
+
+            $(".select2_demo_1").select2();
+            $(".select2_demo_2").select2();
+            $(".select2_demo_3").select2({
+                placeholder: "Select a state",
+                allowClear: true
+            });
+
+
+        });
+        var config = {
+                '.chosen-select'           : {},
+                '.chosen-select-deselect'  : {allow_single_deselect:true},
+                '.chosen-select-no-single' : {disable_search_threshold:10},
+                '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+                '.chosen-select-width'     : {width:"95%"}
+                }
+            for (var selector in config) {
+                $(selector).chosen(config[selector]);
+            }
+
+        $("#ionrange_1").ionRangeSlider({
+            min: 0,
+            max: 5000,
+            type: 'double',
+            prefix: "$",
+            maxPostfix: "+",
+            prettify: false,
+            hasGrid: true
+        });
+
+        $("#ionrange_2").ionRangeSlider({
+            min: 0,
+            max: 10,
+            type: 'single',
+            step: 0.1,
+            postfix: " carats",
+            prettify: false,
+            hasGrid: true
+        });
+
+        $("#ionrange_3").ionRangeSlider({
+            min: -50,
+            max: 50,
+            from: 0,
+            postfix: "°",
+            prettify: false,
+            hasGrid: true
+        });
+
+        $("#ionrange_4").ionRangeSlider({
+            values: [
+                "January", "February", "March",
+                "April", "May", "June",
+                "July", "August", "September",
+                "October", "November", "December"
+            ],
+            type: 'single',
+            hasGrid: true
+        });
+
+        $("#ionrange_5").ionRangeSlider({
+            min: 10000,
+            max: 100000,
+            step: 100,
+            postfix: " km",
+            from: 55000,
+            hideMinMax: true,
+            hideFromTo: false
+        });
+
+        $(".dial").knob();
+
+        $("#basic_slider").noUiSlider({
+            start: 40,
+            behaviour: 'tap',
+            connect: 'upper',
+            range: {
+                'min':  20,
+                'max':  80
+            }
+        });
+
+        $("#range_slider").noUiSlider({
+            start: [ 40, 60 ],
+            behaviour: 'drag',
+            connect: true,
+            range: {
+                'min':  20,
+                'max':  80
+            }
+        });
+
+        $("#drag-fixed").noUiSlider({
+            start: [ 40, 60 ],
+            behaviour: 'drag-fixed',
+            connect: true,
+            range: {
+                'min':  20,
+                'max':  80
+            }
+        });
+
+</script>
+
+</body>
+</html>
+
+	`
+	files["load"] = `
+	<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{.Title}}</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    <!-- Toastr style -->
+    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- FooTable -->
+    <link href="css/plugins/footable/footable.core.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div id="wrapper">
+
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav metismenu" id="side-menu">
+                <li class="">
+                    <a href="stat"><i class="fa fa-line-chart"></i> <span class="nav-label">Stats</span></a>
+                </li>
+                <li class="">
+                    <a href="payment"><i class="fa fa-money"></i> <span class="nav-label">Payment</span></a>
+                </li>
+                <li class="active">
+                    <a href="load"><i class="fa fa-download"></i> <span class="nav-label">Loading</span></a>
+                </li>
+                <li class="">
+                    <a href="unload"><i class="fa fa-upload"></i> <span class="nav-label">Unloading</span></a>
+                </li>
+                <li class="">
+                    <a href="delivery"><i class="fa fa-bus"></i> <span class="nav-label">Delivery</span></a>
+                </li>
+                <li class="">
+                    <a href="invoice"><i class="fa fa-usd"></i> <span class="nav-label">Invoice</span></a>
+                </li>
+                <li class="">
+                    <a href="grn"><i class="fa fa-gbp"></i> <span class="nav-label">GRN</span></a>
+                </li>
+                <li class="">
+                    <a href="products"><i class="fa fa-cubes"></i> <span class="nav-label">Products</span></a>
+                </li>
+                <li class="">
+                    <a href="customers"><i class="fa fa-slideshare"></i> <span class="nav-label">Customers</span></a>
+                </li>
+                <li class="">
+                    <a href="vendors"><i class="fa fa-users"></i> <span class="nav-label">Vendors</span></a>
+                </li>
+                <li class="">
+                    <a href="home"><i class="fa fa-home"></i> <span class="nav-label">Home</span></a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+
+    <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom">
+            <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i>
+                    </a>
+                </div>
+
+            </nav>
+        </div>
+
+        <div class="wrapper wrapper-content  animated fadeInRight">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="ibox">
+                        <div class="ibox-content">
+                            <h2>Vehicles</h2>
+                            <div class="input-group">
+                                <input type="text" class="input form-control"
+                                       id="filter"
+                                       placeholder="Search in Loading">
+                                </span>
+                            </div>
+                            <div class="clients-list">
+                                <ul class="nav nav-tabs">
+                                    {{range .Vans}}
+                                    <li {{if .Active}}class="active" {{end}}><a data-toggle="tab" href="#van{{.Id}}"><i
+                                            class="fa fa-bus"></i>
+                                        {{.Des}}</a></li>
+                                    {{end}}
+                                </ul>
+                                <div class="tab-content">
+                                    {{range .Vans}}
+                                    <div id="van{{.Id}}" class="tab-pane {{if .Active}}active{{end}}">
+                                        <div class="full-height-scroll">
+                                            <div class="col-lg-12">
+                                                <div class="ibox float-e-margins">
+                                                    <div class="ibox-content">
+                                                        <table class="footable table table-stripped" data-page-size="8"
+                                                               data-filter=#filter>
+                                                            <thead>
+                                                            <tr>
+                                                                <th>Date</th>
+                                                                <th>Product</th>
+                                                                <th>Qty.</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            {{range .Loads}}
+                                                            <tr class="gradeU">
+                                                                <td>{{.Dte}}</td>
+                                                                <td>{{.P_des}}</td>
+                                                                <td>{{.Qty}}</td>
+                                                            </tr>
+                                                            {{end}}
+                                                            </tbody>
+                                                            <tfoot>
+                                                            <tr>
+                                                                <td colspan="5">
+                                                                    <ul class="pagination pull-right"></ul>
+                                                                </td>
+                                                            </tr>
+                                                            </tfoot>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    {{end}}
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Mainly scripts -->
+<script src="js/jquery-2.1.1.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="js/inspinia.js"></script>
+<script src="js/plugins/pace/pace.min.js"></script>
+
+
+<!-- FooTable -->
+<script src="js/plugins/footable/footable.all.min.js"></script>
+
+
+<!-- Page-Level Scripts -->
+<script>
+        $(document).ready(function() {
+
+            $('.footable').footable();
+            $('.footable2').footable();
+
+        });
+
+
+
+
+</script>
+</body>
+</html>
+
+	`
+	files["payment"] = `
+	<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{.Title}}</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    <!-- Toastr style -->
+    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- FooTable -->
+    <link href="css/plugins/footable/footable.core.css" rel="stylesheet">
+
+
+    <link href="css/plugins/clockpicker/clockpicker.css" rel="stylesheet">
+
+    <link href="css/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet">
+
+    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+
+    <link href="css/plugins/chosen/chosen.css" rel="stylesheet">
+
+    <link href="css/plugins/colorpicker/bootstrap-colorpicker.min.css" rel="stylesheet">
+
+    <link href="css/plugins/cropper/cropper.min.css" rel="stylesheet">
+
+    <link href="css/plugins/switchery/switchery.css" rel="stylesheet">
+
+    <link href="css/plugins/jasny/jasny-bootstrap.min.css" rel="stylesheet">
+
+    <link href="css/plugins/nouslider/jquery.nouislider.css" rel="stylesheet">
+
+    <link href="css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+
+    <link href="css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
+    <link href="css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
+
+    <link href="css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+
+    <link href="css/plugins/clockpicker/clockpicker.css" rel="stylesheet">
+
+    <link href="css/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet">
+
+    <link href="css/plugins/select2/select2.min.css" rel="stylesheet">
+
+
+    <!-- Sweet Alert -->
+    <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div id="wrapper">
+
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav metismenu" id="side-menu">
+                <li class="">
+                    <a href="stat"><i class="fa fa-line-chart"></i> <span class="nav-label">Stats</span></a>
+                </li>
+                <li class="active">
+                    <a href="payment"><i class="fa fa-money"></i> <span class="nav-label">Payment</span></a>
+                </li>
+                <li class="">
+                    <a href="load"><i class="fa fa-download"></i> <span class="nav-label">Loading</span></a>
+                </li>
+                <li class="">
+                    <a href="unload"><i class="fa fa-upload"></i> <span class="nav-label">Unloading</span></a>
+                </li>
+                <li class="">
+                    <a href="delivery"><i class="fa fa-bus"></i> <span class="nav-label">Delivery</span></a>
+                </li>
+                <li class="">
+                    <a href="invoice"><i class="fa fa-usd"></i> <span class="nav-label">Invoice</span></a>
+                </li>
+                <li class="">
+                    <a href="grn"><i class="fa fa-gbp"></i> <span class="nav-label">GRN</span></a>
+                </li>
+                <li class="">
+                    <a href="products"><i class="fa fa-cubes"></i> <span class="nav-label">Products</span></a>
+                </li>
+                <li class="">
+                    <a href="customers"><i class="fa fa-slideshare"></i> <span class="nav-label">Customers</span></a>
+                </li>
+                <li class="">
+                    <a href="vendors"><i class="fa fa-users"></i> <span class="nav-label">Vendors</span></a>
+                </li>
+                <li class="">
+                    <a href="home"><i class="fa fa-home"></i> <span class="nav-label">Home</span></a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+
+    <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom">
+            <form role="form" action="/payment" method="POST" onsubmit="return validateForm()" name="myForm">
+                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    <div class="navbar-header">
+                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i
+                                class="fa fa-bars"></i>
+                        </a>
+                    </div>
+                    <div class="minimalize-styl-2 input-group">
+                        <select name="i_id" data-placeholder="Choose an Invoice" class="chosen-select "
+                                style="width:350px;">
+                            {{range .Invoices}}
+                            {{if .RemainingPayment}}
+                            <option value="{{.Id}},{{.RemainingPayment}}">{{(.Cus).Name}} :-
+                                Inv.No.:{{.I_no}}_Po.No.:{{.Po_no}}_Due:{{dec .RemainingPayment}}
+                            </option>
+                            {{end}}
+                            {{end}}
+                        </select>
+                    </div>
+                    <div class="minimalize-styl-2" id="data_1">
+                        <input name="id" hidden value="{{.Nid}}">
+                        <input name="des" required type="text" placeholder="Description" value="">
+                        <input name="tot" required type="number" placeholder="Payment" value="" step="0.01">
+                        <div class="input-group date">
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            <input name="dte" required type="text" class="form-control" value="{{.Dte}}">
+                        </div>
+                    </div>
+                    <div class="minimalize-styl-2">
+
+                        <input type="submit" name="submit" class="btn btn-primary " value="Add">
+                    </div>
+                </nav>
+            </form>
+
+
+        </div>
+
+
+        {{range .Payments}}
+        <div id="p{{.Id}}" class="modal fade" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class=""><h3 class="m-t-none m-b">Details</h3>
+
+                                <form role="form" action="/payment" method="POST">
+                                    <input hidden name="id" value="{{.Id}}">
+                                    <div class="form-group"><label>Description</label>
+                                        <input name="des" required type="text" placeholder="Description"
+                                               class="form-control" value="{{.Des}}">
+                                    </div>
+                                    <div class="form-group"><label>Payment</label>
+                                        <input name="tot" required type="number" placeholder="Payment"
+                                               class="form-control" value="{{dec .Tot}}" step="0.01">
+                                    </div>
+                                    <div class="form-group" id="data_1"><label>Date</label>
+                                        <div class="input-group date">
+                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            <input name="dte" required type="text" class="form-control"
+                                                   value="{{.Dte}}">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <strong><input name="submit" type="submit"
+                                                       class="btn btn-sm btn-primary pull-right m-t-n-xs" value="Save"></strong>
+                                        <strong><input name="submit" type="submit"
+                                                       class="btn btn-sm btn-danger pull-right m-t-n-xs" value="Delete"></strong>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{end}}
+
+        <div class="wrapper wrapper-content  animated fadeInRight">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-content">
+                            <input type="text" class="form-control input-sm m-b-xs" id="filter"
+                                   placeholder="Search in table">
+
+                            <table class="footable table table-stripped" data-page-size="8" data-filter=#filter>
+                                <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Inv No.</th>
+                                    <th>Customer</th>
+                                    <th>Total</th>
+                                    <th>Description</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {{range.Payments}}
+                                <tr>
+                                    <td>{{.Dte}}</td>
+                                    <td>{{.I_no}}</td>
+                                    <td>{{.C_name}}</td>
+                                    <td>{{dec .Tot}}</td>
+                                    <td>{{.Des}}</td>
+                                    <th>
+                                        <a data-toggle="modal" class="pull-right btn btn-xs btn-warning"
+                                           href="#p{{.Id}}">edit</a>
+                                    </th>
+                                </tr>
+                                {{end}}
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td colspan="5">
+                                        <ul class="pagination pull-right"></ul>
+                                    </td>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Mainly scripts -->
+<script src="js/jquery-2.1.1.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="js/inspinia.js"></script>
+<script src="js/plugins/pace/pace.min.js"></script>
+
+<!-- FooTable -->
+<script src="js/plugins/footable/footable.all.min.js"></script>
+
+<!-- Page-Level Scripts -->
+<script>
+        $(document).ready(function() {
+
+            $('.footable').footable();
+            $('.footable2').footable();
+
+        });
+
+</script>
+
+
+<!-- Chosen -->
+<script src="js/plugins/chosen/chosen.jquery.js"></script>
+
+<!-- JSKnob -->
+<script src="js/plugins/jsKnob/jquery.knob.js"></script>
+
+<!-- Input Mask-->
+<script src="js/plugins/jasny/jasny-bootstrap.min.js"></script>
+
+<!-- Data picker -->
+<script src="js/plugins/datapicker/bootstrap-datepicker.js"></script>
+
+<!-- NouSlider -->
+<script src="js/plugins/nouslider/jquery.nouislider.min.js"></script>
+
+<!-- Switchery -->
+<script src="js/plugins/switchery/switchery.js"></script>
+
+<!-- IonRangeSlider -->
+<script src="js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+
+<!-- iCheck -->
+<script src="js/plugins/iCheck/icheck.min.js"></script>
+
+<!-- MENU -->
+<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+
+<!-- Color picker -->
+<script src="js/plugins/colorpicker/bootstrap-colorpicker.min.js"></script>
+
+<!-- Clock picker -->
+<script src="js/plugins/clockpicker/clockpicker.js"></script>
+
+<!-- Image cropper -->
+<script src="js/plugins/cropper/cropper.min.js"></script>
+
+<!-- Date range use moment.js same as full calendar plugin -->
+<script src="js/plugins/fullcalendar/moment.min.js"></script>
+
+<!-- Date range picker -->
+<script src="js/plugins/daterangepicker/daterangepicker.js"></script>
+
+<!-- Select2 -->
+<script src="js/plugins/select2/select2.full.min.js"></script>
+
+<!-- Sweet alert -->
+<script src="js/plugins/sweetalert/sweetalert.min.js"></script>
+
+<script>
+        $(document).ready(function(){
+
+            var $image = $(".image-crop > img")
+            $($image).cropper({
+                aspectRatio: 1.618,
+                preview: ".img-preview",
+                done: function(data) {
+                    // Output the result data for cropping image.
+                }
+            });
+
+            var $inputImage = $("#inputImage");
+            if (window.FileReader) {
+                $inputImage.change(function() {
+                    var fileReader = new FileReader(),
+                            files = this.files,
+                            file;
+
+                    if (!files.length) {
+                        return;
+                    }
+
+                    file = files[0];
+
+                    if (/^image\/\w+$/.test(file.type)) {
+                        fileReader.readAsDataURL(file);
+                        fileReader.onload = function () {
+                            $inputImage.val("");
+                            $image.cropper("reset", true).cropper("replace", this.result);
+                        };
+                    } else {
+                        showMessage("Please choose an image file.");
+                    }
+                });
+            } else {
+                $inputImage.addClass("hide");
+            }
+
+            $("#download").click(function() {
+                window.open($image.cropper("getDataURL"));
+            });
+
+            $("#zoomIn").click(function() {
+                $image.cropper("zoom", 0.1);
+            });
+
+            $("#zoomOut").click(function() {
+                $image.cropper("zoom", -0.1);
+            });
+
+            $("#rotateLeft").click(function() {
+                $image.cropper("rotate", 45);
+            });
+
+            $("#rotateRight").click(function() {
+                $image.cropper("rotate", -45);
+            });
+
+            $("#setDrag").click(function() {
+                $image.cropper("setDragMode", "crop");
+            });
+
+            $('#data_1 .input-group.date').datepicker({
+                todayBtn: "linked",
+                keyboardNavigation: false,
+                forceParse: false,
+                calendarWeeks: true,
+                autoclose: true
+            });
+
+            $('#data_2 .input-group.date').datepicker({
+                startView: 1,
+                todayBtn: "linked",
+                keyboardNavigation: false,
+                forceParse: false,
+                autoclose: true,
+                format: "dd/mm/yyyy"
+            });
+
+            $('#data_3 .input-group.date').datepicker({
+                startView: 2,
+                todayBtn: "linked",
+                keyboardNavigation: false,
+                forceParse: false,
+                autoclose: true
+            });
+
+            $('#data_4 .input-group.date').datepicker({
+                minViewMode: 1,
+                keyboardNavigation: false,
+                forceParse: false,
+                autoclose: true,
+                todayHighlight: true
+            });
+
+            $('#data_5 .input-daterange').datepicker({
+                keyboardNavigation: false,
+                forceParse: false,
+                autoclose: true
+            });
+
+            var elem = document.querySelector('.js-switch');
+            var switchery = new Switchery(elem, { color: '#1AB394' });
+
+            var elem_2 = document.querySelector('.js-switch_2');
+            var switchery_2 = new Switchery(elem_2, { color: '#ED5565' });
+
+            var elem_3 = document.querySelector('.js-switch_3');
+            var switchery_3 = new Switchery(elem_3, { color: '#1AB394' });
+
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green'
+            });
+
+            $('.demo1').colorpicker();
+
+            var divStyle = $('.back-change')[0].style;
+            $('#demo_apidemo').colorpicker({
+                color: divStyle.backgroundColor
+            }).on('changeColor', function(ev) {
+                        divStyle.backgroundColor = ev.color.toHex();
+                    });
+
+            $('.clockpicker').clockpicker();
+
+            $('input[name="daterange"]').daterangepicker();
+
+            $('#reportrange span').html(moment().subtract(29, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
+
+            $('#reportrange').daterangepicker({
+                format: 'MM/DD/YYYY',
+                startDate: moment().subtract(29, 'days'),
+                endDate: moment(),
+                minDate: '01/01/2012',
+                maxDate: '12/31/2015',
+                dateLimit: { days: 60 },
+                showDropdowns: true,
+                showWeekNumbers: true,
+                timePicker: false,
+                timePickerIncrement: 1,
+                timePicker12Hour: true,
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                },
+                opens: 'right',
+                drops: 'down',
+                buttonClasses: ['btn', 'btn-sm'],
+                applyClass: 'btn-primary',
+                cancelClass: 'btn-default',
+                separator: ' to ',
+                locale: {
+                    applyLabel: 'Submit',
+                    cancelLabel: 'Cancel',
+                    fromLabel: 'From',
+                    toLabel: 'To',
+                    customRangeLabel: 'Custom',
+                    daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr','Sa'],
+                    monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                    firstDay: 1
+                }
+            }, function(start, end, label) {
+                console.log(start.toISOString(), end.toISOString(), label);
+                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            });
+
+            $(".select2_demo_1").select2();
+            $(".select2_demo_2").select2();
+            $(".select2_demo_3").select2({
+                placeholder: "Select a state",
+                allowClear: true
+            });
+
+
+        });
+        var config = {
+                '.chosen-select'           : {},
+                '.chosen-select-deselect'  : {allow_single_deselect:true},
+                '.chosen-select-no-single' : {disable_search_threshold:10},
+                '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+                '.chosen-select-width'     : {width:"95%"}
+                }
+            for (var selector in config) {
+                $(selector).chosen(config[selector]);
+            }
+
+        $("#ionrange_1").ionRangeSlider({
+            min: 0,
+            max: 5000,
+            type: 'double',
+            prefix: "$",
+            maxPostfix: "+",
+            prettify: false,
+            hasGrid: true
+        });
+
+        $("#ionrange_2").ionRangeSlider({
+            min: 0,
+            max: 10,
+            type: 'single',
+            step: 0.1,
+            postfix: " carats",
+            prettify: false,
+            hasGrid: true
+        });
+
+        $("#ionrange_3").ionRangeSlider({
+            min: -50,
+            max: 50,
+            from: 0,
+            postfix: "°",
+            prettify: false,
+            hasGrid: true
+        });
+
+        $("#ionrange_4").ionRangeSlider({
+            values: [
+                "January", "February", "March",
+                "April", "May", "June",
+                "July", "August", "September",
+                "October", "November", "December"
+            ],
+            type: 'single',
+            hasGrid: true
+        });
+
+        $("#ionrange_5").ionRangeSlider({
+            min: 10000,
+            max: 100000,
+            step: 100,
+            postfix: " km",
+            from: 55000,
+            hideMinMax: true,
+            hideFromTo: false
+        });
+
+        $(".dial").knob();
+
+        $("#basic_slider").noUiSlider({
+            start: 40,
+            behaviour: 'tap',
+            connect: 'upper',
+            range: {
+                'min':  20,
+                'max':  80
+            }
+        });
+
+        $("#range_slider").noUiSlider({
+            start: [ 40, 60 ],
+            behaviour: 'drag',
+            connect: true,
+            range: {
+                'min':  20,
+                'max':  80
+            }
+        });
+
+        $("#drag-fixed").noUiSlider({
+            start: [ 40, 60 ],
+            behaviour: 'drag-fixed',
+            connect: true,
+            range: {
+                'min':  20,
+                'max':  80
+            }
+        });
+</script>
+<script>
+function validateForm() {
+    var x = document.forms["myForm"]["i_id"].value;
+    var qty = document.forms["myForm"]["tot"].value;
+    var splits = x.split(',', 2);
+
+    if (parseInt(splits[1])<parseInt(qty)) {
+     swal("Invalied Payment", "Payment must be lessthan or equal to "+splits[1], "warning");
+        return false;
+    }
+}
+
+</script>
+</body>
+</html>
+
+	`
+	files["products"] = `
+	<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{.Title}}</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    <!-- Data Tables -->
+    <link href="css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+    <link href="css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div id="wrapper">
+
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav metismenu" id="side-menu">
+                <li class="">
+                    <a href="stat"><i class="fa fa-line-chart"></i> <span class="nav-label">Stats</span></a>
+                </li>
+                <li class="">
+                    <a href="payment"><i class="fa fa-money"></i> <span class="nav-label">Payment</span></a>
+                </li>
+                <li class="">
+                    <a href="load"><i class="fa fa-download"></i> <span class="nav-label">Loading</span></a>
+                </li>
+                <li class="">
+                    <a href="unload"><i class="fa fa-upload"></i> <span class="nav-label">Unloading</span></a>
+                </li>
+                <li class="">
+                    <a href="delivery"><i class="fa fa-bus"></i> <span class="nav-label">Delivery</span></a>
+                </li>
+                <li class="">
+                    <a href="invoice"><i class="fa fa-usd"></i> <span class="nav-label">Invoice</span></a>
+                </li>
+                <li class="">
+                    <a href="grn"><i class="fa fa-gbp"></i> <span class="nav-label">GRN</span></a>
+                </li>
+                <li class="active">
+                    <a href="products"><i class="fa fa-cubes"></i> <span class="nav-label">Products</span></a>
+                </li>
+                <li class="">
+                    <a href="customers"><i class="fa fa-slideshare"></i> <span class="nav-label">Customers</span></a>
+                </li>
+                <li class="">
+                    <a href="vendors"><i class="fa fa-users"></i> <span class="nav-label">Vendors</span></a>
+                </li>
+                <li class="">
+                    <a href="home"><i class="fa fa-home"></i> <span class="nav-label">Home</span></a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+
+    <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom">
+            <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i>
+                    </a>
+                </div>
+                <div class="">
+                    <a data-toggle="modal" href="#Addnew" class="btn btn-primary minimalize-styl-2">Add new</a>
+                </div>
+            </nav>
+        </div>
+
+        {{range .Products}}
+        <div id="p{{.Id}}" class="modal fade" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class=""><h3 class="m-t-none m-b">Details</h3>
+
+                                <form role="form" action="/products" method="POST" class="cform">
+                                    <div class="form-group"><label>ID</label>
+                                        <input name="id" readonly required type="text" placeholder="ID"
+                                               class="form-control" value="{{.Id}}">
+                                    </div>
+                                    <div class="form-group"><label>Description</label>
+                                        <input name="des" required type="text" placeholder="Description"
+                                               class="form-control" value="{{.Des}}">
+                                    </div>
+                                    <div class="form-group"><label>Buy Price</label>
+                                        <input name="b_p" required type="number" placeholder="Buy Price"
+                                               class="form-control" value="{{dec .B_p}}">
+                                    </div>
+                                    <div class="form-group"><label>Sell Price</label>
+                                        <input name="s_p" required type="number" placeholder="Sell Price"
+                                               class="form-control" value="{{dec .S_p}}">
+                                    </div>
+                                    <div>
+                                        <strong><input name="submit" type="submit"
+                                                       class="btn btn-sm btn-primary pull-right m-t-n-xs" value="Save"></strong>
+                                        {{if .DeleteBTN}}
+                                        <strong><input name="submit" type="submit"
+                                                       class="btn btn-sm btn-danger pull-right m-t-n-xs" value="Delete"></strong>
+                                        {{end}}
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{end}}
+
+
+        <div id="Addnew" class="modal fade" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class=""><h3 class="m-t-none m-b">Details</h3>
+
+                                <form class="cform" role="form" action="/products" method="POST">
+                                    <div class="form-group"><label>ID</label>
+                                        <input name="id" readonly required type="text" placeholder="ID"
+                                               class="form-control" value="{{.Nid}}">
+                                    </div>
+                                    <div class="form-group"><label>Description</label>
+                                        <input name="des" required type="text" placeholder="Description"
+                                               class="form-control" value="">
+                                    </div>
+                                    <div class="form-group"><label>Buy Price</label>
+                                        <input name="b_p" required type="number" placeholder="Buy Price"
+                                               class="form-control" value="0">
+                                    </div>
+                                    <div class="form-group"><label>Sell Price</label>
+                                        <input name="s_p" required type="number" placeholder="Sell Price"
+                                               class="form-control" value="0">
+                                    </div>
+                                    <div>
+                                        <strong><input name="submit" type="submit"
+                                                       class="btn btn-sm btn-primary pull-right m-t-n-xs"
+                                                       value="Add"></strong>
+                                        <strong><input type="reset" class="btn btn-sm btn-warning pull-right m-t-n-xs"
+                                                       value="Reset"></strong>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="wrapper wrapper-content  animated fadeInRight">
+            <div class="ibox-content m-b-sm border-bottom">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-content">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered table-hover dataTables-example">
+                                        <thead>
+                                        <tr>
+                                            <th>Description</th>
+                                            <th>Buy Price</th>
+                                            <th>Sell Price</th>
+                                            <th>Main Stock</th>
+                                            <th>Vehi. Stock</th>
+                                            <th>Total Qty</th>
+                                            <th>Option</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {{range .Products}}
+                                        <tr class="gradeA">
+                                            <td>{{.Des}}</td>
+                                            <td>{{dec .B_p }}</td>
+                                            <td>{{dec .S_p}}</td>
+                                            <td>{{.QtyStk}}</td>
+                                            <td>{{.QtyVan}}</td>
+                                            <td>{{.Qty}}</td>
+                                            <td><a data-toggle="modal" class="btn btn-info btn-sm btn-outline"
+                                                   href="#p{{.Id}}">View
+                                                / Edit</a></td>
+                                        </tr>
+                                        {{end}}
+                                        </tbody>
+                                        <tfoot>
+                                        <tr>
+                                            <th>Description</th>
+                                            <th>Buy Price</th>
+                                            <th>Sell Price</th>
+                                            <th>Main Stock</th>
+                                            <th>Vehi. Stock</th>
+                                            <th>Total Qty</th>
+                                            <th>Option</th>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Mainly scripts -->
+    <script src="js/jquery-2.1.1.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="js/plugins/jeditable/jquery.jeditable.js"></script>
+
+    <!-- Data Tables -->
+    <script src="js/plugins/dataTables/jquery.dataTables.js"></script>
+    <script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
+    <script src="js/plugins/dataTables/dataTables.responsive.js"></script>
+    <script src="js/plugins/dataTables/dataTables.tableTools.min.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="js/inspinia.js"></script>
+    <script src="js/plugins/pace/pace.min.js"></script>
+
+    <style>
+
+    </style>
+
+    <!-- Page-Level Scripts -->
+    <script>
+        $(document).ready(function() {
+            $('.dataTables-example').DataTable({
+                "dom": 'lTfigt'
+
+            });
+
+
+        });
+
+    </script>
+ <!-- Jquery Validate -->
+    <script src="js/plugins/validate/jquery.validate.min.js"></script>
+
+    <script>
+         $(document).ready(function(){
+
+             $(".cform").validate({
+                 rules: {
+                     password: {
+                         required: true,
+                         minlength: 3
+                     },
+                     url: {
+                         required: true,
+                         url: true
+                     },
+                     number: {
+                         required: true,
+                         number: true
+                     },
+                     min: {
+                         required: true,
+                         minlength: 6
+                     },
+                     max: {
+                         required: true,
+                         maxlength: 4
+                     }
+                 }
+             });
+        });
+    </script>
+</body>
+</html>
+
+	`
+
+	files["stat"] = `
+	<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{.Title}}</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    <!-- Toastr style -->
+    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- orris -->
+    <link href="css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet">
+
+    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+
+    <link href="css/plugins/chosen/chosen.css" rel="stylesheet">
+
+    <link href="css/plugins/colorpicker/bootstrap-colorpicker.min.css" rel="stylesheet">
+
+    <link href="css/plugins/cropper/cropper.min.css" rel="stylesheet">
+
+    <link href="css/plugins/switchery/switchery.css" rel="stylesheet">
+
+    <link href="css/plugins/jasny/jasny-bootstrap.min.css" rel="stylesheet">
+
+    <link href="css/plugins/nouslider/jquery.nouislider.css" rel="stylesheet">
+
+    <link href="css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+
+    <link href="css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
+    <link href="css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
+
+    <link href="css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+
+    <link href="css/plugins/clockpicker/clockpicker.css" rel="stylesheet">
+
+    <link href="css/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet">
+
+    <link href="css/plugins/select2/select2.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div id="wrapper">
+
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav metismenu" id="side-menu">
+                <li class="active">
+                    <a href="stat"><i class="fa fa-line-chart"></i> <span class="nav-label">Stats</span></a>
+                </li>
+                <li class="">
+                    <a href="payment"><i class="fa fa-money"></i> <span class="nav-label">Payment</span></a>
+                </li>
+                <li class="">
+                    <a href="load"><i class="fa fa-download"></i> <span class="nav-label">Loading</span></a>
+                </li>
+                <li class="">
+                    <a href="unload"><i class="fa fa-upload"></i> <span class="nav-label">Unloading</span></a>
+                </li>
+                <li class="">
+                    <a href="delivery"><i class="fa fa-bus"></i> <span class="nav-label">Delivery</span></a>
+                </li>
+                <li class="">
+                    <a href="invoice"><i class="fa fa-usd"></i> <span class="nav-label">Invoice</span></a>
+                </li>
+                <li class="">
+                    <a href="grn"><i class="fa fa-gbp"></i> <span class="nav-label">GRN</span></a>
+                </li>
+                <li class="">
+                    <a href="products"><i class="fa fa-cubes"></i> <span class="nav-label">Products</span></a>
+                </li>
+                <li class="">
+                    <a href="customers"><i class="fa fa-slideshare"></i> <span class="nav-label">Customers</span></a>
+                </li>
+                <li class="">
+                    <a href="vendors"><i class="fa fa-users"></i> <span class="nav-label">Vendors</span></a>
+                </li>
+                <li class="">
+                    <a href="home"><i class="fa fa-home"></i> <span class="nav-label">Home</span></a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+
+    <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom">
+             <form role="form" action="/stat" method="POST">
+                    <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                        <div class="navbar-header">
+                            <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i>
+                            </a>
+                        </div>
+                        <div class="minimalize-styl-2" id="data_1">
+                            <h3>From:</h3>
+                        </div>
+                        <div class="minimalize-styl-2" id="data_1">
+                            <div class="input-group date">
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                <input name="from" required type="text" class="form-control" value="{{.From}}">
+                            </div>
+                        </div>
+                        <div class="minimalize-styl-2" id="data_1">
+                            <h3>To:</h3>
+                        </div>
+                        <div class="minimalize-styl-2" id="data_1">
+                            <div class="input-group date">
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                <input name="to" required type="text" class="form-control" value="{{.To}}">
+                            </div>
+                        </div>
+                        <div class="minimalize-styl-2">
+
+                        <input type="submit" name="submit" class="btn btn-primary " value="Show Total">
+                    </div>
+                    </nav>
+
+
+             </form>
+        </div>
+        <div class="wrapper wrapper-content animated fadeInRight">
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Income Graph<h5 class="pull-right">Grand Total: Rs.{{dec .Tot}}</h5></h5>
+                        </div>
+                        <div class="ibox-content">
+                            <div id="morris-line-chart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+</div>
+
+
+<!-- Mainly scripts -->
+<script src="js/jquery-2.1.1.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="js/inspinia.js"></script>
+<script src="js/plugins/pace/pace.min.js"></script>
+
+
+<!-- Morris -->
+<script src="js/plugins/morris/raphael-2.1.0.min.js"></script>
+<script src="js/plugins/morris/morris.js"></script>
+
+<!-- Page-Level Scripts -->
+<script>
+$(function() {
+
+    Morris.Line({
+        element: 'morris-line-chart',
+        data: [
+        {{range .Records}}
+        {y: '{{ .Date}}' , a : '{{dec .Tot}}',b:'{{dec .Sale}}'},
+        {{end}}
+            ],
+        xkey: 'y',
+        ykeys: ['a','b'],
+        labels: ['Total(Rs.)','Day-Sale(Rs.)'],
+        hideHover: 'auto',
+        resize: true,
+        lineColors: ['#1ab394','#5bdfdf'],
+    });
+
+});
+
+
+
+</script>
+
+
+<!-- Chosen -->
+<script src="js/plugins/chosen/chosen.jquery.js"></script>
+
+<!-- JSKnob -->
+<script src="js/plugins/jsKnob/jquery.knob.js"></script>
+
+<!-- Input Mask-->
+<script src="js/plugins/jasny/jasny-bootstrap.min.js"></script>
+
+<!-- Data picker -->
+<script src="js/plugins/datapicker/bootstrap-datepicker.js"></script>
+
+<!-- NouSlider -->
+<script src="js/plugins/nouslider/jquery.nouislider.min.js"></script>
+
+<!-- Switchery -->
+<script src="js/plugins/switchery/switchery.js"></script>
+
+<!-- IonRangeSlider -->
+<script src="js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+
+<!-- iCheck -->
+<script src="js/plugins/iCheck/icheck.min.js"></script>
+
+<!-- MENU -->
+<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+
+<!-- Color picker -->
+<script src="js/plugins/colorpicker/bootstrap-colorpicker.min.js"></script>
+
+<!-- Clock picker -->
+<script src="js/plugins/clockpicker/clockpicker.js"></script>
+
+<!-- Image cropper -->
+<script src="js/plugins/cropper/cropper.min.js"></script>
+
+<!-- Date range use moment.js same as full calendar plugin -->
+<script src="js/plugins/fullcalendar/moment.min.js"></script>
+
+<!-- Date range picker -->
+<script src="js/plugins/daterangepicker/daterangepicker.js"></script>
+
+<!-- Select2 -->
+<script src="js/plugins/select2/select2.full.min.js"></script>
+<script>
+        $(document).ready(function(){
+
+            var $image = $(".image-crop > img")
+            $($image).cropper({
+                aspectRatio: 1.618,
+                preview: ".img-preview",
+                done: function(data) {
+                    // Output the result data for cropping image.
+                }
+            });
+
+            var $inputImage = $("#inputImage");
+            if (window.FileReader) {
+                $inputImage.change(function() {
+                    var fileReader = new FileReader(),
+                            files = this.files,
+                            file;
+
+                    if (!files.length) {
+                        return;
+                    }
+
+                    file = files[0];
+
+                    if (/^image\/\w+$/.test(file.type)) {
+                        fileReader.readAsDataURL(file);
+                        fileReader.onload = function () {
+                            $inputImage.val("");
+                            $image.cropper("reset", true).cropper("replace", this.result);
+                        };
+                    } else {
+                        showMessage("Please choose an image file.");
+                    }
+                });
+            } else {
+                $inputImage.addClass("hide");
+            }
+
+            $("#download").click(function() {
+                window.open($image.cropper("getDataURL"));
+            });
+
+            $("#zoomIn").click(function() {
+                $image.cropper("zoom", 0.1);
+            });
+
+            $("#zoomOut").click(function() {
+                $image.cropper("zoom", -0.1);
+            });
+
+            $("#rotateLeft").click(function() {
+                $image.cropper("rotate", 45);
+            });
+
+            $("#rotateRight").click(function() {
+                $image.cropper("rotate", -45);
+            });
+
+            $("#setDrag").click(function() {
+                $image.cropper("setDragMode", "crop");
+            });
+
+            $('#data_1 .input-group.date').datepicker({
+                todayBtn: "linked",
+                keyboardNavigation: false,
+                forceParse: false,
+                calendarWeeks: true,
+                autoclose: true
+            });
+
+            $('#data_2 .input-group.date').datepicker({
+                startView: 1,
+                todayBtn: "linked",
+                keyboardNavigation: false,
+                forceParse: false,
+                autoclose: true,
+                format: "dd/mm/yyyy"
+            });
+
+            $('#data_3 .input-group.date').datepicker({
+                startView: 2,
+                todayBtn: "linked",
+                keyboardNavigation: false,
+                forceParse: false,
+                autoclose: true
+            });
+
+            $('#data_4 .input-group.date').datepicker({
+                minViewMode: 1,
+                keyboardNavigation: false,
+                forceParse: false,
+                autoclose: true,
+                todayHighlight: true
+            });
+
+            $('#data_5 .input-daterange').datepicker({
+                keyboardNavigation: false,
+                forceParse: false,
+                autoclose: true
+            });
+
+            var elem = document.querySelector('.js-switch');
+            var switchery = new Switchery(elem, { color: '#1AB394' });
+
+            var elem_2 = document.querySelector('.js-switch_2');
+            var switchery_2 = new Switchery(elem_2, { color: '#ED5565' });
+
+            var elem_3 = document.querySelector('.js-switch_3');
+            var switchery_3 = new Switchery(elem_3, { color: '#1AB394' });
+
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green'
+            });
+
+            $('.demo1').colorpicker();
+
+            var divStyle = $('.back-change')[0].style;
+            $('#demo_apidemo').colorpicker({
+                color: divStyle.backgroundColor
+            }).on('changeColor', function(ev) {
+                        divStyle.backgroundColor = ev.color.toHex();
+                    });
+
+            $('.clockpicker').clockpicker();
+
+            $('input[name="daterange"]').daterangepicker();
+
+            $('#reportrange span').html(moment().subtract(29, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
+
+            $('#reportrange').daterangepicker({
+                format: 'MM/DD/YYYY',
+                startDate: moment().subtract(29, 'days'),
+                endDate: moment(),
+                minDate: '01/01/2012',
+                maxDate: '12/31/2015',
+                dateLimit: { days: 60 },
+                showDropdowns: true,
+                showWeekNumbers: true,
+                timePicker: false,
+                timePickerIncrement: 1,
+                timePicker12Hour: true,
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                },
+                opens: 'right',
+                drops: 'down',
+                buttonClasses: ['btn', 'btn-sm'],
+                applyClass: 'btn-primary',
+                cancelClass: 'btn-default',
+                separator: ' to ',
+                locale: {
+                    applyLabel: 'Submit',
+                    cancelLabel: 'Cancel',
+                    fromLabel: 'From',
+                    toLabel: 'To',
+                    customRangeLabel: 'Custom',
+                    daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr','Sa'],
+                    monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                    firstDay: 1
+                }
+            }, function(start, end, label) {
+                console.log(start.toISOString(), end.toISOString(), label);
+                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            });
+
+            $(".select2_demo_1").select2();
+            $(".select2_demo_2").select2();
+            $(".select2_demo_3").select2({
+                placeholder: "Select a state",
+                allowClear: true
+            });
+
+
+        });
+        var config = {
+                '.chosen-select'           : {},
+                '.chosen-select-deselect'  : {allow_single_deselect:true},
+                '.chosen-select-no-single' : {disable_search_threshold:10},
+                '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+                '.chosen-select-width'     : {width:"95%"}
+                }
+            for (var selector in config) {
+                $(selector).chosen(config[selector]);
+            }
+
+        $("#ionrange_1").ionRangeSlider({
+            min: 0,
+            max: 5000,
+            type: 'double',
+            prefix: "$",
+            maxPostfix: "+",
+            prettify: false,
+            hasGrid: true
+        });
+
+        $("#ionrange_2").ionRangeSlider({
+            min: 0,
+            max: 10,
+            type: 'single',
+            step: 0.1,
+            postfix: " carats",
+            prettify: false,
+            hasGrid: true
+        });
+
+        $("#ionrange_3").ionRangeSlider({
+            min: -50,
+            max: 50,
+            from: 0,
+            postfix: "°",
+            prettify: false,
+            hasGrid: true
+        });
+
+        $("#ionrange_4").ionRangeSlider({
+            values: [
+                "January", "February", "March",
+                "April", "May", "June",
+                "July", "August", "September",
+                "October", "November", "December"
+            ],
+            type: 'single',
+            hasGrid: true
+        });
+
+        $("#ionrange_5").ionRangeSlider({
+            min: 10000,
+            max: 100000,
+            step: 100,
+            postfix: " km",
+            from: 55000,
+            hideMinMax: true,
+            hideFromTo: false
+        });
+
+        $(".dial").knob();
+
+        $("#basic_slider").noUiSlider({
+            start: 40,
+            behaviour: 'tap',
+            connect: 'upper',
+            range: {
+                'min':  20,
+                'max':  80
+            }
+        });
+
+        $("#range_slider").noUiSlider({
+            start: [ 40, 60 ],
+            behaviour: 'drag',
+            connect: true,
+            range: {
+                'min':  20,
+                'max':  80
+            }
+        });
+
+        $("#drag-fixed").noUiSlider({
+            start: [ 40, 60 ],
+            behaviour: 'drag-fixed',
+            connect: true,
+            range: {
+                'min':  20,
+                'max':  80
+            }
+        });
+
+
+</script>
+</body>
+</html>
+
+	`
+	files["unload"] = `
+	<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{.Title}}</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    <!-- Toastr style -->
+    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- FooTable -->
+    <link href="css/plugins/footable/footable.core.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div id="wrapper">
+
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav metismenu" id="side-menu">
+                <li class="">
+                    <a href="stat"><i class="fa fa-line-chart"></i> <span class="nav-label">Stats</span></a>
+                </li>
+                <li class="">
+                    <a href="payment"><i class="fa fa-money"></i> <span class="nav-label">Payment</span></a>
+                </li>
+                <li class="">
+                    <a href="load"><i class="fa fa-download"></i> <span class="nav-label">Loading</span></a>
+                </li>
+                <li class="active">
+                    <a href="unload"><i class="fa fa-upload"></i> <span class="nav-label">Unloading</span></a>
+                </li>
+                <li class="">
+                    <a href="delivery"><i class="fa fa-bus"></i> <span class="nav-label">Delivery</span></a>
+                </li>
+                <li class="">
+                    <a href="invoice"><i class="fa fa-usd"></i> <span class="nav-label">Invoice</span></a>
+                </li>
+                <li class="">
+                    <a href="grn"><i class="fa fa-gbp"></i> <span class="nav-label">GRN</span></a>
+                </li>
+                <li class="">
+                    <a href="products"><i class="fa fa-cubes"></i> <span class="nav-label">Products</span></a>
+                </li>
+                <li class="">
+                    <a href="customers"><i class="fa fa-slideshare"></i> <span class="nav-label">Customers</span></a>
+                </li>
+                <li class="">
+                    <a href="vendors"><i class="fa fa-users"></i> <span class="nav-label">Vendors</span></a>
+                </li>
+                <li class="">
+                    <a href="home"><i class="fa fa-home"></i> <span class="nav-label">Home</span></a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+
+    <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom">
+            <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i>
+                    </a>
+                </div>
+
+            </nav>
+        </div>
+
+        <div class="wrapper wrapper-content  animated fadeInRight">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="ibox">
+                        <div class="ibox-content">
+                            <h2>Vehicles</h2>
+                            <div class="input-group">
+                                <input type="text" class="input form-control"
+                                       id="filter"
+                                       placeholder="Search in Unloadinig">
+                                </span>
+                            </div>
+                            <div class="clients-list">
+                                <ul class="nav nav-tabs">
+                                    {{range .Vans}}
+                                    <li {{if .Active}}class="active" {{end}}><a data-toggle="tab" href="#van{{.Id}}"><i
+                                            class="fa fa-bus"></i>
+                                        {{.Des}}</a></li>
+                                    {{end}}
+                                </ul>
+                                <div class="tab-content">
+                                    {{range .Vans}}
+                                    <div id="van{{.Id}}" class="tab-pane {{if .Active}}active{{end}}">
+                                        <div class="full-height-scroll">
+                                            <div class="col-lg-12">
+                                                <div class="ibox float-e-margins">
+                                                    <div class="ibox-content">
+                                                        <table class="footable table table-stripped" data-page-size="8"
+                                                               data-filter=#filter>
+                                                            <thead>
+                                                            <tr>
+                                                                <th>Date</th>
+                                                                <th>Product</th>
+                                                                <th>Qty.</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            {{range .Unloads}}
+                                                            <tr class="gradeU">
+                                                                <td>{{.Dte}}</td>
+                                                                <td>{{.P_des}}</td>
+                                                                <td>{{.Qty}}</td>
+                                                            </tr>
+                                                            {{end}}
+                                                            </tbody>
+                                                            <tfoot>
+                                                            <tr>
+                                                                <td colspan="5">
+                                                                    <ul class="pagination pull-right"></ul>
+                                                                </td>
+                                                            </tr>
+                                                            </tfoot>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    {{end}}
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Mainly scripts -->
+<script src="js/jquery-2.1.1.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="js/inspinia.js"></script>
+<script src="js/plugins/pace/pace.min.js"></script>
+
+
+<!-- FooTable -->
+<script src="js/plugins/footable/footable.all.min.js"></script>
+
+
+<!-- Page-Level Scripts -->
+<script>
+        $(document).ready(function() {
+
+            $('.footable').footable();
+            $('.footable2').footable();
+
+        });
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>
+
+	`
+	files["vendors"] = `
+	<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{.Title}}</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    <!-- Toastr style -->
+    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+<div id="wrapper">
+
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav metismenu" id="side-menu">
+                <li class="">
+                    <a href="stat"><i class="fa fa-line-chart"></i> <span class="nav-label">Stats</span></a>
+                </li>
+                <li class="">
+                    <a href="payment"><i class="fa fa-money"></i> <span class="nav-label">Payment</span></a>
+                </li>
+                <li class="">
+                    <a href="load"><i class="fa fa-download"></i> <span class="nav-label">Loading</span></a>
+                </li>
+                <li class="">
+                    <a href="unload"><i class="fa fa-upload"></i> <span class="nav-label">Unloading</span></a>
+                </li>
+                <li class="">
+                    <a href="delivery"><i class="fa fa-bus"></i> <span class="nav-label">Delivery</span></a>
+                </li>
+                <li class="">
+                    <a href="invoice"><i class="fa fa-usd"></i> <span class="nav-label">Invoice</span></a>
+                </li>
+                <li class="">
+                    <a href="grn"><i class="fa fa-gbp"></i> <span class="nav-label">GRN</span></a>
+                </li>
+                <li class="">
+                    <a href="products"><i class="fa fa-cubes"></i> <span class="nav-label">Products</span></a>
+                </li>
+                <li class="">
+                    <a href="customers"><i class="fa fa-slideshare"></i> <span class="nav-label">Customers</span></a>
+                </li>
+                <li class="active">
+                    <a href="vendors"><i class="fa fa-users"></i> <span class="nav-label">Vendors</span></a>
+                </li>
+                <li class="">
+                    <a href="home"><i class="fa fa-home"></i> <span class="nav-label">Home</span></a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+
+    <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom">
+            <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i>
+                    </a>
+                </div>
+                <div class="">
+                    <a data-toggle="modal" href="#Addnew" class="btn btn-primary minimalize-styl-2">Add new</a>
+                </div>
+
+            </nav>
+        </div>
+
+
+        <div id="Addnew" class="modal fade" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class=""><h3 class="m-t-none m-b">Details</h3>
+
+                                <form role="form" action="/vendors" method="POST">
+                                    <div class="form-group"><label>ID</label>
+                                        <input name="id" readonly required type="text" placeholder="ID"
+                                               class="form-control" value="{{.Nid}}">
+                                    </div>
+                                    <div class="form-group"><label>Name</label>
+                                        <input name="name" required type="text" placeholder="Name"
+                                               class="form-control" value="">
+                                    </div>
+                                    <div class="form-group"><label>Phone</label>
+                                        <input name="phn" type="text" placeholder="Phone"
+                                               class="form-control" value="">
+                                    </div>
+                                    <div class="form-group"><label>Address</label>
+                                        <input name="ad" type="text" placeholder="Address"
+                                               class="form-control" value="">
+                                    </div>
+
+                                    <div>
+                                        <strong><input name="submit" type="submit"
+                                                       class="btn btn-sm btn-primary pull-right m-t-n-xs"
+                                                       value="Add"></strong>
+                                        <strong><input type="reset" class="btn btn-sm btn-warning pull-right m-t-n-xs"
+                                                       value="Reset"></strong>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{range .Vendors}}
+        <div id="c{{.Id}}" class="modal fade" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class=""><h3 class="m-t-none m-b">Details</h3>
+
+                                <form role="form" action="/vendors" method="POST">
+                                    <div class="form-group"><label>ID</label>
+                                        <input name="id" readonly required type="text" placeholder="ID"
+                                               class="form-control" value="{{.Id}}">
+                                    </div>
+                                    <div class="form-group"><label>Name</label>
+                                        <input name="name" required type="text" placeholder="Name"
+                                               class="form-control" value="{{.Name}}">
+                                    </div>
+                                    <div class="form-group"><label>Phone</label>
+                                        <input name="phn" type="text" placeholder="Phone"
+                                               class="form-control" value="{{.Phn}}">
+                                    </div>
+                                    <div class="form-group"><label>Address</label>
+                                        <input name="ad" type="text" placeholder="Address"
+                                               class="form-control" value="{{.Ad}}">
+                                    </div>
+
+                                    <div>
+                                        <strong><input name="submit" type="submit"
+                                                       class="btn btn-sm btn-primary pull-right m-t-n-xs" value="Save"></strong>
+                                        {{if .DeleteBTN}}
+                                        <strong><input name="submit" type="submit"
+                                                       class="btn btn-sm btn-danger pull-right m-t-n-xs" value="Delete"></strong>
+                                        {{end}}
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{end}}
+
+
+        <div class="wrapper wrapper-content  animated fadeInRight">
+            <div class="row">
+                <div class="col-sm-7">
+                    <div class="ibox">
+                        <div class="ibox-content">
+                            <div class="clients-list">
+                                <div class="tab-content">
+                                    <div class="tab-pane active">
+                                        <div class="full-height-scroll">
+                                            <div class="table-responsive">
+                                                <table class="table table-striped table-hover dataTables-example">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Name</th>
+                                                        <th>Phone</th>
+                                                        <th>Total</th>
+                                                        <th>Option</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {{range .Vendors}}
+                                                    <tr>
+                                                        <td><a data-toggle="tab" href="#cus{{.Id}}" class="client-link">
+                                                            {{.Name}}
+                                                        </a></td>
+                                                        <td>{{.Phn}}</td>
+                                                        <td>{{dec .Dne}}</td>
+                                                        <td><a data-toggle="modal"
+                                                               class="btn btn-info btn-sm btn-outline" href="#c{{.Id}}">View
+                                                            /
+                                                            Edit</a>
+                                                        </td>
+                                                    </tr>
+                                                    {{end}}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="ibox ">
+
+                        <div class="ibox-content">
+                            <div class="tab-content">
+                                {{range .Vendors}}
+                                <div id="cus{{.Id}}" class="tab-pane {{if .Active}} active {{end}}">
+                                    <div class="m-b-lg">
+                                        <h2>{{.Name}}</h2>
+                                        <br>
+                                        <p>
+                                            {{.Phn}}
+                                            <br>
+                                            {{.Ad}}
+                                            <br>
+                                            Total payment: {{dec .Dne}}
+                                        </p>
+                                    </div>
+                                    <div class="client-detail">
+                                        <div class="full-height-scroll">
+                                            <strong>Timeline activity</strong>
+
+                                            <div id="vertical-timeline" class="vertical-container dark-timeline">
+                                                {{range .Grns}}
+                                                <div class="vertical-timeline-block">
+                                                    <div class="vertical-timeline-icon navy-bg">
+                                                        <i class="fa fa-gbp"></i>
+                                                    </div>
+                                                    <div class="vertical-timeline-content">
+
+                                                        <p>GRN. No.:{{.G_no}}
+                                                            Total:{{dec .Grnd_tot}}
+                                                            <button type="button" class="btn btn-info btn-xs"
+                                                                    data-toggle="modal" data-target="#i{{.Id}}">
+                                                                GRN
+                                                            </button>
+                                                        </p>
+                                                        <span class="vertical-date small text-muted"> Date: {{.Dte}} </span>
+                                                    </div>
+                                                </div>
+
+                                                {{end}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{end}}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{{range .Vendors}}
+{{range .Grns}}
+<div class="modal inmodal fade" id="i{{.Id}}" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title">GRN. No.:{{.G_no}} </h4>
+                <h5>Date:{{.Dte}}</h5>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>Qty</th>
+                        <th>U.Price</th>
+                        <th>Total</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{range .Records}}
+                    <tr>
+                        <td>{{.P_des}}</td>
+                        <td>{{.Qty}}</td>
+                        <td>{{dec .B_p}}</td>
+                        <td>{{dec .Tot}}</td>
+                    </tr>
+                    {{end}}
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sub Total</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td>{{dec .Sub_tot}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Vat</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td>{{dec .Vat}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Grand Total</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td>{{dec .Grnd_tot}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white btn-sm" data-dismiss="modal">Close</button>
+                <a href="editGRN?id={{.Id}}" type="button" class="btn btn-warning btn-sm">Edit/View</a>
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}
+{{end}}
+
+<!-- Mainly scripts -->
+<script src="js/jquery-2.1.1.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="js/inspinia.js"></script>
+<script src="js/plugins/pace/pace.min.js"></script>
+
+</body>
+</html>
+
+	`
 }

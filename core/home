@@ -25,7 +25,7 @@
             <h2>Select Business</h2>
             <form class="m-t" role="form" action="home">
                 <input type="submit" class="btn btn-primary block full-width m-b btn-xl" value="Consumer" name="submit">
-                <input type="submit" class="btn btn-primary block full-width m-b btn-xl" value="Product" name="submit">
+                <input type="submit" class="btn btn-primary block full-width m-b btn-xl" value="Bakery" name="submit">
             </form>
         </div>
     </div>
