@@ -115,12 +115,12 @@
                         <div class="minimalize-styl-2" id="data_1">
                             <div class="input-group date">
                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                <input name="from" required type="text" class="form-control" value="{{.To}}">
+                                <input name="to" required type="text" class="form-control" value="{{.To}}">
                             </div>
                         </div>
                         <div class="minimalize-styl-2">
 
-                        <input type="submit" name="submit" class="btn btn-primary " value="Show Income">
+                        <input type="submit" name="submit" class="btn btn-primary " value="Show Total">
                     </div>
                     </nav>
 
@@ -133,7 +133,7 @@
                 <div class="col-sm-12">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
-                            <h5>Income Graph</h5>
+                            <h5>Income Graph<h5 class="pull-right">Grand Total: Rs.{{dec .Tot}}</h5></h5>
                         </div>
                         <div class="ibox-content">
                             <div id="morris-line-chart"></div>
@@ -173,15 +173,15 @@ $(function() {
         element: 'morris-line-chart',
         data: [
         {{range .Records}}
-        {y: '{{ .Date}}' , a : '{{dec .Tot}}'},
+        {y: '{{ .Date}}' , a : '{{dec .Tot}}',b:'{{dec .Sale}}'},
         {{end}}
             ],
         xkey: 'y',
-        ykeys: ['a'],
-        labels: ['Amount(Rs.)'],
+        ykeys: ['a','b'],
+        labels: ['Total(Rs.)','Day-Sale(Rs.)'],
         hideHover: 'auto',
         resize: true,
-        lineColors: ['#1ab394'],
+        lineColors: ['#1ab394','#5bdfdf'],
     });
 
 });

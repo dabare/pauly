@@ -19,6 +19,7 @@ var mysql_pass string = "aelo"
 var mysql_db string = "mandy"
 
 var errDefault = 0
+var errTimeConversion = 3
 var errMysqlDBname = 1
 var errDBquery = 2
 
@@ -302,7 +303,8 @@ func getVansForUnoading(filter string, val string) []van {
 }
 
 func debugMSG(msg string) {
-	println(msg)
+	println("Done!")
+	//println(msg)
 }
 
 func readFile(path string) string {
@@ -339,6 +341,7 @@ func checkErr(err error, typ int) {
 	}
 	switch typ {
 	default:
+		println("Error occured!, Please contact developer :)")
 		t := time.Now().Format("01_02_2006_15.04.05")
 		logFile, err := os.Create("./log/" + t + ".txt")
 		log.SetOutput(logFile)
@@ -1055,6 +1058,11 @@ func editGRN(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "grn", http.StatusSeeOther)
 	}
 
+	if r.Form.Get("id") == "" {
+		http.Redirect(w, r, "grn", http.StatusSeeOther)
+		return
+	}
+
 	result := data{dbName, get_grn(r.Form.Get("id")), getProducts("''", "''"), getNextID("grn_reg")}
 	showFile(w, r, "editGRN", result)
 }
@@ -1303,29 +1311,49 @@ func unload(w http.ResponseWriter, r *http.Request) {
 
 type income struct {
 	Date string
+	Sale int64
 	Tot  int64
 }
 
-func getIncome(from string, to string) [] income {
+func getIncome(from string, to string) ([] income, int64) {
 	tmp2 := []income{}
-	rows := getResultDB("select sum(inv_reg.s_p*inv_reg.qty+inv.vat) as tot , inv.dte from inv_reg join inv on inv_reg.i_id=inv.id where inv.dte between '" + from + "' and '" + to + "' group by inv.dte order by inv.dte asc")
+	//rows := getResultDB("select sum(inv_reg.s_p*inv_reg.qty+inv.vat) as tot , inv.dte from inv_reg join inv on inv_reg.i_id=inv.id where inv.dte between '" + from + "' and '" + to + "' group by inv.dte order by inv.dte asc")
+	rows := getResultDB("select sum(inv_reg.s_p*inv_reg.qty+inv.vat) as tot , inv.dte from inv_reg join inv on inv_reg.i_id=inv.id where inv.dte <= '" + to + "' group by inv.dte order by inv.dte asc")
 
+	tot := int64(0)
 	for rows.Next() {
 		tmp := income{}
 
-		var tot sql.NullInt64
+		var sale sql.NullInt64
 		var dte sql.RawBytes
 
-		err := rows.Scan(&tot, &dte)
+		err := rows.Scan(&sale, &dte)
 		checkErr(err, errDBquery)
 
-		tmp.Tot = tot.Int64
+		tmp.Sale = sale.Int64
 		tmp.Date = string(dte)
+		tot += tmp.Sale
+		tmp.Tot = tot
 
-		tmp2 = append(tmp2, tmp)
+		invDte, err := time.Parse("2006-01-02", string(dte))
+
+		if err != nil {
+			checkErr(err, errTimeConversion)
+		}
+		frmDte, err := time.Parse("2006-01-02", from)
+
+		if err != nil {
+			checkErr(err, errTimeConversion)
+		}
+
+		diff := invDte.Sub(frmDte)
+
+		if (diff.Hours() >= 0) {
+			tmp2 = append(tmp2, tmp)
+		}
 	}
 	rows.Close()
-	return tmp2
+	return tmp2, tot
 }
 
 const (
@@ -1362,6 +1390,7 @@ func stat(w http.ResponseWriter, r *http.Request) {
 	type data struct {
 		Title   string
 		Records []income
+		Tot     int64
 		From    string
 		To      string
 	}
@@ -1370,13 +1399,13 @@ func stat(w http.ResponseWriter, r *http.Request) {
 	now.Format("01/02/2006")
 
 	//select sum(inv_reg.s_p*inv_reg.qty+inv.vat) as tot , inv.dte from inv_reg join inv on inv_reg.i_id=inv.id where inv.dte between '2017-09-07' and '2017-12-14' group by inv.dte order by inv.dte asc;
-	from := now.Format("01") + "/1/" + now.Format("2006")
+	from := now.Format("01") + "/01/" + now.Format("2006")
 	to := now.Format("01/02/2006")
 
-	if (r.Form.Get("from")!="") {
+	if (r.Form.Get("from") != "") {
 		from = r.Form.Get("from")
 	}
-	if (r.Form.Get("to")!="") {
+	if (r.Form.Get("to") != "") {
 		to = r.Form.Get("to")
 	}
 
@@ -1387,7 +1416,11 @@ func stat(w http.ResponseWriter, r *http.Request) {
 	s = strings.Split(to, "/")
 	sqlTo := s[2] + "-" + s[0] + "-" + s[1]
 
-	results := data{dbName, getIncome(sqlFrom, sqlTo), from, to}
+	rcds, tot := getIncome(sqlFrom, sqlTo)
+	if ( len(rcds) == 0) {
+		rcds = append(rcds, income{now.Format("01/02/2006"), 0, tot})
+	}
+	results := data{dbName, rcds, tot, from, to}
 	showFile(w, r, "stat", results)
 }
 
