@@ -1,0 +1,29 @@
+2018/01/09 10:52:35 <nil>
+2018/01/09 10:52:35 http: panic serving 127.0.0.1:57542: <nil>
+goroutine 13589 [running]:
+net/http.(*conn).serve.func1(0xc4201afc20)
+	/usr/local/go/src/net/http/server.go:1697 +0xd0
+panic(0x7bbe80, 0xc420010410)
+	/usr/local/go/src/runtime/panic.go:491 +0x283
+log.Panic(0xc42045b2b0, 0x1, 0x1)
+	/usr/local/go/src/log/log.go:330 +0xc0
+main.checkErr(0xc70340, 0xc4200103b0, 0x2)
+	/media/angelo/Dont Touch/DOCS/HTML/paulard/SIS/main.go:359 +0x156
+main.getGrnRecords(0x841c41, 0x4, 0x859554, 0x1, 0xc42048b256, 0xa, 0x1)
+	/media/angelo/Dont Touch/DOCS/HTML/paulard/SIS/main.go:933 +0x440
+main.get_grns(0x841ee1, 0x4, 0x859554, 0x1, 0x0, 0x0, 0x1)
+	/media/angelo/Dont Touch/DOCS/HTML/paulard/SIS/main.go:981 +0x54b
+main.getVendors(0x8414c7, 0x2, 0x8414c7, 0x2, 0xcc1b20, 0x7fd10b16a038, 0x3)
+	/media/angelo/Dont Touch/DOCS/HTML/paulard/SIS/main.go:1215 +0x448
+main.vendors(0xc75080, 0xc42022a0e0, 0xc420492400)
+	/media/angelo/Dont Touch/DOCS/HTML/paulard/SIS/main.go:1248 +0x200
+net/http.HandlerFunc.ServeHTTP(0x88fca0, 0xc75080, 0xc42022a0e0, 0xc420492400)
+	/usr/local/go/src/net/http/server.go:1918 +0x44
+net/http.(*ServeMux).ServeHTTP(0xca0d60, 0xc75080, 0xc42022a0e0, 0xc420492400)
+	/usr/local/go/src/net/http/server.go:2254 +0x130
+net/http.serverHandler.ServeHTTP(0xc42007eea0, 0xc75080, 0xc42022a0e0, 0xc420492400)
+	/usr/local/go/src/net/http/server.go:2619 +0xb4
+net/http.(*conn).serve(0xc4201afc20, 0xc756c0, 0xc420247540)
+	/usr/local/go/src/net/http/server.go:1801 +0x71d
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:2720 +0x288

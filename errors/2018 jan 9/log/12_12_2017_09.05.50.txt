@@ -1,0 +1,25 @@
+2017/12/12 09:05:50 <nil>
+2017/12/12 09:05:50 http: panic serving 127.0.0.1:49201: <nil>
+goroutine 629 [running]:
+net/http.(*conn).serve.func1(0xc04229fea0)
+	C:/Go/src/net/http/server.go:1697 +0xd7
+panic(0x74f560, 0xc0422718b0)
+	C:/Go/src/runtime/panic.go:491 +0x291
+log.Panic(0xc0423499c8, 0x1, 0x1)
+	C:/Go/src/log/log.go:330 +0xc7
+main.checkErr(0xa38de0, 0xc04225eb20, 0x2)
+	F:/DOCS/HTML/paulard/SIS/main.go:358 +0x15d
+main.executeDB(0xc04224dcc0, 0x32)
+	F:/DOCS/HTML/paulard/SIS/main.go:382 +0x122
+main.grn(0xa3d720, 0xc04213c620, 0xc04214ad00)
+	F:/DOCS/HTML/paulard/SIS/main.go:520 +0x259
+net/http.HandlerFunc.ServeHTTP(0x822a20, 0xa3d720, 0xc04213c620, 0xc04214ad00)
+	C:/Go/src/net/http/server.go:1918 +0x4b
+net/http.(*ServeMux).ServeHTTP(0xa8fba0, 0xa3d720, 0xc04213c620, 0xc04214ad00)
+	C:/Go/src/net/http/server.go:2254 +0x137
+net/http.serverHandler.ServeHTTP(0xc042124000, 0xa3d720, 0xc04213c620, 0xc04214ad00)
+	C:/Go/src/net/http/server.go:2619 +0xbb
+net/http.(*conn).serve(0xc04229fea0, 0xa3dce0, 0xc042297980)
+	C:/Go/src/net/http/server.go:1801 +0x724
+created by net/http.(*Server).Serve
+	C:/Go/src/net/http/server.go:2720 +0x28f

@@ -1,0 +1,205 @@
+2017/11/01 11:05:53 <nil>
+2017/11/01 11:05:53 http: panic serving 127.0.0.1:43602: <nil>
+goroutine 253 [running]:
+net/http.(*conn).serve.func1(0xc420338000)
+	/usr/local/go/src/net/http/server.go:1697 +0xd0
+panic(0x7bb6e0, 0xc420138060)
+	/usr/local/go/src/runtime/panic.go:491 +0x283
+log.Panic(0xc42004d9f0, 0x1, 0x1)
+	/usr/local/go/src/log/log.go:330 +0xc0
+main.checkErr(0xc3e1c0, 0xc420302000, 0x3)
+	/media/angelo/Dont Touch/DOCS/HTML/paulard/out/main.go:348 +0x156
+main.getIncome(0xc42030408a, 0x5, 0xc42003cbc8, 0xa, 0x1, 0xc420304080, 0x2)
+	/media/angelo/Dont Touch/DOCS/HTML/paulard/out/main.go:1346 +0x552
+main.stat(0xc42080, 0xc420382000, 0xc42033a000)
+	/media/angelo/Dont Touch/DOCS/HTML/paulard/out/main.go:1418 +0x3d1
+net/http.HandlerFunc.ServeHTTP(0x85c890, 0xc42080, 0xc420382000, 0xc42033a000)
+	/usr/local/go/src/net/http/server.go:1918 +0x44
+net/http.(*ServeMux).ServeHTTP(0xc6dd40, 0xc42080, 0xc420382000, 0xc42033a000)
+	/usr/local/go/src/net/http/server.go:2254 +0x130
+net/http.serverHandler.ServeHTTP(0xc42007f2b0, 0xc42080, 0xc420382000, 0xc42033a000)
+	/usr/local/go/src/net/http/server.go:2619 +0xb4
+net/http.(*conn).serve(0xc420338000, 0xc426c0, 0xc4202fe040)
+	/usr/local/go/src/net/http/server.go:1801 +0x71d
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:2720 +0x288
+2017/11/01 11:06:02 http: panic serving 127.0.0.1:43604: runtime error: index out of range
+goroutine 276 [running]:
+net/http.(*conn).serve.func1(0xc420080820)
+	/usr/local/go/src/net/http/server.go:1697 +0xd0
+panic(0x7dbc20, 0xc2ced0)
+	/usr/local/go/src/runtime/panic.go:491 +0x283
+main.stat(0xc42080, 0xc420092000, 0xc420168100)
+	/media/angelo/Dont Touch/DOCS/HTML/paulard/out/main.go:1413 +0x756
+net/http.HandlerFunc.ServeHTTP(0x85c890, 0xc42080, 0xc420092000, 0xc420168100)
+	/usr/local/go/src/net/http/server.go:1918 +0x44
+net/http.(*ServeMux).ServeHTTP(0xc6dd40, 0xc42080, 0xc420092000, 0xc420168100)
+	/usr/local/go/src/net/http/server.go:2254 +0x130
+net/http.serverHandler.ServeHTTP(0xc42007f2b0, 0xc42080, 0xc420092000, 0xc420168100)
+	/usr/local/go/src/net/http/server.go:2619 +0xb4
+net/http.(*conn).serve(0xc420080820, 0xc426c0, 0xc420130100)
+	/usr/local/go/src/net/http/server.go:1801 +0x71d
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:2720 +0x288
+2017/11/01 11:06:02 http: panic serving 127.0.0.1:43606: runtime error: index out of range
+goroutine 292 [running]:
+net/http.(*conn).serve.func1(0xc4202e4000)
+	/usr/local/go/src/net/http/server.go:1697 +0xd0
+panic(0x7dbc20, 0xc2ced0)
+	/usr/local/go/src/runtime/panic.go:491 +0x283
+main.stat(0xc42080, 0xc420300000, 0xc420166000)
+	/media/angelo/Dont Touch/DOCS/HTML/paulard/out/main.go:1413 +0x756
+net/http.HandlerFunc.ServeHTTP(0x85c890, 0xc42080, 0xc420300000, 0xc420166000)
+	/usr/local/go/src/net/http/server.go:1918 +0x44
+net/http.(*ServeMux).ServeHTTP(0xc6dd40, 0xc42080, 0xc420300000, 0xc420166000)
+	/usr/local/go/src/net/http/server.go:2254 +0x130
+net/http.serverHandler.ServeHTTP(0xc42007f2b0, 0xc42080, 0xc420300000, 0xc420166000)
+	/usr/local/go/src/net/http/server.go:2619 +0xb4
+net/http.(*conn).serve(0xc4202e4000, 0xc426c0, 0xc4202c2000)
+	/usr/local/go/src/net/http/server.go:1801 +0x71d
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:2720 +0x288
+2017/11/01 11:06:02 http: panic serving 127.0.0.1:43608: runtime error: index out of range
+goroutine 294 [running]:
+net/http.(*conn).serve.func1(0xc4202e40a0)
+	/usr/local/go/src/net/http/server.go:1697 +0xd0
+panic(0x7dbc20, 0xc2ced0)
+	/usr/local/go/src/runtime/panic.go:491 +0x283
+main.stat(0xc42080, 0xc4203000e0, 0xc420166100)
+	/media/angelo/Dont Touch/DOCS/HTML/paulard/out/main.go:1413 +0x756
+net/http.HandlerFunc.ServeHTTP(0x85c890, 0xc42080, 0xc4203000e0, 0xc420166100)
+	/usr/local/go/src/net/http/server.go:1918 +0x44
+net/http.(*ServeMux).ServeHTTP(0xc6dd40, 0xc42080, 0xc4203000e0, 0xc420166100)
+	/usr/local/go/src/net/http/server.go:2254 +0x130
+net/http.serverHandler.ServeHTTP(0xc42007f2b0, 0xc42080, 0xc4203000e0, 0xc420166100)
+	/usr/local/go/src/net/http/server.go:2619 +0xb4
+net/http.(*conn).serve(0xc4202e40a0, 0xc426c0, 0xc4202c2100)
+	/usr/local/go/src/net/http/server.go:1801 +0x71d
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:2720 +0x288
+2017/11/01 11:06:02 http: panic serving 127.0.0.1:43610: runtime error: index out of range
+goroutine 296 [running]:
+net/http.(*conn).serve.func1(0xc4202e4140)
+	/usr/local/go/src/net/http/server.go:1697 +0xd0
+panic(0x7dbc20, 0xc2ced0)
+	/usr/local/go/src/runtime/panic.go:491 +0x283
+main.stat(0xc42080, 0xc4203001c0, 0xc420166200)
+	/media/angelo/Dont Touch/DOCS/HTML/paulard/out/main.go:1413 +0x756
+net/http.HandlerFunc.ServeHTTP(0x85c890, 0xc42080, 0xc4203001c0, 0xc420166200)
+	/usr/local/go/src/net/http/server.go:1918 +0x44
+net/http.(*ServeMux).ServeHTTP(0xc6dd40, 0xc42080, 0xc4203001c0, 0xc420166200)
+	/usr/local/go/src/net/http/server.go:2254 +0x130
+net/http.serverHandler.ServeHTTP(0xc42007f2b0, 0xc42080, 0xc4203001c0, 0xc420166200)
+	/usr/local/go/src/net/http/server.go:2619 +0xb4
+net/http.(*conn).serve(0xc4202e4140, 0xc426c0, 0xc4202c2200)
+	/usr/local/go/src/net/http/server.go:1801 +0x71d
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:2720 +0x288
+2017/11/01 11:06:02 http: panic serving 127.0.0.1:43612: runtime error: index out of range
+goroutine 298 [running]:
+net/http.(*conn).serve.func1(0xc4202e41e0)
+	/usr/local/go/src/net/http/server.go:1697 +0xd0
+panic(0x7dbc20, 0xc2ced0)
+	/usr/local/go/src/runtime/panic.go:491 +0x283
+main.stat(0xc42080, 0xc4203002a0, 0xc420166300)
+	/media/angelo/Dont Touch/DOCS/HTML/paulard/out/main.go:1413 +0x756
+net/http.HandlerFunc.ServeHTTP(0x85c890, 0xc42080, 0xc4203002a0, 0xc420166300)
+	/usr/local/go/src/net/http/server.go:1918 +0x44
+net/http.(*ServeMux).ServeHTTP(0xc6dd40, 0xc42080, 0xc4203002a0, 0xc420166300)
+	/usr/local/go/src/net/http/server.go:2254 +0x130
+net/http.serverHandler.ServeHTTP(0xc42007f2b0, 0xc42080, 0xc4203002a0, 0xc420166300)
+	/usr/local/go/src/net/http/server.go:2619 +0xb4
+net/http.(*conn).serve(0xc4202e41e0, 0xc426c0, 0xc4202c2300)
+	/usr/local/go/src/net/http/server.go:1801 +0x71d
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:2720 +0x288
+2017/11/01 11:06:02 http: panic serving 127.0.0.1:43614: runtime error: index out of range
+goroutine 300 [running]:
+net/http.(*conn).serve.func1(0xc4202e4280)
+	/usr/local/go/src/net/http/server.go:1697 +0xd0
+panic(0x7dbc20, 0xc2ced0)
+	/usr/local/go/src/runtime/panic.go:491 +0x283
+main.stat(0xc42080, 0xc4203820e0, 0xc420166400)
+	/media/angelo/Dont Touch/DOCS/HTML/paulard/out/main.go:1413 +0x756
+net/http.HandlerFunc.ServeHTTP(0x85c890, 0xc42080, 0xc4203820e0, 0xc420166400)
+	/usr/local/go/src/net/http/server.go:1918 +0x44
+net/http.(*ServeMux).ServeHTTP(0xc6dd40, 0xc42080, 0xc4203820e0, 0xc420166400)
+	/usr/local/go/src/net/http/server.go:2254 +0x130
+net/http.serverHandler.ServeHTTP(0xc42007f2b0, 0xc42080, 0xc4203820e0, 0xc420166400)
+	/usr/local/go/src/net/http/server.go:2619 +0xb4
+net/http.(*conn).serve(0xc4202e4280, 0xc426c0, 0xc4202c2400)
+	/usr/local/go/src/net/http/server.go:1801 +0x71d
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:2720 +0x288
+2017/11/01 11:06:02 http: panic serving 127.0.0.1:43616: runtime error: index out of range
+goroutine 257 [running]:
+net/http.(*conn).serve.func1(0xc420338140)
+	/usr/local/go/src/net/http/server.go:1697 +0xd0
+panic(0x7dbc20, 0xc2ced0)
+	/usr/local/go/src/runtime/panic.go:491 +0x283
+main.stat(0xc42080, 0xc4203821c0, 0xc42033a100)
+	/media/angelo/Dont Touch/DOCS/HTML/paulard/out/main.go:1413 +0x756
+net/http.HandlerFunc.ServeHTTP(0x85c890, 0xc42080, 0xc4203821c0, 0xc42033a100)
+	/usr/local/go/src/net/http/server.go:1918 +0x44
+net/http.(*ServeMux).ServeHTTP(0xc6dd40, 0xc42080, 0xc4203821c0, 0xc42033a100)
+	/usr/local/go/src/net/http/server.go:2254 +0x130
+net/http.serverHandler.ServeHTTP(0xc42007f2b0, 0xc42080, 0xc4203821c0, 0xc42033a100)
+	/usr/local/go/src/net/http/server.go:2619 +0xb4
+net/http.(*conn).serve(0xc420338140, 0xc426c0, 0xc4202fe240)
+	/usr/local/go/src/net/http/server.go:1801 +0x71d
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:2720 +0x288
+2017/11/01 11:06:02 http: panic serving 127.0.0.1:43618: runtime error: index out of range
+goroutine 307 [running]:
+net/http.(*conn).serve.func1(0xc4203381e0)
+	/usr/local/go/src/net/http/server.go:1697 +0xd0
+panic(0x7dbc20, 0xc2ced0)
+	/usr/local/go/src/runtime/panic.go:491 +0x283
+main.stat(0xc42080, 0xc420300380, 0xc42033a200)
+	/media/angelo/Dont Touch/DOCS/HTML/paulard/out/main.go:1413 +0x756
+net/http.HandlerFunc.ServeHTTP(0x85c890, 0xc42080, 0xc420300380, 0xc42033a200)
+	/usr/local/go/src/net/http/server.go:1918 +0x44
+net/http.(*ServeMux).ServeHTTP(0xc6dd40, 0xc42080, 0xc420300380, 0xc42033a200)
+	/usr/local/go/src/net/http/server.go:2254 +0x130
+net/http.serverHandler.ServeHTTP(0xc42007f2b0, 0xc42080, 0xc420300380, 0xc42033a200)
+	/usr/local/go/src/net/http/server.go:2619 +0xb4
+net/http.(*conn).serve(0xc4203381e0, 0xc426c0, 0xc4202fe340)
+	/usr/local/go/src/net/http/server.go:1801 +0x71d
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:2720 +0x288
+2017/11/01 11:06:02 http: panic serving 127.0.0.1:43620: runtime error: index out of range
+goroutine 278 [running]:
+net/http.(*conn).serve.func1(0xc4200808c0)
+	/usr/local/go/src/net/http/server.go:1697 +0xd0
+panic(0x7dbc20, 0xc2ced0)
+	/usr/local/go/src/runtime/panic.go:491 +0x283
+main.stat(0xc42080, 0xc420300460, 0xc420168200)
+	/media/angelo/Dont Touch/DOCS/HTML/paulard/out/main.go:1413 +0x756
+net/http.HandlerFunc.ServeHTTP(0x85c890, 0xc42080, 0xc420300460, 0xc420168200)
+	/usr/local/go/src/net/http/server.go:1918 +0x44
+net/http.(*ServeMux).ServeHTTP(0xc6dd40, 0xc42080, 0xc420300460, 0xc420168200)
+	/usr/local/go/src/net/http/server.go:2254 +0x130
+net/http.serverHandler.ServeHTTP(0xc42007f2b0, 0xc42080, 0xc420300460, 0xc420168200)
+	/usr/local/go/src/net/http/server.go:2619 +0xb4
+net/http.(*conn).serve(0xc4200808c0, 0xc426c0, 0xc420130200)
+	/usr/local/go/src/net/http/server.go:1801 +0x71d
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:2720 +0x288
+2017/11/01 11:06:02 http: panic serving 127.0.0.1:43622: runtime error: index out of range
+goroutine 308 [running]:
+net/http.(*conn).serve.func1(0xc420338280)
+	/usr/local/go/src/net/http/server.go:1697 +0xd0
+panic(0x7dbc20, 0xc2ced0)
+	/usr/local/go/src/runtime/panic.go:491 +0x283
+main.stat(0xc42080, 0xc4203822a0, 0xc42033a300)
+	/media/angelo/Dont Touch/DOCS/HTML/paulard/out/main.go:1413 +0x756
+net/http.HandlerFunc.ServeHTTP(0x85c890, 0xc42080, 0xc4203822a0, 0xc42033a300)
+	/usr/local/go/src/net/http/server.go:1918 +0x44
+net/http.(*ServeMux).ServeHTTP(0xc6dd40, 0xc42080, 0xc4203822a0, 0xc42033a300)
+	/usr/local/go/src/net/http/server.go:2254 +0x130
+net/http.serverHandler.ServeHTTP(0xc42007f2b0, 0xc42080, 0xc4203822a0, 0xc42033a300)
+	/usr/local/go/src/net/http/server.go:2619 +0xb4
+net/http.(*conn).serve(0xc420338280, 0xc426c0, 0xc4202fe3c0)
+	/usr/local/go/src/net/http/server.go:1801 +0x71d
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:2720 +0x288

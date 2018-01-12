@@ -1,0 +1,27 @@
+2017/11/01 11:01:25 <nil>
+2017/11/01 11:01:25 http: panic serving 127.0.0.1:43564: <nil>
+goroutine 638 [running]:
+net/http.(*conn).serve.func1(0xc4204412c0)
+	/usr/local/go/src/net/http/server.go:1697 +0xd0
+panic(0x7bb600, 0xc42045f110)
+	/usr/local/go/src/runtime/panic.go:491 +0x283
+log.Panic(0xc4201e7498, 0x1, 0x1)
+	/usr/local/go/src/log/log.go:330 +0xc0
+main.checkErr(0xc3d3c0, 0xc42045a1c0, 0x2)
+	/media/angelo/Dont Touch/DOCS/HTML/paulard/out/main.go:348 +0x156
+main.getResultDB(0x84cb08, 0x1b, 0x1b)
+	/media/angelo/Dont Touch/DOCS/HTML/paulard/out/main.go:360 +0x135
+main.get_grn(0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, ...)
+	/media/angelo/Dont Touch/DOCS/HTML/paulard/out/main.go:995 +0xa8
+main.editGRN(0xc42080, 0xc420164460, 0xc42014e900)
+	/media/angelo/Dont Touch/DOCS/HTML/paulard/out/main.go:1061 +0x29d
+net/http.HandlerFunc.ServeHTTP(0x85c760, 0xc42080, 0xc420164460, 0xc42014e900)
+	/usr/local/go/src/net/http/server.go:1918 +0x44
+net/http.(*ServeMux).ServeHTTP(0xc6dd40, 0xc42080, 0xc420164460, 0xc42014e900)
+	/usr/local/go/src/net/http/server.go:2254 +0x130
+net/http.serverHandler.ServeHTTP(0xc420071110, 0xc42080, 0xc420164460, 0xc42014e900)
+	/usr/local/go/src/net/http/server.go:2619 +0xb4
+net/http.(*conn).serve(0xc4204412c0, 0xc426c0, 0xc4202d3940)
+	/usr/local/go/src/net/http/server.go:1801 +0x71d
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:2720 +0x288

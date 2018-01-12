@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{.Title}}</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    <!-- Toastr style -->
+    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- Sweet Alert -->
+    <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div id="wrapper">
+
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav metismenu" id="side-menu">
+                <li class="">
+                    <a href="stat"><i class="fa fa-line-chart"></i> <span class="nav-label">Stats</span></a>
+                </li>
+                <li class="">
+                    <a href="payment"><i class="fa fa-money"></i> <span class="nav-label">Payment</span></a>
+                </li>
+                <li class="">
+                    <a href="load"><i class="fa fa-download"></i> <span class="nav-label">Loading</span></a>
+                </li>
+                <li class="">
+                    <a href="unload"><i class="fa fa-upload"></i> <span class="nav-label">Unloading</span></a>
+                </li>
+                <li class="active">
+                    <a href="delivery"><i class="fa fa-bus"></i> <span class="nav-label">Delivery</span></a>
+                </li>
+                <li class="">
+                    <a href="invoice"><i class="fa fa-usd"></i> <span class="nav-label">Invoice</span></a>
+                </li>
+                <li class="">
+                    <a href="grn"><i class="fa fa-gbp"></i> <span class="nav-label">GRN</span></a>
+                </li>
+                <li class="">
+                    <a href="products"><i class="fa fa-cubes"></i> <span class="nav-label">Products</span></a>
+                </li>
+                <li class="">
+                    <a href="customers"><i class="fa fa-slideshare"></i> <span class="nav-label">Customers</span></a>
+                </li>
+                <li class="">
+                    <a href="vendors"><i class="fa fa-users"></i> <span class="nav-label">Vendors</span></a>
+                </li>
+                <li class="">
+                    <a href="home"><i class="fa fa-home"></i> <span class="nav-label">Home</span></a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+
+    {{range .Vans}}
+    <div id="editvan_{{.Id}}" class="modal fade" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class=""><h3 class="m-t-none m-b">Details</h3>
+
+                            <form role="form" action="/delivery" method="POST">
+                                <div class="form-group"><label>ID</label>
+                                    <input name="id" readonly required type="text" placeholder="ID"
+                                           class="form-control" value="{{.Id}}">
+                                </div>
+                                <div class="form-group"><label>Description</label>
+                                    <input name="des" required type="text" placeholder="Description"
+                                           class="form-control" value="{{.Des}}">
+                                </div>
+                                <div>
+                                    <strong><input name="submit" type="submit"
+                                                   class="btn btn-sm btn-primary pull-right m-t-n-xs"
+                                                   value="Save"></strong>
+                                    {{if .Delete}}
+                                    <strong><input name="submit" type="submit"
+                                                   class="btn btn-sm btn-danger pull-right m-t-n-xs"
+                                                   value="Delete"></strong>
+                                    {{end}}
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{end}}
+
+
+    <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom">
+            <form role="form" action="/delivery" method="POST">
+                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    <div class="navbar-header">
+                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i
+                                class="fa fa-bars"></i>
+                        </a>
+                    </div>
+
+                    <div class="minimalize-styl-2">
+                        <input hidden value="{{.NxtID}}" name="id">
+                        <input name="des" required type="text" placeholder="Description" value="">
+                    </div>
+                    <div class="minimalize-styl-2">
+                        <input type="submit" name="submit" class="btn btn-primary " value="Add Vehicle">
+                    </div>
+                </nav>
+            </form>
+        </div>
+
+        <div class="wrapper wrapper-content  animated fadeInRight">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="ibox">
+                        <div class="ibox-content">
+                            <h2>Vehicles</h2>
+                            <div class="input-group">
+                                <input type="text" class="input form-control"
+                                       id="filter"
+                                       placeholder="Search in Vehicles">
+                                </span>
+                            </div>
+                            <div class="clients-list">
+                                <ul class="nav nav-tabs">
+                                    {{range .Vans}}
+                                    <li {{if .Active}}class="active" {{end}}><a data-toggle="tab" href="#van{{.Id}}"><i
+                                            class="fa fa-bus"></i>
+                                        {{.Des}}</a>
+                                    </li>
+                                    {{end}}
+                                </ul>
+                                <div class="tab-content">
+                                    {{$pro := .Pro}}
+                                    {{$newid := .NxtLdID}}
+                                    {{range .Vans}}
+                                    {{$v := .Id}}
+                                    <div id="van{{.Id}}" class="tab-pane {{if .Active}}active{{end}}">
+                                        <a data-toggle="modal" class="btn btn-xs btn-warning btn-outline"
+                                           href="#editvan_{{.Id}}">edit</a>
+                                        <br>
+                                        <form role="form" action="/delivery" method="POST"
+                                              onsubmit="return validateForm()" name="myForm">
+                                            <select name="p_id" data-placeholder="Choose an Item" class="chosen-select "
+                                                    style="width:550px;">
+                                                {{range $pro}}
+                                                {{if .Qty}}
+                                                <option value="{{.Id}},{{.Qty}}">{{.Des}} ________available: {{.Qty}}
+                                                </option>
+                                                {{end}}
+                                                {{end}}
+                                            </select>
+                                            <input hidden value="{{$newid}}" name="id">
+                                            <input hidden value="{{.Id}}" name="v_id">
+                                            <input name="qty" required type="number" placeholder="Qty." value="">
+                                            <input type="submit" class="btn btn-sm btn-primary" name="submit"
+                                                   value="Add Item">
+                                        </form>
+                                        <div class="full-height-scroll">
+                                            <div class="col-lg-12">
+                                                <div class="ibox float-e-margins">
+                                                    <div class="ibox-content">
+                                                        <table class="footable table table-stripped" data-page-size="8"
+                                                               data-filter=#filter>
+                                                            <thead>
+                                                            <tr>
+                                                                <th>Product</th>
+                                                                <th>Van Stock</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            {{range .Pro}}
+                                                            {{if .Rest}}
+                                                            <tr class="gradeU">
+                                                                <td>{{.Des}}</td>
+                                                                <td>{{.Rest}}
+                                                                    <a class="btn btn-xs btn-danger pull-right"
+                                                                       href="delivery?v_id={{$v}}&p_id={{.Id}}&submit=unload&qty={{.Rest}}">Unload</a>
+                                                                </td>
+                                                            </tr>
+                                                            {{end}}
+                                                            {{end}}
+                                                            </tbody>
+                                                            <tfoot>
+                                                            <tr>
+                                                                <td colspan="5">
+                                                                    <ul class="pagination pull-right"></ul>
+                                                                </td>
+                                                            </tr>
+                                                            </tfoot>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    {{end}}
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+function validateForm() {
+    var x = document.forms["myForm"]["p_id"].value;
+    var qty = document.forms["myForm"]["qty"].value;
+    var splits = x.split(',', 2);
+    if (parseInt(splits[1])<parseInt(qty)) {
+     swal("Invalied Qty.", "Quantity must be lessthan or equal to "+splits[1], "warning");
+        return false;
+    }
+}
+</script>
+<!-- Mainly scripts -->
+<script src="js/jquery-2.1.1.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="js/inspinia.js"></script>
+<script src="js/plugins/pace/pace.min.js"></script>
+
+
+<!-- FooTable -->
+<script src="js/plugins/footable/footable.all.min.js"></script>
+
+<!-- Sweet alert -->
+<script src="js/plugins/sweetalert/sweetalert.min.js"></script>
+
+<!-- Page-Level Scripts -->
+<script>
+        $(document).ready(function() {
+
+            $('.footable').footable();
+            $('.footable2').footable();
+
+        });
+
+</script>
+
+</body>
+</html>
