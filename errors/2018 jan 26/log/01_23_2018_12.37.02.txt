@@ -1,0 +1,29 @@
+2018/01/23 12:37:02 <nil>
+2018/01/23 12:37:02 http: panic serving [::1]:49304: <nil>
+goroutine 55932 [running]:
+net/http.(*conn).serve.func1(0xc04205d540)
+	C:/Go/src/net/http/server.go:1697 +0xd7
+panic(0x75d6e0, 0xc04222ae30)
+	C:/Go/src/runtime/panic.go:491 +0x291
+log.Panic(0xc042247558, 0x1, 0x1)
+	C:/Go/src/log/log.go:330 +0xc7
+main.checkErr(0xa51e00, 0xc0423dd600, 0x2)
+	F:/DOCS/HTML/paulard/SIS/development/main.go:371 +0x15d
+main.getResultDB(0xc04237a1e0, 0x23, 0x1c)
+	F:/DOCS/HTML/paulard/SIS/development/main.go:383 +0x12c
+main.getInvoiceRecords(0x7e4171, 0x4, 0x7fcb87, 0x2, 0x0, 0x0, 0xf)
+	F:/DOCS/HTML/paulard/SIS/development/main.go:612 +0xd9
+main.getProductsInMainStock(0x7e3785, 0x2, 0x7e3785, 0x2, 0xc042487110, 0x1, 0x1)
+	F:/DOCS/HTML/paulard/SIS/development/main.go:1482 +0x332
+main.delivery(0xa56940, 0xc0423e01c0, 0xc042285000)
+	F:/DOCS/HTML/paulard/SIS/development/main.go:1303 +0x1e3
+net/http.HandlerFunc.ServeHTTP(0x833378, 0xa56940, 0xc0423e01c0, 0xc042285000)
+	C:/Go/src/net/http/server.go:1918 +0x4b
+net/http.(*ServeMux).ServeHTTP(0xaa8bc0, 0xa56940, 0xc0423e01c0, 0xc042285000)
+	C:/Go/src/net/http/server.go:2254 +0x137
+net/http.serverHandler.ServeHTTP(0xc042040f70, 0xa56940, 0xc0423e01c0, 0xc042285000)
+	C:/Go/src/net/http/server.go:2619 +0xbb
+net/http.(*conn).serve(0xc04205d540, 0xa56f00, 0xc04217f0c0)
+	C:/Go/src/net/http/server.go:1801 +0x724
+created by net/http.(*Server).Serve
+	C:/Go/src/net/http/server.go:2720 +0x28f

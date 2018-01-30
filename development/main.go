@@ -1786,6 +1786,39 @@ func get_invoicesForPayments(filter string, val string) [] _invoice {
 	return tmp2
 }
 
+type totalPaymentDetails struct {
+	Done int64
+	Due  int64
+	Tot  int64
+}
+
+func getTotalPaymentDetails() totalPaymentDetails {
+	tmp := totalPaymentDetails{}
+
+	rows := getResultDB("select sum(tot) as tot  from cus_pay")
+	rows.Next()
+
+	var tot sql.NullInt64
+
+	err := rows.Scan(&tot)
+	checkErr(err, errDBquery)
+	tmp.Done = tot.Int64
+
+	rows.Close()
+
+	rows = getResultDB("select sum(s_p) as tot from inv_reg")
+	rows.Next()
+
+	err = rows.Scan(&tot)
+	checkErr(err, errDBquery)
+	tmp.Tot = tot.Int64
+	tmp.Due = tmp.Tot - tmp.Done
+
+	rows.Close()
+
+	return tmp
+}
+
 func payment(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 
@@ -1814,15 +1847,16 @@ func payment(w http.ResponseWriter, r *http.Request) {
 		Dte      string
 		Payments []customerPayment
 		Invoices []_invoice
+		TPD      totalPaymentDetails
 	}
 	now := time.Now()
 
 	var results sendData
 
 	if r.Form.Get("q") == "" {
-		results = sendData{dbName, getNextID("cus_pay"), now.Format("01/02/2006"), getCustomerPaymentsForPayment("''", "''"), get_invoicesForPayments("''", "''")}
+		results = sendData{dbName, getNextID("cus_pay"), now.Format("01/02/2006"), getCustomerPaymentsForPayment("''", "''"), get_invoicesForPayments("''", "''"), getTotalPaymentDetails()}
 	} else {
-		results = sendData{dbName, getNextID("cus_pay"), now.Format("01/02/2006"), getCustomerPaymentsForPayment("i_id", r.Form.Get("q")), get_invoicesForPayments("id", r.Form.Get("q"))}
+		results = sendData{dbName, getNextID("cus_pay"), now.Format("01/02/2006"), getCustomerPaymentsForPayment("i_id", r.Form.Get("q")), get_invoicesForPayments("id", r.Form.Get("q")), getTotalPaymentDetails()}
 	}
 
 	showFile(w, r, "payment", results)
@@ -1872,7 +1906,7 @@ func openbrowser(url string) {
 		err = fmt.Errorf("unsupported platform")
 	}
 	if err != nil {
-		checkErr(err,errBrowser)
+		checkErr(err, errBrowser)
 	}
 }
 
@@ -2231,7 +2265,7 @@ func initFiles() {
                 </div>
             </div>
         </div>
-`+footer+`
+` + footer + `
     </div>
 </div>
 
@@ -2698,7 +2732,7 @@ CREATE TABLE IF NOT EXISTS inv_reg (
 
             </div>
         </div>
-`+footer+`
+` + footer + `
     </div>
 </div>
 <script>
@@ -2965,7 +2999,7 @@ function validateForm() {
                 </div>
             </div>
         </div>
-`+footer+`
+` + footer + `
     </div>
 </div>
 
@@ -3575,7 +3609,7 @@ function validateForm() {
                 </div>
             </div>
         </div>
-`+footer+`
+` + footer + `
     </div>
 </div>
 
@@ -4118,7 +4152,7 @@ function validateForm() {
                 </div>
             </div>
         </div>
-`+footer+`
+` + footer + `
     </div>
 </div>
 
@@ -4504,7 +4538,7 @@ function validateForm() {
             </form>
         </div>
     </div>
-`+footer+`
+` + footer + `
     <!-- Mainly scripts -->
     <script src="js/jquery-2.1.1.js"></script>
     <script src="js/bootstrap.min.js"></script>
@@ -4739,7 +4773,7 @@ function validateForm() {
 
             </div>
         </div>
-`+footer+`
+` + footer + `
     </div>
 </div>
 
@@ -5242,7 +5276,7 @@ function validateForm() {
 
             </div>
         </div>
-`+footer+`
+` + footer + `
     </div>
 </div>
 
@@ -5398,7 +5432,7 @@ function validateForm() {
                             {{range .Invoices}}
                             {{if .RemainingPayment}}
                             <option value="{{.Id}},{{.RemainingPayment}}">{{(.Cus).Name}} :-
-                                Inv.No.:{{.I_no}}_Po.No.:{{.Po_no}}_Due:{{dec .RemainingPayment}}
+                                Po.No.: {{.Po_no}} , Inv.No.:{{.I_no}} , Due:{{dec .RemainingPayment}}
                             </option>
                             {{end}}
                             {{end}}
@@ -5417,10 +5451,20 @@ function validateForm() {
 
                         <input type="submit" name="submit" class="btn btn-primary " value="Add">
                     </div>
+			<div class="pull-right">
+				<div class="col-sm-11">
+					<br>
+					<strong><table>
+						<tr><td>Total: </td><td>Rs.</td><td style="text-align: right;">{{dec .TPD.Tot }}</td></tr>
+						<tr><td>Total Done: </td><td>Rs.</td><td style="text-align: right;">{{dec .TPD.Done }}</td></tr>
+						<tr><td>Total Due: </td><td>Rs.</td><td style="text-align: right;">{{dec .TPD.Due }}</td></tr>
+
+					</table></strong>
+				</div>
+				<div class="col-sm-1"></div>
+			</div>
                 </nav>
             </form>
-
-
         </div>
 
 
@@ -5511,7 +5555,7 @@ function validateForm() {
                 </div>
             </div>
         </div>
-`+footer+`
+` + footer + `
     </div>
 </div>
 
@@ -6101,7 +6145,7 @@ function validateForm() {
             </div>
 
         </div>
-        `+footer+`
+        ` + footer + `
     </div>
 
     <!-- Mainly scripts -->
@@ -6320,7 +6364,7 @@ function validateForm() {
 
 
         </div>
-        `+footer+`
+        ` + footer + `
     </div>
 
 </div>
@@ -6841,7 +6885,7 @@ $(function() {
 
             </div>
         </div>
-`+footer+`
+` + footer + `
     </div>
 </div>
 
@@ -7148,7 +7192,7 @@ $(function() {
             </div>
         </div>
 
-`+footer+`
+` + footer + `
 
     </div>
 </div>
